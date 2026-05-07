@@ -1119,18 +1119,34 @@ async function dbDel(t,id){const sb=getSB();if(!sb)return false;const{error}=awa
 
 async function carregarDB(){
   if(dbOk)return;
-  const sb=getSB();if(!sb)return;
+  let sb=getSB();
+  if(!sb){
+    // Retry after 1s if SDK not ready yet
+    setTimeout(carregarDB,1000);
+    return;
+  }
   try{
     toast('Carregando banco...','info');
     const[m,c]=await Promise.all([dbLoad('manutencoes'),dbLoad('compras')]);
     if(m)manuts=m.map(r=>({...r,desc:r.descricao||'',dataPlan:r.dataPlan||'',dataReal:r.dataReal||''}));
     if(c)comps=c.map(r=>({...r,desc:r.descricao||'',dataSol:r.dataSol||'',dataFech:r.dataFech||'',numReq:r.numReq||'',numOS:r.numOS||'',numOrc:r.numOrc||'',valOrc:r.valOrc||0,valAprov:r.valAprov||0,valReal:r.valReal||0}));
-    dbOk=true;toast('✓ Dados carregados','ok');
+    dbOk=true;toast('✓ '+manuts.length+' manutenções e '+comps.length+' compras carregadas','ok');
+    // Re-render whichever page is active
     const pn=document.querySelector('.page.on')?.id?.replace('page-','');
     if(pn==='manutencao')renderManut();
     if(pn==='cronograma')renderCronograma();
     if(pn==='compras')renderCompPage();
-  }catch(e){console.error(e);toast('Erro banco — modo local','warn');}
+    if(pn==='planning-manut')renderPlanManut();
+    if(pn==='planning-fin')renderPlanFin();
+    if(pn==='dashboard')renderDash();
+    // Also update global data references
+    window._manutsData=manuts;
+    window._comprasData=comps;
+  }catch(e){
+    console.error('[carregarDB]',e);
+    toast('Erro ao carregar banco: '+e.message,'err');
+    dbOk=false; // allow retry
+  }
 }
 
 // ═══════════════════════════════════════════
@@ -1207,8 +1223,8 @@ function showPage(n){
   if(n==='dashboard'&&rawData.length)renderDash();
   if(n==='budget'&&rawData.length)renderBudget();
   if(n==='fornecedores'&&rawData.length)renderForn();
-  if(n==='manutencao')renderManut();
-  if(n==='compras'){renderCompPage();}
+  if(n==='manutencao'){if(!dbOk)carregarDB();renderManut();}
+  if(n==='compras'){if(!dbOk)carregarDB();renderCompPage();}
   if(n==='cronograma')renderCronograma();
   if(n==='planning-fin')renderPlanFin();
   if(n==='planning-manut')renderPlanManut();
@@ -1971,6 +1987,16 @@ function salvarM(){
 function delM(id){if(!confirm('Excluir?'))return;manuts=manuts.filter(m=>m.id!==id);dbDel('manutencoes',id).catch(console.warn);renderManut();}
 function setMTipo(t){window._mTipo=t;['bAll','bObrig','bMelh'].forEach(id=>{const el=document.getElementById(id);if(el){el.className=el.className.replace('bp','bs');}});const ids={''  :'bAll','obrig':'bObrig','melhoria':'bMelh'};const ae=document.getElementById(ids[t]);if(ae)ae.className=ae.className.replace('bs','bp');renderManut();}
 function renderManut(){
+  // If DB not loaded yet, show loading and retry
+  if(!dbOk && !manuts.length){
+    const kpiEl=document.getElementById('mKpis');
+    if(kpiEl) kpiEl.innerHTML='<div class="kpi dk" style="grid-column:1/-1;text-align:center;padding:16px;"><div class="spin" style="display:inline-block;margin-right:8px;"></div>Carregando dados do banco...</div>';
+    const bodyEl=document.getElementById('mBody');
+    if(bodyEl) bodyEl.innerHTML='<tr><td colspan="10" style="text-align:center;padding:20px;color:var(--gray-400);">Aguardando conexão com o banco de dados...</td></tr>';
+    if(!getSB()) return;
+    carregarDB().then(()=>renderManut());
+    return;
+  }
   const tot=manuts.length,conc=manuts.filter(m=>m.status==='Concluído').length,emA=manuts.filter(m=>m.status==='Em andamento').length,atrs=manuts.filter(m=>m.status==='Atrasado').length;
   const pAv=tot?Math.round(manuts.reduce((a,m)=>a+m.avanco,0)/tot):0;
   const tO=manuts.reduce((a,m)=>a+m.orcado,0),tR=manuts.reduce((a,m)=>a+m.realizado,0),devF=tR-tO;
@@ -2030,6 +2056,10 @@ function salvarC(){
 }
 function delC(id){if(!confirm('Excluir?'))return;comps=comps.filter(c=>c.id!==id);dbDel('compras',id).catch(console.warn);renderCompPage();}
 function renderCompPage(){
+  if(!dbOk && !comps.length){
+    if(getSB()) carregarDB().then(()=>renderCompPage());
+    return;
+  }
   renderCKpis();
   renderComp();
   renderCCharts();
