@@ -6,7 +6,7 @@
 <title>MaintPro — Tupperware Brasil</title>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const _SB_URL='https://ltwqemfckxmawmrzytdw.supabase.co';
@@ -1149,10 +1149,24 @@ function toast(msg,t='info'){
 // ═══════════════════════════════════════════
 let _user=null;
 async function initAuth(){
-  // Always show login first
   showAuth();
-  let i=0;while((!window.supabase||!window.supabase.createClient)&&i<100){await new Promise(r=>setTimeout(r,100));i++;}
-  if(!window.supabase?.createClient){document.getElementById('authErr').textContent='Erro ao carregar SDK. Verifique sua conexão.';document.getElementById('authErr').style.display='block';return;}
+  // Check Supabase SDK ready
+  if(!window.supabase?.createClient){
+    // Retry up to 5s
+    let retries=0;
+    await new Promise(resolve=>{
+      const check=()=>{
+        if(window.supabase?.createClient||retries++>50)resolve();
+        else setTimeout(check,100);
+      };
+      check();
+    });
+  }
+  if(!window.supabase?.createClient){
+    const errEl=document.getElementById('authErr');
+    if(errEl){errEl.textContent='Erro ao carregar SDK. Verifique sua conexão.';errEl.style.display='block';}
+    return;
+  }
   try{
     const{data:{session}}=await getSB().auth.getSession();
     if(session?.user){_user=session.user;showApp();}
@@ -1165,6 +1179,7 @@ async function initAuth(){
 async function doLogin(){
   const em=document.getElementById('lEm').value.trim(),pw=document.getElementById('lPw').value;
   if(!em||!pw){showAuthErr('Preencha email e senha.');return;}
+  if(!getSB()){showAuthErr('SDK não carregado. Aguarde e tente novamente.');return;}
   const btn=document.querySelector('#auth button');btn.textContent='Entrando...';btn.disabled=true;
   document.getElementById('authErr').style.display='none';
   const{data,error}=await getSB().auth.signInWithPassword({email:em,password:pw});
