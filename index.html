@@ -28,7 +28,7 @@ function getSB(){if(_sb)return _sb;const lib=window.supabase;if(!lib?.createClie
   --sh:0 1px 3px rgba(13,43,18,.08);--sm:0 4px 12px rgba(13,43,18,.1);--sl:0 10px 28px rgba(13,43,18,.14);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--fb);background:#f8faf8;color:var(--gray-800);min-height:100vh;font-size:13.5px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+body{font-family:var(--fb);background:#f5f7f5;color:var(--gray-800);min-height:100vh;font-size:13.5px;line-height:1.6;-webkit-font-smoothing:antialiased;}html,body{height:100%;}
 
 /* ── Matriz period tabs ── */
 .mz-tab{font-family:var(--fb);font-size:11px;font-weight:600;padding:5px 13px;border-radius:7px;border:none;background:transparent;color:#64748b;cursor:pointer;transition:all .15s;}
@@ -64,8 +64,8 @@ body{font-family:var(--fb);background:#f8faf8;color:var(--gray-800);min-height:1
 .nb:hover{background:rgba(255,255,255,.1);color:#fff;}
 .nb.on{background:rgba(45,160,66,.9);color:#fff;box-shadow:0 2px 8px rgba(45,160,66,.4);}
 .nb.sp{background:linear-gradient(135deg,var(--g6),var(--teal));color:#fff;box-shadow:0 2px 8px rgba(13,148,136,.3);font-weight:700;}
-.page{display:none;}.page.on{display:block;}
-.wrap{max-width:1580px;margin:0 auto;padding:18px;}
+.page{display:none;}.page.on{display:block;min-height:calc(100vh - 52px);background:#f5f7f5;}
+.wrap{max-width:1580px;margin:0 auto;padding:18px;}@media(max-width:900px){.wrap{padding:12px;}.cgrid{grid-template-columns:1fr!important;}}
 .card{background:#fff;border:1px solid rgba(180,200,183,.5);border-radius:16px;padding:16px 20px;box-shadow:0 1px 4px rgba(13,43,18,.06),0 4px 16px rgba(13,43,18,.04);}
 .card-ttl{font-family:var(--fh);font-size:11px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;}
 .kpig{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:9px;margin-bottom:16px;}
@@ -162,7 +162,7 @@ table.dt{width:100%;border-collapse:collapse;font-size:12px;}
 .sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#e0eee0,transparent);}
 .vp{color:var(--red)!important;}.vn{color:var(--g6)!important;}
 /* GANTT */
-.gantt-h{display:flex;margin-bottom:2px;}
+#page-cronograma{background:#fff!important;}.gantt-h{display:flex;margin-bottom:2px;}
 .gantt-hl{min-width:200px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--gray-400);text-transform:uppercase;padding:3px 9px;border-right:2px solid var(--gray-100);}
 .gantt-hm{flex:1;min-width:58px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--gray-400);text-align:center;padding:3px 2px;border-right:1px solid var(--gray-100);}
 .gantt-row{display:flex;align-items:center;border-bottom:1px solid var(--gray-50);min-height:36px;}
@@ -197,7 +197,7 @@ footer span{font-size:9px;color:var(--g4);}
 </div>
 
 <!-- APP -->
-<div id="app" style="display:none;">
+<div id="app" style="display:none;min-height:100vh;">
 <header class="hdr">
   <div style="display:flex;align-items:center;gap:11px;">
     <div class="hdr-brand">
@@ -226,8 +226,7 @@ footer span{font-size:9px;color:var(--g4);}
       <div class="nav-modulo">
         <span class="nav-mod-label maint">🔧 Manutenção</span>
         <div class="nav-mod-btns">
-          <button class="nb" id="nb-manutencao" onclick="showPage('manutencao')">Ordens</button>
-          <button class="nb" id="nb-cronograma" onclick="showPage('cronograma')">Cronograma</button>
+          <button class="nb" id="nb-manutencao" onclick="showPage('manutencao')">Manutenções Ext.</button>
           <button class="nb" id="nb-matriz" onclick="showPage('matriz')">🎯 Matriz</button>
           <button class="nb" id="nb-planning-manut" onclick="showPage('planning-manut')">⚡ Planning</button>
         </div>
@@ -236,7 +235,7 @@ footer span{font-size:9px;color:var(--g4);}
   </div>
   <div style="display:flex;align-items:center;gap:7px;">
     <span id="hUser" style="font-size:10px;color:var(--g2);max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></span>
-    <button onclick="doLogout()" style="font-size:10px;padding:3px 8px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:5px;color:#fff;cursor:pointer;">Sair</button>
+    <button onclick="doLogout()" style="font-size:11px;padding:4px 12px;background:rgba(220,38,38,.3);border:1px solid rgba(220,38,38,.5);border-radius:6px;color:#fff;cursor:pointer;font-weight:600;">⏻ Sair</button>
     <div id="sPill" style="display:flex;align-items:center;gap:4px;padding:3px 9px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:14px;font-size:9px;color:var(--g2);">
       <div id="sDot" style="width:5px;height:5px;border-radius:50%;background:var(--gray-400);"></div>
       <span id="sTxt">Sem arquivo</span>
@@ -245,9 +244,9 @@ footer span{font-size:9px;color:var(--g4);}
 </header>
 
 <!-- UPLOAD -->
-<div class="page on" id="page-upload">
+<div class="page on" id="page-upload" style="background:#f8faf8;">
 <div class="wrap">
-  <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;">
+  <div style="display:grid;grid-template-columns:1fr minmax(240px,320px);gap:16px;">
     <div>
       <div class="tbar"><div><div class="pg-ttl">Upload & Processamento</div><div class="pg-sub">Carregue o arquivo OMPR detalhe (.xlsx, .xlsb)</div></div></div>
       <div class="upload-zone" id="dz" onclick="document.getElementById('fi').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="hDrop(event)">
@@ -296,7 +295,7 @@ footer span{font-size:9px;color:var(--g4);}
 <!-- DASHBOARD -->
 <div class="page" id="page-dashboard">
 <div class="wrap">
-  <div id="dEmp" class="empty"><h3>Sem dados</h3><p style="font-size:12px;color:var(--gray-400);">Processe um arquivo OMPR.</p><button class="btn bp" onclick="showPage('upload')">↑ Upload</button></div>
+  <div id="dEmp" class="empty"><div style="font-size:40px;margin-bottom:12px;">📂</div><h3>Nenhum arquivo processado</h3><p style="font-size:12px;color:var(--gray-400);margin:8px 0;">Faça upload e processe o arquivo OMPR para ver os dados.</p><button class="btn bp" onclick="showPage('upload')" style="margin-top:8px;">↑ Fazer Upload do OMPR</button></div>
   <div id="dCont" style="display:none">
     <div class="tbar"><div><div class="pg-ttl">Dashboard Executivo</div><div class="pg-sub">Forecast 2+10 vs Realizado · Equipment · Fixed · Variable</div></div><div style="display:flex;gap:6px;flex-wrap:wrap;"><button class="btn bai" onclick="genIA('dash')">★ Análise IA</button><button class="btn bs" onclick="showPage('upload')">↑ Upload</button></div></div>
     <div class="abar" id="alertBar"></div>
@@ -319,6 +318,12 @@ footer span{font-size:9px;color:var(--g4);}
     </div>
     <div class="sec">Por Subcategoria</div>
     <div class="kpig" id="kSubG"></div>
+    <div class="sec">Consolidado MFG — Consumo</div>
+    <div id="kConsMFG" style="display:none;margin-bottom:14px;"></div>
+    <!-- YTD Acumulado Realizado Jan-Abr -->
+    <div class="sec">Acumulado Realizado — Jan até Abr/26</div>
+    <div id="kYTD" style="margin-bottom:14px;"></div>
+
     <div class="sec">Apoio Gerencial</div>
     <div class="kpig" id="kApoio"></div>
     <div class="card" style="margin-bottom:14px;">
@@ -364,35 +369,113 @@ footer span{font-size:9px;color:var(--g4);}
 <!-- FORNECEDORES -->
 <div class="page" id="page-fornecedores">
 <div class="wrap">
-  <div id="fEmp" class="empty"><h3>Processe um arquivo primeiro</h3><button class="btn bp" onclick="showPage('upload')">↑ Upload</button></div>
-  <div id="fCont" style="display:none">
-    <div class="tbar"><div><div class="pg-ttl">Análise por Fornecedor</div><div class="pg-sub">Realizado · Ranking · Evolução · Drill-down</div></div><button class="btn bs" onclick="exportFornCsv()">⬇ CSV</button></div>
-    <div class="kpig" id="fKpis"></div>
-    <div class="fbar">
-      <div class="fg"><label>Mês</label><select id="ffMes" onchange="renderForn()"><option value="">Todos</option></select></div>
-      <div class="fg"><label>Subcategoria</label><select id="ffSub" onchange="renderForn()"><option value="">Todas</option></select></div>
-      <div class="fg"><label>CC</label><select id="ffCC" onchange="renderForn()"><option value="">Todos</option></select></div>
-      <div class="fg"><label>Buscar</label><input type="text" id="ffBsc" placeholder="Nome do fornecedor..." oninput="renderForn()" style="min-width:170px;"></div>
-      <button class="brs" onclick="resetFF()">✕ Limpar</button>
+  <div class="tbar">
+    <div>
+      <div class="pg-ttl">Análise por Fornecedor</div>
+      <div class="pg-sub">Base: Database OMPR · Realizado Jan–Abr/26 · Equipment · Fixed · Variable</div>
     </div>
-    <div class="cgrid">
-      <div class="cc"><div class="cttl">Top 15 · Realizado</div><div class="csub">Clique para detalhes</div><div id="wFR" style="position:relative;height:300px"><canvas id="cFR"></canvas></div></div>
-      <div class="cc"><div class="cttl">Evolução Mensal · Top 6</div><div class="csub">Realizado por fornecedor</div><div style="position:relative;height:300px"><canvas id="cFE"></canvas></div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="btn bs" onclick="exportFornCsv()">⬇ CSV</button>
+      <button class="btn bp" onclick="showPage('upload')">↑ Atualizar OMPR</button>
     </div>
-    <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div class="card-ttl" style="margin:0">Lançamentos</div><span id="fTotal" style="font-size:11px;color:var(--gray-400);"></span></div>
-      <div class="tw"><table class="dt"><thead><tr><th onclick="fSort('Fornecedor')">Fornecedor ↕</th><th onclick="fSort('CC')">CC ↕</th><th onclick="fSort('Subcategory')">Subcategoria ↕</th><th onclick="fSort('Descricao')">Descrição ↕</th><th onclick="fSort('Mes')">Mês ↕</th><th onclick="fSort('Tipo')">Tipo/Conta ↕</th><th style="text-align:right" onclick="fSort('Valor')">Valor ↕</th></tr></thead><tbody id="tForn"></tbody></table></div>
-      <div id="fPag" style="display:flex;justify-content:center;gap:4px;margin-top:9px;flex-wrap:wrap;"></div>
+  </div>
+
+  <div id="fEmp" class="empty" style="display:none"><h3>Sem dados de fornecedores</h3><p style="font-size:12px;color:var(--gray-400);">Processe o arquivo OMPR para ver análise por fornecedor.</p><button class="btn bp" onclick="showPage('upload')">↑ Upload</button></div>
+  <div id="fCont">
+
+  <!-- KPIs -->
+  <div class="kpig" id="fKpis"></div>
+
+  <!-- FILTROS -->
+  <div class="fbar" style="margin-bottom:14px;">
+    <div class="fg"><label>Mês</label>
+      <select id="ffMes" onchange="renderForn()">
+        <option value="">Todos</option>
+      </select>
     </div>
+    <div class="fg"><label>Subcategoria</label>
+      <select id="ffSub" onchange="renderForn()">
+        <option value="">Todas</option>
+        <option value="Equipment Expenses">Equipment Expenses</option>
+        <option value="Other Fixed Expenses">Other Fixed Expenses</option>
+        <option value="Other Variable Expenses">Other Variable Expenses</option>
+      </select>
+    </div>
+    <div class="fg"><label>CC</label>
+      <select id="ffCC" onchange="renderForn()">
+        <option value="">Todos</option>
+        <option value="MANUTENCAO">MANUTENCAO</option>
+        <option value="MOLDAGEM">MOLDAGEM</option>
+        <option value="IMPRESSAO ( OFF-SET )">IMPRESSAO</option>
+        <option value="FERRAMENTARIA">FERRAMENTARIA</option>
+      </select>
+    </div>
+    <div class="fg"><label>Buscar fornecedor</label>
+      <input type="text" id="ffBsc" placeholder="Nome do fornecedor..." oninput="renderForn()" style="min-width:200px;">
+    </div>
+    <button class="brs" onclick="resetFF()">✕ Limpar</button>
+  </div>
+
+  <!-- GRÁFICOS -->
+  <div class="cgrid" style="margin-bottom:14px;">
+    <div class="cc">
+      <div class="cttl">🏆 Top 15 Fornecedores — Realizado Jan–Abr/26</div>
+      <div class="csub">Clique para ver detalhes</div>
+      <div id="wFR" style="position:relative;height:340px"><canvas id="cFR"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl">📈 Evolução Mensal — Top 6 Fornecedores</div>
+      <div class="csub">Realizado por mês</div>
+      <div style="position:relative;height:340px"><canvas id="cFE"></canvas></div>
+    </div>
+  </div>
+
+  <div class="cgrid" style="margin-bottom:14px;">
+    <div class="cc">
+      <div class="cttl">📊 Por Subcategoria</div>
+      <div class="csub">Distribuição Equipment / Fixed / Variable</div>
+      <div style="position:relative;height:220px"><canvas id="cFSub"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl">🏢 Por CC (Centro de Custo)</div>
+      <div class="csub">Realizado por área</div>
+      <div style="position:relative;height:220px"><canvas id="cFCC"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TABELA DETALHADA -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;flex-wrap:wrap;gap:8px;">
+      <div class="card-ttl" style="margin:0;">Lançamentos por Fornecedor</div>
+      <span id="fTotal" style="font-size:11px;color:var(--gray-400);"></span>
+    </div>
+    <div class="tw">
+      <table class="dt">
+        <thead>
+          <tr>
+            <th onclick="fSort('Fornecedor')" style="cursor:pointer;">Fornecedor ↕</th>
+            <th onclick="fSort('CC')" style="cursor:pointer;">CC ↕</th>
+            <th onclick="fSort('Tipo')" style="cursor:pointer;">Tipo ↕</th>
+            <th onclick="fSort('Subcategory')" style="cursor:pointer;">Subcategoria ↕</th>
+            <th style="text-align:right" onclick="fSort('Jan')" style="cursor:pointer;">Jan ↕</th>
+            <th style="text-align:right" onclick="fSort('Fev')" style="cursor:pointer;">Fev ↕</th>
+            <th style="text-align:right" onclick="fSort('Mar')" style="cursor:pointer;">Mar ↕</th>
+            <th style="text-align:right" onclick="fSort('Abr')" style="cursor:pointer;">Abr ↕</th>
+            <th style="text-align:right" onclick="fSort('Total')" style="cursor:pointer;">Total YTD ↕</th>
+          </tr>
+        </thead>
+        <tbody id="tForn"></tbody>
+      </table>
+    </div>
+    <div id="fPag" style="display:flex;justify-content:center;gap:4px;margin-top:9px;flex-wrap:wrap;"></div>
   </div>
 </div>
 </div>
-
 <!-- MANUTENÇÕES -->
 <div class="page" id="page-manutencao">
 <div class="wrap">
   <div class="tbar">
-    <div><div class="pg-ttl">Manutenções Planejadas 2026</div><div class="pg-sub">Obrigatórias · Preventivas · Melhorias · Projetos</div></div>
+    <div><div class="pg-ttl">Manutenções Externas 2026</div><div class="pg-sub">Obrigatórias · Preventivas · Melhorias · Projetos</div></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn bp" onclick="abrirM(null)">+ Nova</button>
       <button class="btn bai" onclick="genIA('manut')">★ IA</button>
@@ -433,6 +516,11 @@ footer span{font-size:9px;color:var(--g4);}
     </div>
     <div id="ganttW" style="overflow-x:auto;"></div>
   </div>
+  <div style="display:flex;justify-content:center;margin-top:16px;padding-bottom:8px;">
+    <button onclick="showPage('cronograma')" style="padding:11px 30px;background:linear-gradient(135deg,#1d6b2c,#248736);color:#fff;border:none;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 3px 10px rgba(29,107,44,.3);">
+      📅 Ver Cronograma Completo 2026 →
+    </button>
+  </div>
 </div>
 </div>
 
@@ -440,51 +528,76 @@ footer span{font-size:9px;color:var(--g4);}
 <div class="page" id="page-compras">
 <div class="wrap">
   <div class="tbar">
-    <div><div class="pg-ttl">Controle de Compras</div><div class="pg-sub">Compras · Serviços · Cotações · OS</div></div>
+    <div><div class="pg-ttl">Controle de Compras</div><div class="pg-sub">Compras · Serviços · Cotações · OS · Planejado vs Realizado</div></div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn bp" onclick="abrirC(null)">+ Nova</button>
       <button class="btn bai" onclick="genIA('comp')">★ IA</button>
     </div>
   </div>
   <div class="aibox" id="aiCBox" style="display:none"><div class="ai-hd"><div class="ai-ttl">Análise IA — Compras <span class="ai-bdg">IA</span></div><button class="btn bg" style="padding:3px 8px;font-size:10px;" onclick="this.closest('.aibox').style.display='none'">Fechar</button></div><div id="aiCTxt" style="font-size:12px;line-height:1.7;"></div></div>
+
+  <!-- PLANEJADO VS REALIZADO — DESTAQUE NO TOPO -->
+  <div class="sec">📊 Planejado × Realizado × Orçado</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:9px;margin-bottom:14px;" id="cpvKpis"></div>
+  <div class="cgrid" style="margin-bottom:14px;">
+    <div class="cc">
+      <div class="cttl">Evolução Mensal — Orçado × Aprovado × Realizado</div>
+      <div class="csub">Por mês de solicitação</div>
+      <div style="position:relative;height:220px"><canvas id="cCpvMes"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl">Por Subcategoria — Orçado × Realizado</div>
+      <div style="position:relative;height:220px"><canvas id="cCpvSub"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Compras vs Serviços -->
+  <div class="cgrid" style="margin-bottom:14px;">
+    <div class="card" style="border-top:3px solid var(--blue);">
+      <div class="card-ttl" style="color:var(--blue);">🛒 Compras</div>
+      <div id="kComprasDetalhe" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:8px;"></div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--teal);">
+      <div class="card-ttl" style="color:var(--teal);">🔧 Serviços</div>
+      <div id="kServicosDetalhe" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:8px;"></div>
+    </div>
+  </div>
+
+  <!-- KPIs RESUMO -->
   <div class="sec">Resumo</div>
   <div class="kpig" id="cKpis"></div>
   <div class="abar" id="cAlerts"></div>
+
+  <!-- GRÁFICOS -->
   <div class="cgrid" style="margin-bottom:13px;">
     <div class="cc"><div class="cttl">Por Status</div><div style="position:relative;height:190px"><canvas id="cCSt"></canvas></div></div>
     <div class="cc"><div class="cttl">Top Fornecedores · Valor Aprovado</div><div id="wCF" style="position:relative;height:190px"><canvas id="cCF"></canvas></div></div>
   </div>
   <div class="cgrid" style="margin-bottom:13px;">
-    <div class="cc"><div class="cttl">Evolução Mensal</div><div class="csub">Orçado vs aprovado</div><div style="position:relative;height:190px"><canvas id="cCM"></canvas></div></div>
+    <div class="cc"><div class="cttl">Evolução por Mês</div><div class="csub">Orçado vs Aprovado</div><div style="position:relative;height:190px"><canvas id="cCM"></canvas></div></div>
     <div class="cc"><div class="cttl">Por Subcategoria</div><div style="position:relative;height:190px"><canvas id="cCS"></canvas></div></div>
   </div>
+
+  <!-- FILTROS E LISTA -->
   <div class="fbar">
     <div class="fg"><label>Status</label><select id="cfSt" onchange="renderComp()"><option value="">Todos</option><option>Em cotação</option><option>Aguardando aprovação</option><option>Aprovado</option><option>Em compra</option><option>Em execução</option><option>Finalizado</option><option>Cancelado</option></select></div>
     <div class="fg"><label>Tipo</label><select id="cfTp" onchange="renderComp()"><option value="">Todos</option><option>Compra</option><option>Serviço</option></select></div>
     <div class="fg"><label>Busca</label><input type="text" id="cfBsc" placeholder="Desc., fornecedor..." oninput="renderComp()"></div>
     <button class="brs" onclick="resetCF()">✕ Limpar</button>
   </div>
-  <!-- Planning vs Real de Compras -->
-  <div class="card" style="margin-bottom:13px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;">
-      <div class="card-ttl" style="margin:0;">📊 Planejado vs Realizado vs Orçado</div>
-      <div style="display:flex;gap:8px;align-items:center;">
-        <div class="fg"><label style="font-size:9px;font-weight:700;color:var(--gray-400);text-transform:uppercase;">Mês</label><select id="cpvMes" onchange="renderCompPvR()" style="padding:4px 18px 4px 7px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:6px;font-size:11px;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22%3E%3Cpath d=%22M0 0l5 6 5-6z%22 fill=%22%23638c6c%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 5px center;"><option value="">Todos</option></select></div>
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:9px;margin-bottom:12px;" id="cpvKpis"></div>
-    <div class="cgrid">
-      <div style="position:relative;height:200px"><canvas id="cCpvMes"></canvas></div>
-      <div style="position:relative;height:200px"><canvas id="cCpvSub"></canvas></div>
-    </div>
-  </div>
   <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;"><span id="cCount" style="font-size:11px;color:var(--gray-400)">0</span><span style="font-size:11px;color:var(--gray-400)">Total: <strong id="cTot" style="color:var(--g7)">—</strong></span></div>
-    <div class="tw"><table class="dt"><thead><tr><th>Data</th><th>Fornecedor</th><th>Descrição</th><th>Tipo Compra</th><th>Subcat.</th><th>Nº Req</th><th style="text-align:right">Orçado</th><th style="text-align:right">Aprovado</th><th style="text-align:right">Realizado</th><th>Status</th><th>Prazo</th><th>Ações</th></tr></thead><tbody id="tComp"></tbody></table></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;">
+      <span id="cCount" style="font-size:11px;color:var(--gray-400)">0</span>
+      <span style="font-size:11px;color:var(--gray-400)">Total: <strong id="cTot" style="color:var(--g7)">—</strong></span>
+    </div>
+    <div class="tw"><table class="dt"><thead><tr>
+      <th>Data</th><th>Fornecedor</th><th>Descrição</th><th>Tipo</th><th>Subcat.</th><th>Nº Req</th>
+      <th style="text-align:right">Orçado</th><th style="text-align:right">Aprovado</th><th style="text-align:right">Realizado</th>
+      <th>Status</th><th>Prazo</th><th>Ações</th>
+    </tr></thead><tbody id="tComp"></tbody></table></div>
   </div>
 </div>
 </div>
-
 <!-- PLANNING -->
 <!-- ═══════════════════════════════════════════ -->
 <!-- PAGE: PLANNING FINANCEIRO -->
@@ -493,7 +606,7 @@ footer span{font-size:9px;color:var(--g4);}
 <div class="wrap">
   <div class="tbar">
     <div>
-      <div class="pg-ttl" style="background:linear-gradient(135deg,var(--teal),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">📊 Planning Financeiro</div>
+      <div class="pg-ttl" style="color:#0d9488;font-weight:800;">📊 Planning Financeiro</div>
       <div class="pg-sub">Budget × Planejado × Realizado · Compras + OMPR · Atualização dinâmica</div>
     </div>
     <div style="display:flex;gap:7px;flex-wrap:wrap;">
@@ -557,14 +670,17 @@ footer span{font-size:9px;color:var(--g4);}
       <table class="dt" id="tPlanFin">
         <thead><tr>
           <th>Mês</th>
-          <th style="text-align:right">Budget (OMPR)</th>
-          <th style="text-align:right">Planejado (Compras+Manut)</th>
-          <th style="text-align:right">Realizado</th>
-          <th style="text-align:right">Desvio Budget</th>
+          <th style="text-align:right">Budget (OP26)</th>
+          <th style="text-align:right">Realizado (Actual)</th>
+          <th style="text-align:right">Desvio</th>
           <th style="text-align:right">% Exec.</th>
-          <th>Status</th>
+          <th style="text-align:right">Compras Orçadas</th>
+          <th style="text-align:right">Compras Realizadas</th>
+          <th style="text-align:right">Total Plan.</th>
+          <th style="text-align:right">Total Real.</th>
         </tr></thead>
         <tbody id="tbPlanFin"></tbody>
+        <tfoot id="tfPlanFin"></tfoot>
       </table>
     </div>
   </div>
@@ -587,7 +703,7 @@ footer span{font-size:9px;color:var(--g4);}
 <div class="wrap">
   <div class="tbar">
     <div>
-      <div class="pg-ttl" style="background:linear-gradient(135deg,#7c3aed,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⚡ Planning Manutenção</div>
+      <div class="pg-ttl" style="color:#6366f1;font-weight:800;">⚡ Planning Manutenção</div>
       <div class="pg-sub">Ordens planejadas × Executadas · Orçado × Realizado · Manutenções</div>
     </div>
     <div style="display:flex;gap:7px;flex-wrap:wrap;">
@@ -598,7 +714,7 @@ footer span{font-size:9px;color:var(--g4);}
   </div>
 
   <!-- IA BOX -->
-  <div class="aibox" id="aiPManutBox" style="display:none;background:linear-gradient(135deg,#faf5ff,#eff6ff);border-color:rgba(124,58,237,.3);">
+  <div class="aibox" id="aiPManutBox" style="display:none;">
     <div class="ai-hd"><div class="ai-ttl" style="color:#7c3aed;">Análise IA — Planning Manutenção <span class="ai-bdg" style="background:linear-gradient(135deg,#7c3aed,#1d4ed8);">IA</span></div>
     <button class="btn bg" style="padding:3px 8px;font-size:10px;" onclick="this.closest('.aibox').style.display='none'">Fechar</button></div>
     <div id="aiPManutTxt" style="font-size:12px;line-height:1.7;color:#3b0764;"></div>
@@ -701,7 +817,27 @@ footer span{font-size:9px;color:var(--g4);}
       <button class="btn" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);color:#fff;" onclick="genMatrizIA()">★ Análise IA</button>
       <button class="btn bs" onclick="exportMatrizPdf()">📄 Exportar PDF</button>
       <button class="btn bs" onclick="exportMatrizExcel()">📊 Excel</button>
+      <button class="btn" style="background:linear-gradient(135deg,#065f46,#0d9488);color:#fff;" onclick="gerarRelatorioSemanal()">📋 Relatório Semanal</button>
       <button class="btn bs" onclick="salvarMatrizSupabase()">💾 Salvar Análise</button>
+    </div>
+  </div>
+
+  <!-- UPLOAD BASE.XLSX -->
+  <div id="matrizUploadBox" style="background:#f8fafc;border:2px dashed #cbd5e1;border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:200px;">
+      <div style="font-size:13px;font-weight:700;color:#1e3a5f;margin-bottom:3px;">📂 Carregar arquivo de máquinas (Base.xlsx)</div>
+      <div style="font-size:11px;color:#64748b;">Planilha com histórico de falhas das injetoras B01–E11 · Planilha1</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap;">
+      <input type="file" id="fiBase" accept=".xlsx,.xlsb,.xlsm,.xls" style="display:none" onchange="processarBase(this.files[0])">
+      <button class="btn" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);color:#fff;padding:7px 16px;font-size:12px;" onclick="document.getElementById('fiBase').click()">📁 Selecionar arquivo</button>
+      <div id="baseStatus" style="font-size:11px;color:#64748b;font-style:italic;">Nenhum arquivo carregado</div>
+    </div>
+    <div id="baseProgress" style="display:none;width:100%;margin-top:8px;">
+      <div style="font-size:10px;color:#64748b;margin-bottom:3px;" id="baseProgressLabel">Processando...</div>
+      <div style="height:4px;background:#dbeafe;border-radius:2px;overflow:hidden;">
+        <div id="baseProgressBar" style="height:100%;background:linear-gradient(90deg,#1e3a5f,#3b82f6);border-radius:2px;transition:width .3s;width:0%"></div>
+      </div>
     </div>
   </div>
 
@@ -795,17 +931,27 @@ footer span{font-size:9px;color:var(--g4);}
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
       <div class="card-ttl" style="margin:0;color:#1e3a5f;">Análise Detalhada por Injetora</div>
-      <span id="matrizCount" style="font-size:11px;color:var(--gray-400);"></span>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+        <span id="matrizCount" style="font-size:11px;color:var(--gray-400);"></span>
+        <span id="matrizSelCount" style="font-size:11px;color:#1d4ed8;font-weight:600;display:none;">0 selecionadas</span>
+        <button id="btnRelSel" onclick="gerarRelatorioSelecionadas()" 
+          style="display:none;padding:5px 14px;background:linear-gradient(135deg,#065f46,#0d9488);color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:700;cursor:pointer;">
+          📋 Gerar Relatório das Selecionadas
+        </button>
+        <button onclick="gerarRelatorioSemanal()" 
+          style="padding:5px 14px;background:linear-gradient(135deg,#1e3a5f,#1d4ed8);color:#fff;border:none;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;">
+          📄 Relatório Semanal Completo
+        </button>
+      </div>
     </div>
     <div class="tw">
       <table class="dt" id="tMatriz">
         <thead>
           <tr>
+            <th style="width:32px;"><input type="checkbox" id="mzSelAll" onclick="toggleAllMatriz(this)" title="Selecionar todas"></th>
             <th>Injetora</th>
-            <th style="text-align:center">Severidade</th>
-            <th style="text-align:center">Probabilidade</th>
-            <th style="text-align:center">Risco</th>
             <th>Prioridade</th>
+            <th style="text-align:center">Score Risco</th>
             <th>Top Falha</th>
             <th style="text-align:right">Paradas</th>
             <th style="text-align:right">Horas</th>
@@ -833,122 +979,14 @@ footer span{font-size:9px;color:var(--g4);}
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- PAGE: PLANNING FINANCEIRO                              -->
 <!-- ══════════════════════════════════════════════════════ -->
-<div class="page" id="page-planning-fin">
-<div class="wrap">
-  <div class="tbar">
-    <div>
-      <div class="pg-ttl" style="background:linear-gradient(135deg,#065f46,#0d9488);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Planning Financeiro</div>
-      <div class="pg-sub">Planejado vs Realizado · Budget OMPR + Compras · Atualização dinâmica</div>
-    </div>
-    <div style="display:flex;gap:7px;">
-      <button class="btn bs" onclick="exportPlanFinExcel()">📊 Excel</button>
-    </div>
-  </div>
 
-  <!-- KPIs dinâmicos -->
-  <div class="sec">Consolidado Financeiro</div>
-  <div class="kpig" id="planFinKpis"></div>
-
-  <!-- Gráficos -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-    <div class="cc">
-      <div class="cttl" style="color:#065f46;">📈 Budget vs Realizado Mensal</div>
-      <div class="csub">Forecast OMPR × Actual</div>
-      <div style="position:relative;height:260px"><canvas id="cPlanFinMensal"></canvas></div>
-    </div>
-    <div class="cc">
-      <div class="cttl" style="color:#065f46;">🛒 Compras — Orçado vs Realizado</div>
-      <div class="csub">Por mês · dados da aba Compras</div>
-      <div style="position:relative;height:260px"><canvas id="cPlanFinCompras"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Tabela Planejado vs Realizado por mês -->
-  <div class="card">
-    <div class="card-ttl" style="color:#065f46;margin-bottom:10px;">Resumo Mensal — Planejado × Realizado</div>
-    <div class="tw">
-      <table class="dt">
-        <thead>
-          <tr>
-            <th>Mês</th>
-            <th style="text-align:right">Budget (Forecast)</th>
-            <th style="text-align:right">Realizado (Actual)</th>
-            <th style="text-align:right">Desvio</th>
-            <th style="text-align:right">% Exec.</th>
-            <th style="text-align:right">Compras Orçadas</th>
-            <th style="text-align:right">Compras Realizadas</th>
-            <th style="text-align:right">Total Planejado</th>
-            <th style="text-align:right">Total Realizado</th>
-          </tr>
-        </thead>
-        <tbody id="tbPlanFin"></tbody>
-        <tfoot id="tfPlanFin"></tfoot>
-      </table>
-    </div>
-  </div>
-</div>
-</div>
 
 <!-- ══════════════════════════════════════════════════════ -->
 <!-- PAGE: PLANNING MANUTENÇÃO                             -->
 <!-- ══════════════════════════════════════════════════════ -->
-<div class="page" id="page-planning-manut">
-<div class="wrap">
-  <div class="tbar">
-    <div>
-      <div class="pg-ttl" style="background:linear-gradient(135deg,#3730a3,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Planning Manutenção</div>
-      <div class="pg-sub">Ordens planejadas vs executadas · Orçado vs Realizado · Atualização dinâmica</div>
-    </div>
-    <div style="display:flex;gap:7px;">
-      <button class="btn" style="background:linear-gradient(135deg,#3730a3,#6366f1);color:#fff;" onclick="renderPlanManut()">↻ Atualizar</button>
-      <button class="btn bs" onclick="exportPlanManutExcel()">📊 Excel</button>
-    </div>
-  </div>
 
-  <!-- KPIs -->
-  <div class="sec">Consolidado de Manutenção</div>
-  <div class="kpig" id="planManutKpis"></div>
 
-  <!-- Gráficos -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
-    <div class="cc">
-      <div class="cttl" style="color:#3730a3;">💰 Orçado vs Realizado Mensal</div>
-      <div class="csub">Valores das ordens de manutenção</div>
-      <div style="position:relative;height:260px"><canvas id="cPlanManutVal"></canvas></div>
-    </div>
-    <div class="cc">
-      <div class="cttl" style="color:#3730a3;">📋 Ordens por Status</div>
-      <div class="csub">Distribuição de todas as ordens</div>
-      <div style="position:relative;height:260px"><canvas id="cPlanManutStatus"></canvas></div>
-    </div>
-  </div>
-
-  <!-- Tabela ordens -->
-  <div class="card">
-    <div class="card-ttl" style="color:#3730a3;margin-bottom:10px;">Ordens de Manutenção — Planejado × Realizado</div>
-    <div class="tw">
-      <table class="dt">
-        <thead>
-          <tr>
-            <th>Mês</th>
-            <th style="text-align:right">Qtd Ordens</th>
-            <th style="text-align:right">Orçado</th>
-            <th style="text-align:right">Realizado</th>
-            <th style="text-align:right">Desvio</th>
-            <th style="text-align:right">% Exec.</th>
-            <th>Status Predominante</th>
-          </tr>
-        </thead>
-        <tbody id="tbPlanManut"></tbody>
-        <tfoot id="tfPlanManut"></tfoot>
-      </table>
-    </div>
-  </div>
-</div>
-</div>
-
-<footer><span>© Tupperware Brasil · MaintPro · Gerenciamento Budget Industrial</span><span style="font-family:var(--fh);font-size:9px;font-weight:700;color:var(--g3);">Sistema Interno</span></footer>
-</div>
+<footer><span>© Tupperware Brasil · MaintPro · Gerenciamento Budget Industrial</span><span style="font-family:var(--fh);font-size:9px;font-weight:700;color:var(--g3);">Sistema Interno</span>
 
 <!-- CRONOGRAMA -->
 <div class="page" id="page-cronograma">
@@ -1054,6 +1092,8 @@ footer span{font-size:9px;color:var(--g4);}
   <div class="tw"><table class="dt"><thead><tr><th>Mês</th><th>Subcategoria</th><th>CC</th><th>Tipo</th><th>Origem</th><th style="text-align:right">Valor</th></tr></thead><tbody id="tFD"></tbody></table></div>
   </div>
 </div>
+</footer>
+</div>
 
 <script>
 // ═══════════════════════════════════════════
@@ -1109,16 +1149,18 @@ function toast(msg,t='info'){
 // ═══════════════════════════════════════════
 let _user=null;
 async function initAuth(){
+  // Always show login first
+  showAuth();
   let i=0;while((!window.supabase||!window.supabase.createClient)&&i<100){await new Promise(r=>setTimeout(r,100));i++;}
-  if(!window.supabase?.createClient){document.getElementById('authErr').textContent='Erro SDK.';document.getElementById('authErr').style.display='block';return;}
+  if(!window.supabase?.createClient){document.getElementById('authErr').textContent='Erro ao carregar SDK. Verifique sua conexão.';document.getElementById('authErr').style.display='block';return;}
   try{
     const{data:{session}}=await getSB().auth.getSession();
-    if(session?.user){_user=session.user;showApp();}else showAuth();
+    if(session?.user){_user=session.user;showApp();}
     getSB().auth.onAuthStateChange((ev,sess)=>{
       if(ev==='SIGNED_IN'&&sess?.user){_user=sess.user;showApp();}
-      else if(ev==='SIGNED_OUT'){_user=null;showAuth();}
+      else if(ev==='SIGNED_OUT'){_user=null;dbOk=false;showAuth();}
     });
-  }catch(e){console.error(e);showAuth();}
+  }catch(e){console.error('[Auth]',e);showAuth();}
 }
 async function doLogin(){
   const em=document.getElementById('lEm').value.trim(),pw=document.getElementById('lPw').value;
@@ -1133,7 +1175,7 @@ async function doLogin(){
 async function doLogout(){await getSB().auth.signOut();dbOk=false;manuts=[];comps=[];rawData=[];showAuth();}
 function showAuthErr(m){const e=document.getElementById('authErr');e.textContent=m;e.style.display='block';}
 function showAuth(){document.getElementById('auth').style.display='flex';document.getElementById('app').style.display='none';}
-function showApp(){document.getElementById('auth').style.display='none';document.getElementById('app').style.display='block';document.getElementById('hUser').textContent=_user?.email||'';setTimeout(carregarDB,300);}
+function showApp(){document.getElementById('auth').style.display='none';document.getElementById('app').style.display='block';document.getElementById('app').style.minHeight='100vh';document.getElementById('hUser').textContent=_user?.email||'';setTimeout(carregarDB,300);}
 
 // ═══════════════════════════════════════════
 // NAV
@@ -1144,7 +1186,7 @@ function showPage(n){
   const pg=document.getElementById('page-'+n);
   if(!pg)return;
   pg.classList.add('on');
-  const tabs=['upload','dashboard','budget','fornecedores','manutencao','compras','planning-fin','planning-manut','matriz','cronograma'];
+  const tabs=['upload','dashboard','budget','fornecedores','manutencao','compras','planning-fin','planning-manut','matriz'];
   const idx=tabs.indexOf(n);
   if(idx>=0)document.querySelectorAll('.nb')[idx]?.classList.add('on');
   if(n==='dashboard'&&rawData.length)renderDash();
@@ -1181,116 +1223,166 @@ function stTag(s){const m={'Concluído':'tdn','Finalizado':'tdn','Em andamento':
 function normStr(s){if(!s)return'';return Array.from(s.normalize('NFD')).filter(c=>c.charCodeAt(0)<591).join('').toUpperCase().trim();}
 function isCC(cc){const c=normStr(cc||'');return c.includes('MANUTENCAO')||c.includes('MOLDAGEM')||c.includes('IMPRESSAO')||c.includes('FERRAMENTARIA');}
 function normSub(raw){const s=normStr(raw||'');if(s.includes('EQUIPMENT'))return'Equipment Expenses';if(s.includes('OTHER FIXED')||s.includes('FIXED (TM')||s.includes('FIXED PAYROLL'))return'Other Fixed Expenses';if(s.includes('OTHER VARIABLE')||s.includes('VARIABLE EXPENSES'))return'Other Variable Expenses';return null;}
-function parseMH(s){if(!s)return null;const str=normStr(s.toString()).replace(/[\-\s]/g,'/');const m=str.match(/^([A-Z]{3,5})\/?(\d{2,4})$/);if(!m)return null;const abr=m[1].substring(0,3).toLowerCase();const anoR=m[2];const ano=anoR.length===2?2000+parseInt(anoR):parseInt(anoR);if(ano<2020||ano>2035)return null;const mm={jan:0,fev:1,feb:1,mar:2,abr:3,apr:3,mai:4,may:4,jun:5,jul:6,ago:7,aug:7,set:8,sep:8,out:9,oct:9,nov:10,dez:11,dec:11};const mi=mm[abr];if(mi===undefined)return null;return{num:mi+1,ano,label:MS[mi]};}
-function pNum(v){if(v===null||v===undefined||v==='')return 0;if(typeof v==='number'){if(!isFinite(v))return 0;if(Math.abs(v)>1e8)return 0;return v;}const s=v.toString().trim().replace(/\s/g,'').replace(',','.');const n=parseFloat(s);if(!isFinite(n))return 0;return n;}
+function parseMH(s){
+  if(!s)return null;
+  // Handle Excel date serial numbers (raw:true returns these for date cells)
+  if(typeof s==='number'&&s>44000&&s<55000){
+    const d=new Date(Math.round((s-25569)*86400*1000));
+    const idx=d.getUTCMonth();const yr=d.getUTCFullYear();
+    if(yr===2026)return{num:idx+1,ano:2026,label:MS[idx]};
+    return null;
+  }
+  const str=normStr(s.toString()).replace(/[\-\s]/g,'/');
+  const m=str.match(/^([A-Z]{3,5})\/?([\d]{2,4})$/);
+  if(!m)return null;
+  const abr=m[1].substring(0,3).toLowerCase();
+  const anoR=m[2];const ano=anoR.length===2?2000+parseInt(anoR):parseInt(anoR);
+  if(ano<2020||ano>2035)return null;
+  const mm={jan:0,fev:1,feb:1,mar:2,abr:3,apr:3,mai:4,may:4,jun:5,jul:6,ago:7,aug:7,set:8,sep:8,out:9,oct:9,nov:10,dez:11,dec:11};
+  const mi=mm[abr];if(mi===undefined)return null;
+  return{num:mi+1,ano,label:MS[mi]};
+}
+
+function pNum(v){if(v===null||v===undefined||v==='')return 0;if(typeof v==='number'){if(!isFinite(v))return 0;return v;}const s=v.toString().trim();// Handle locale strings like '636.994,12' (BR) or '636,994.12' (US)
+const cleaned=s.replace(/[\s]/g,'');// If has both dot and comma, determine which is decimal
+let n;if(cleaned.indexOf('.')>-1&&cleaned.indexOf(',')>-1){// e.g. '636.994,12' → remove dots → '636994,12' → replace comma → '636994.12'
+n=parseFloat(cleaned.replace(/\./g,'').replace(',','.'));}else{n=parseFloat(cleaned.replace(',','.'));}if(!isFinite(n))return 0;return n;}
 
 // ═══════════════════════════════════════════
 // PARSERS
 // ═══════════════════════════════════════════
 function parseFcst(wb,nm){
-  const rows=[];const ws=wb.Sheets[nm];if(!ws)return rows;
+  // Fcst_3+9: Planejado mensal (Jan-Abr=actual, Mai-Dez=forecast)
+  // Structure: row3=header, col7=CC, col9=SUBCATEGORIA, col11-22=Jan-Dez
+  const rows=[];
+  const ws=wb.Sheets[nm];
+  if(!ws)return rows;
+  // Use raw:true so numeric values come as JS numbers (avoids locale string issues)
   const json=XLSX.utils.sheet_to_json(ws,{defval:null,header:1,raw:true});
-  if(!json?.length)return rows;
-  let hR=-1,mC={};
-  for(let ri=0;ri<Math.min(json.length,20);ri++){
-    const row=json[ri]||[];const found={};
-    row.forEach((cell,ci)=>{if(!cell)return;const s=normStr(cell.toString());if(/^(FY|YTD|YTG|TOTAL|SOMA|GRAND)/.test(s))return;const m=parseMH(cell);if(m&&m.ano===2026)found[ci]=m;});
-    if(Object.keys(found).length>=4){mC=found;hR=ri;break;}
+  if(!json||json.length<5)return rows;
+
+  // Find header row containing 'CC' and month names
+  let hR=-1,ccC=7,subC=9,descC=10,mC={};
+  for(let ri=0;ri<Math.min(json.length,15);ri++){
+    const row=json[ri]||[];
+    const ccIdx=row.findIndex(v=>v&&String(v).trim().toUpperCase()==='CC');
+    const subIdx=row.findIndex(v=>v&&String(v).trim().toUpperCase().includes('SUBCATEGOR'));
+    if(ccIdx>=0&&subIdx>=0){
+      hR=ri; ccC=ccIdx; subC=subIdx;
+      descC=row.findIndex(v=>v&&String(v).trim().toUpperCase().includes('DESCRI'));
+      if(descC<0)descC=subC+1;
+      row.forEach((cell,ci)=>{
+        if(!cell)return;
+        const s=String(cell).trim();
+        if(/^(FY|YTD|YTG|TOTAL)/i.test(s))return;
+        const m=parseMH(s);
+        if(m&&m.ano===2026)mC[ci]=m;
+      });
+      break;
+    }
   }
-  if(hR<0)return rows;
-  const hrow=json[hR]||[];let ccC=7,subC=9,descC=10;
-  hrow.forEach((cell,ci)=>{if(!cell)return;const s=normStr(cell.toString());if(s==='CC'||s.includes('UNID'))ccC=ci;if(s==='SUBCATEGORIA'||s==='DASHBOARD')subC=ci;if(s.includes('DESCRICAO')||s.includes('DESCRIP'))descC=ci;});
+  if(hR<0||Object.keys(mC).length===0){
+    console.warn('[parseFcst] header/months not found in',nm,'hR='+hR,'months='+Object.keys(mC).length);
+    return rows;
+  }
+  console.log('[parseFcst]',nm,'hR='+hR,'cc='+ccC,'sub='+subC,'months='+Object.keys(mC).length,Object.values(mC).map(m=>m.label));
+
   for(let ri=hR+1;ri<json.length;ri++){
-    const row=json[ri];if(!row||row.every(v=>v==null))continue;
-    const sub=normSub(row[subC]);if(!sub)continue;
-    const cc=(row[ccC]||'').toString().trim();if(!isCC(cc))continue;
-    const desc=(row[descC]||cc).toString().trim();
-    for(const[ci,m]of Object.entries(mC)){const val=pNum(row[parseInt(ci)]);if(val===0)continue;rows.push({Subcategory:sub,CC:cc,Tipo:'',Fornecedor:desc||cc,Descricao:desc,Origem:'Forecast',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});}
+    const row=json[ri];
+    if(!row||row.every(v=>v==null||v===''||v===undefined))continue;
+    const cc=String(row[ccC]||'').trim();
+    if(!isCC(cc))continue;
+    const sub=normSub(row[subC]);
+    if(!sub)continue;
+    const desc=String(row[descC]||row[ccC]||'').trim();
+    for(const[ci,m]of Object.entries(mC)){
+      const val=pNum(row[parseInt(ci)]);
+      if(!val||val===0)continue;
+      rows.push({Subcategory:sub,CC:cc,Tipo:'Forecast',Fornecedor:desc||cc,
+        Descricao:desc,Origem:'Forecast',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
+    }
   }
+  console.log('[parseFcst] done:',rows.length,'rows from',nm);
   return rows;
 }
 
 function parseDB(wb,actualNm,dbNm){
-  // Parse Actual tab for realizado values (confirmed: 389 rows for MANUTENCAO/MOLDAGEM/IMPRESSAO/FERRAMENTARIA)
+  // Actual sheet: Realizado real (only 'Act' type columns = Jan-Abr)
   const rows=[];
-  
-  // === ACTUAL TAB: monthly realized values ===
   const wsA=wb.Sheets[actualNm];
-  if(wsA){
-    const jsonA=XLSX.utils.sheet_to_json(wsA,{defval:null,header:1,raw:true});
-    if(jsonA&&jsonA.length>4){
-      const hrow=jsonA[3]||[];
-      const typeRow=jsonA[2]||[];
-      // Find month cols and Act/Fcst type
-      const mC={},actCols=new Set();
-      hrow.forEach((cell,ci)=>{
+  if(!wsA){console.warn('[parseDB] sheet not found:',actualNm);return rows;}
+
+  const jsonA=XLSX.utils.sheet_to_json(wsA,{defval:null,header:1,raw:true});
+  if(!jsonA||jsonA.length<5)return rows;
+
+  // Row 2 (index 2) has 'Act'/'Fcst' type indicators
+  // Row 3 (index 3) is the header with CC, SUBCATEGORIA, month names
+  let hR=-1,ccC=7,subC=9,descC=10,mC={},typeRow=[];
+  for(let ri=0;ri<Math.min(jsonA.length,15);ri++){
+    const row=jsonA[ri]||[];
+    const ccIdx=row.findIndex(v=>v&&String(v).trim().toUpperCase()==='CC');
+    const subIdx=row.findIndex(v=>v&&String(v).trim().toUpperCase().includes('SUBCATEGOR'));
+    if(ccIdx>=0&&subIdx>=0){
+      hR=ri; ccC=ccIdx; subC=subIdx;
+      descC=row.findIndex(v=>v&&String(v).trim().toUpperCase().includes('DESCRI'));
+      if(descC<0)descC=subC+1;
+      // Get type row (one row before header usually)
+      if(ri>0)typeRow=jsonA[ri-1]||[];
+      row.forEach((cell,ci)=>{
         if(!cell)return;
-        const s=normStr(cell.toString());
-        if(/^(FY|YTD|YTG|TOTAL)/.test(s))return;
-        const m=parseMH(cell);
-        if(m&&m.ano===2026)mC[ci]=m;
+        const s=String(cell).trim();
+        if(/^(FY|YTD|YTG|TOTAL)/i.test(s))return;
+        const m=parseMH(s);
+        if(m&&m.ano===2026){
+          // Only include 'Act' columns (realized months)
+          const t=String(typeRow[ci]||'').trim();
+          if(t===''||t==='Act'||t==='Actual')mC[ci]=m;
+        }
       });
-      typeRow.forEach((v,ci)=>{if(v==='Act')actCols.add(ci);});
-      console.log('[Actual] mCols:'+JSON.stringify(Object.keys(mC))+' actCols:'+JSON.stringify([...actCols]));
-      for(let ri=4;ri<jsonA.length;ri++){
-        const row=jsonA[ri];if(!row||row.every(v=>v==null))continue;
-        const cc=(row[7]||'').toString().trim();if(!isCC(cc))continue;
-        const sub=normSub(row[9]);if(!sub)continue;
-        const tipo=(row[8]||'').toString().trim();
-        const desc=(row[10]||tipo).toString().trim();
-        for(const[ciStr,m]of Object.entries(mC)){
-          const ci=parseInt(ciStr);
-          // Use all 2026 cols (Act + Fcst) since Fcst cols will be 0 anyway
-          const val=pNum(row[ci]);if(val===0)continue;
-          rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:tipo,Descricao:desc||tipo,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
-        }
-      }
-      console.log('[Actual] Parsed '+rows.length+' rows');
+      break;
     }
   }
-  
-  // === DATABASE TAB: vendor/fornecedor detail (for drill-down) ===
-  // Merge fornecedor info from Database tab when available
-  const wsD=wb.Sheets[dbNm];
-  if(wsD&&rows.length===0){
-    // Fallback: use Database tab if Actual returns nothing
-    const ref=wsD['!ref'];
-    if(ref){
-      const range=XLSX.utils.decode_range(ref);
-      const grid=[];
-      for(let R=range.s.r;R<=range.e.r;R++){
-        const rowArr=[];
-        for(let C=range.s.c;C<=range.e.c;C++){
-          const addr=XLSX.utils.encode_cell({r:R,c:C});
-          const cell=wsD[addr];
-          rowArr.push(cell?cell.v:null);
-        }
-        grid.push(rowArr);
-      }
-      let hR=-1,mC={};
-      for(let ri=0;ri<Math.min(grid.length,30);ri++){
-        const row=grid[ri];
-        const hasDash=row.some(c=>c&&normStr(c.toString())==='DASHBOARD');
-        if(hasDash){hR=ri;row.forEach((cell,ci)=>{if(!cell)return;const s=normStr(cell.toString());if(/^(FY|YTD|YTG|TOTAL)/.test(s))return;const m=parseMH(cell);if(m&&m.ano===2026)mC[ci]=m;});break;}
-      }
-      if(hR>=0&&Object.keys(mC).length){
-        for(let ri=hR+1;ri<grid.length;ri++){
-          const row=grid[ri];if(!row||row.every(v=>v==null))continue;
-          const sub=normSub(row[4]);if(!sub)continue;
-          const cc=(row[2]||'').toString().trim();if(!isCC(cc))continue;
-          const forn=(row[5]||cc).toString().trim();
-          const tipo=(row[3]||'').toString().trim();
-          for(const[ci,m]of Object.entries(mC)){
-            const val=pNum(row[parseInt(ci)]);if(val===0)continue;
-            rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:forn,Descricao:forn,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
-          }
-        }
-        console.log('[Database fallback] Parsed '+rows.length+' rows');
-      }
+  // If no Act columns found (typeRow missing), include all month columns
+  if(Object.keys(mC).length===0){
+    const hrow=jsonA[hR]||[];
+    hrow.forEach((cell,ci)=>{
+      if(!cell)return;
+      const s=String(cell).trim();
+      if(/^(FY|YTD|YTG|TOTAL)/i.test(s))return;
+      const m=parseMH(s);
+      if(m&&m.ano===2026)mC[ci]=m;
+    });
+  }
+  console.log('[parseDB]',actualNm,'hR='+hR,'cc='+ccC,'sub='+subC,'actMonths='+Object.keys(mC).length,Object.values(mC).map(m=>m.label));
+
+  for(let ri=hR+1;ri<jsonA.length;ri++){
+    const row=jsonA[ri];
+    if(!row||row.every(v=>v==null||v===''||v===undefined))continue;
+    const cc=String(row[ccC]||'').trim();
+    if(!isCC(cc))continue;
+    const sub=normSub(row[subC]);
+    if(!sub)continue;
+    const desc=String(row[descC]||row[ccC]||'').trim();
+    const tipo=String(row[subC-1]||'').trim();
+    for(const[ci,m]of Object.entries(mC)){
+      const val=pNum(row[parseInt(ci)]);
+      if(!val||val===0)continue;
+      rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:desc||cc,
+        Descricao:desc||tipo,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
     }
   }
+  console.log('[parseDB] done:',rows.length,'rows from',actualNm);
   return rows;
 }
+
+
+// ═══════════════════════════════════════════
+// PARSE DATABASE SHEET — Fornecedores reais com valores mensais
+// col0=status, col1=Nº Conta, col2=CC, col3=Id.Conta2(tipo)
+// col4=DASHBOARD(subcategoria), col5=Observação(fornecedor/desc)
+// col7-18=Jan/25-Dez/25, col19-22=Jan/26-Abr/26
+// ═══════════════════════════════════════════
+
 
 // ═══════════════════════════════════════════
 // UPLOAD
@@ -1300,6 +1392,109 @@ function hFile(f){if(!f)return;document.getElementById('fName').textContent=f.na
 function showSt(t,m){const b=document.getElementById('stMsg');b.style.display='flex';b.className='sbox s'+t;document.getElementById('stIco').textContent=t==='ok'?'✓':t==='err'?'✕':'ℹ';document.getElementById('stTxt').textContent=m;}
 function setProg(p,l){const w=document.getElementById('progW');w.style.display='block';document.getElementById('progF').style.width=p+'%';if(l)document.getElementById('progL').textContent=l;if(p>=100)setTimeout(()=>w.style.display='none',900);}
 
+
+// ═══════════════════════════════════════════
+// PARSE CONSOLIDADO MFG
+// Col3=Category, Col4=Actual, Col5=ToGo, Col6=Estimated, Col7=OP26, Col8=3+9
+// Values in thousands (K)
+// ═══════════════════════════════════════════
+function parseConsolidadoMFG(wb, nm){
+  const ws=wb.Sheets[nm];if(!ws)return null;
+  const json=XLSX.utils.sheet_to_json(ws,{defval:null,header:1,raw:true});
+  const result={mes:null,categories:{}};
+  // Row 1 has current month
+  if(json[1]&&json[1][4]) result.mes=json[1][4].toString();
+  // Data starts at row 4 (index 3 = header, index 4+ = data)
+  const KEY_CATS={
+    'Equipment Expenses':'Equipment Expenses',
+    'Other Variable Expenses':'Other Variable Expenses',
+    'Other Fixed (TM:incl. Operating Expenses)':'Other Fixed Expenses',
+    'Fixed Payroll Serv. & Admin. Depts':'Fixed Payroll',
+    'Total MFG':'Total MFG',
+    'Total VOH':'Total VOH',
+    'Total FOH':'Total FOH',
+    'Total Direct Labor':'Total Direct Labor'
+  };
+  for(let ri=4;ri<json.length;ri++){
+    const row=json[ri];if(!row)continue;
+    const cat=row[3]?row[3].toString().trim():null;
+    if(!cat||!KEY_CATS[cat])continue;
+    const k=KEY_CATS[cat];
+    result.categories[k]={
+      actual: (row[4]||0)*1000,
+      toGo:   (row[5]||0)*1000,
+      estimated:(row[6]||0)*1000,
+      op26:   (row[7]||0)*1000,
+      fcst:   (row[8]||0)*1000,
+      vsOp26: (row[9]||0)*1000,
+      vsOp26Pct:(row[10]||0)*100
+    };
+  }
+  return result;
+}
+
+
+// ═══════════════════════════════════════════
+// PARSE DATABASE — Fornecedores com detalhe
+// Structure: header row9, col2=CC, col4=DASHBOARD(sub), col5=Fornecedor
+// col7-18=Jan-Dez/25, col19-22=Jan-Abr/26
+// ═══════════════════════════════════════════
+function parseDatabase(wb, nm){
+  const rows_db = [];
+  const ws = wb.Sheets[nm];
+  if(!ws) return rows_db;
+  const json = XLSX.utils.sheet_to_json(ws, {defval:null, header:1, raw:true});
+  if(!json || json.length < 11) return rows_db;
+
+  // Find header row (has 'DASHBOARD' and month cols)
+  let hR = -1, ccC = 2, subC = 4, fornC = 5, descC = 6;
+  const mC = {};
+  for(let ri = 0; ri < Math.min(json.length, 15); ri++){
+    const row = json[ri] || [];
+    if(row.some(v => v && String(v).trim() === 'DASHBOARD')){
+      hR = ri;
+      row.forEach((cell, ci) => {
+        if(!cell) return;
+        const s = String(cell).trim();
+        if(s === 'Unid. Negócios') ccC = ci;
+        if(s === 'DASHBOARD') subC = ci;
+        if(s === 'Explicação Nome Alfa') fornC = ci;
+        if(s === 'Observação- Explicação') descC = ci;
+        if(/^(Total|FY)/i.test(s)) return;
+        const m = parseMH(s);
+        if(m) mC[ci] = m;
+      });
+      break;
+    }
+  }
+  if(hR < 0){ console.warn('[parseDatabase] header not found'); return rows_db; }
+  console.log('[parseDatabase] hR='+hR+' cc='+ccC+' sub='+subC+' forn='+fornC+' months='+Object.keys(mC).length);
+
+  for(let ri = hR + 1; ri < json.length; ri++){
+    const row = json[ri];
+    if(!row || row.every(v => v == null || v === '')) continue;
+    const cc = String(row[ccC] || '').trim();
+    if(!isCC(cc)) continue;
+    const sub = normSub(row[subC]);
+    if(!sub) continue;
+    const forn = String(row[fornC] || row[subC] || '').trim();
+    const desc = String(row[descC] || forn).trim();
+    const tipoConta = String(row[subC - 1] || '').trim(); // Id.Conta2
+
+    for(const [ci, m] of Object.entries(mC)){
+      const val = pNum(row[parseInt(ci)]);
+      if(!val || val === 0) continue;
+      rows_db.push({
+        Subcategory: sub, CC: cc, Tipo: tipoConta,
+        Fornecedor: forn, Descricao: desc,
+        Origem: 'Realizado', MesNum: m.num, Mes: m.label, Ano: m.ano, Valor: val
+      });
+    }
+  }
+  console.log('[parseDatabase] done:', rows_db.length, 'rows');
+  return rows_db;
+}
+
 function processData(){
   const f=window._pf;if(!f)return;
   setProg(10,'Lendo arquivo...');document.getElementById('btnProc').disabled=true;
@@ -1307,15 +1502,19 @@ function processData(){
   r.onerror=()=>{showSt('err','Erro ao ler arquivo.');setProg(100);document.getElementById('btnProc').disabled=false;};
   r.onload=e=>{setTimeout(()=>{try{
     setProg(25,'Decodificando...');
-    const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:false,raw:false,dense:false});
+    const wb=XLSX.read(new Uint8Array(e.target.result),{type:'array',cellDates:false,raw:true,dense:false});
     setProg(40,'Identificando abas...');
     const names=wb.SheetNames;
-    const isFcst=n=>{const m=n.replace(/[\s_]/g,'').match(/fcst.*?(\d{1,2})\+(\d{1,2})/i);return m&&(parseInt(m[1])+parseInt(m[2])===12);};
-    let fcNm=names.find(isFcst)||names.find(n=>/^op\s*26$/i.test(n))||names.find(n=>/forecast/i.test(n))||names.find(n=>/budget/i.test(n));
-    let dbNm=names.find(n=>/^database$/i.test(n.trim()))||names.find(n=>/database/i.test(n))||names.find(n=>/realizado/i.test(n));
-    if(!fcNm)fcNm=names[0];if(!dbNm)dbNm=names.find(n=>n!==fcNm)||names[0];
-    const actualNm=names.find(n=>/^actual$/i.test(n.trim()))||names.find(n=>/actual/i.test(n)&&!/fcst/i.test(n))||dbNm;
-    console.log('[OMPR] Forecast:',fcNm,'| Actual:',actualNm,'| Database:',dbNm);
+    // Fcst_3+9 = Planejado (Jan-Abr=actual, Mai-Dez=forecast) — fonte principal
+    // Actual = Realizado real (apenas colunas 'Act')
+    const fcNm = names.find(n=>/fcst.*3.*9|3\+9/i.test(n.replace(/\s/g,''))) ||
+                 names.find(n=>/fcst/i.test(n)) ||
+                 names.find(n=>/^op\s*26$/i.test(n.trim())) || names[0];
+    const actualNm = names.find(n=>/^actual$/i.test(n.trim())) ||
+                     names.find(n=>/actual/i.test(n)&&!/fcst/i.test(n)) || names[1];
+    const dbNm = names.find(n=>/^database$/i.test(n.trim())) || actualNm;
+    const consolidadoMFGNm = names.find(n=>/consolidado.*mfg/i.test(n));
+    console.log('[OMPR] Fcst/Planejado:',fcNm,'| Actual/Realizado:',actualNm,'| MFG:',consolidadoMFGNm);
 
     setProg(55,'Forecast: '+fcNm+'...');const fcR=parseFcst(wb,fcNm);
     setProg(75,'Actual: '+actualNm+'...');const dbR=parseDB(wb,actualNm,dbNm);
@@ -1325,8 +1524,32 @@ function processData(){
     rawData=[...fcR,...dbR];
     document.getElementById('iProc').textContent=rawData.length.toLocaleString('pt-BR');
     setProg(100);document.getElementById('btnProc').disabled=false;
+    // Parse Database sheet for vendor detail
+    const dbSheetNm = names.find(n => /^database$/i.test(n.trim())) || names.find(n => /database/i.test(n));
+    if(dbSheetNm && wb.Sheets[dbSheetNm]){
+      window._dbRows = parseDatabase(wb, dbSheetNm);
+      console.log('[Database] parsed', window._dbRows.length, 'vendor rows');
+    }
+
     if(rawData.length===0){showSt('err','Nenhum registro válido. Forecast:'+fcR.length+' DB:'+dbR.length);}
-    else{showSt('ok',`✓ ${rawData.length.toLocaleString('pt-BR')} reg. | Forecast:${fcR.length.toLocaleString('pt-BR')} | Database:${dbR.length.toLocaleString('pt-BR')}`);document.getElementById('btnDash').disabled=false;document.getElementById('sDot').style.background='var(--g4)';document.getElementById('sTxt').textContent=`${f.name} · ${rawData.length.toLocaleString('pt-BR')} reg.`;populateF();}
+    else{
+      showSt('ok',`✓ ${rawData.length.toLocaleString('pt-BR')} reg. | Budget(OP26):${fcR.length.toLocaleString('pt-BR')} | Realizado:${dbR.length.toLocaleString('pt-BR')}`);
+      document.getElementById('btnDash').disabled=false;
+      document.getElementById('sDot').style.background='var(--g4)';
+      // Parse Database sheet for supplier/fornecedor analysis
+      const dbSheetNm2=names.find(n=>/^database$/i.test(n.trim()))||names.find(n=>/database/i.test(n));
+      if(dbSheetNm2&&wb.Sheets[dbSheetNm2]){
+        window._dbRows=parseDatabase(wb,dbSheetNm2);
+        console.log('[Database] fornecedor rows:',window._dbRows?.length||0);
+      }
+      document.getElementById('sTxt').textContent=`${f.name} · ${rawData.length.toLocaleString('pt-BR')} reg.`;
+      populateF();
+      // Parse Consolidado MFG if available
+      if(consolidadoMFGNm&&wb.Sheets[consolidadoMFGNm]){
+        window._consolidadoMFG = parseConsolidadoMFG(wb, consolidadoMFGNm);
+        console.log('[Consolidado MFG] parsed:', window._consolidadoMFG);
+      }
+    }
   }catch(err){showSt('err','Erro: '+err.message);setProg(100);console.error(err);document.getElementById('btnProc').disabled=false;}},50);};
   r.readAsArrayBuffer(f);
 }
@@ -1339,7 +1562,18 @@ function populateF(){
   const mes=[...new Set(rawData.filter(r=>r.MesNum>0).map(r=>r.MesNum))].sort((a,b)=>a-b);
   const fill=(id,vals,lFn,ph)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=`<option value="">${ph||'Todos'}</option>`+vals.map(v=>`<option value="${v}">${lFn?lFn(v):v}</option>`).join('');};
   fill('fMes',mes,m=>MSF[m-1],'Todos');fill('fSub',uniq('Subcategory'),null,'Todas');fill('fCC',uniq('CC'),null,'Todos');fill('fForn',uniq('Fornecedor'),null,'Todos');
-  fill('ffMes',mes,m=>MSF[m-1],'Todos');fill('ffSub',uniq('Subcategory'),null,'Todas');fill('ffCC',uniq('CC'),null,'Todos');
+  // For fornecedores, include all months from Database (2025+2026)
+  const dbSource2 = window._dbRows||[];
+  const allMonths = dbSource2.length
+    ? [...new Set(dbSource2.map(r=>`${r.Ano}-${String(r.MesNum).padStart(2,'0')}`))].sort()
+      .map(k=>{ const [yr,mn]=k.split('-'); return {num:parseInt(mn), ano:parseInt(yr), label:`${MSF[parseInt(mn)-1]}/${yr.slice(2)}`}; })
+    : mes.map(m=>({num:m,ano:2026,label:MSF[m-1]}));
+  const ffMesEl=document.getElementById('ffMes');
+  if(ffMesEl){
+    ffMesEl.innerHTML='<option value="">Todos</option>'+
+      allMonths.map(m=>`<option value="${m.ano*100+m.num}">${m.label}</option>`).join('');
+  }
+  fill('ffSub',uniq('Subcategory'),null,'Todas');fill('ffCC',uniq('CC'),null,'Todos');
   // Populate compras PvR month filter
   const cpvEl=document.getElementById('cpvMes');
   if(cpvEl){cpvEl.innerHTML='<option value="">Todos</option>'+MS.map((m,i)=>`<option value="${i+1}">${MSF[i]}</option>`).join('');}
@@ -1358,6 +1592,33 @@ function resetCF(){['cfSt','cfTp','cfBsc'].forEach(id=>{const el=document.getEle
 // ═══════════════════════════════════════════
 function renderDash(){
   if(!rawData.length)return;
+  // Show Consolidado MFG if available
+  const mfg=window._consolidadoMFG;
+  const mfgEl=document.getElementById('kConsMFG');
+  if(mfg&&mfgEl&&Object.keys(mfg.categories).length){
+    mfgEl.style.display='grid';
+    mfgEl.style.gridTemplateColumns='repeat(auto-fill,minmax(200px,1fr))';
+    mfgEl.style.gap='9px';
+    const cats=['Equipment Expenses','Other Fixed Expenses','Other Variable Expenses','Total MFG'];
+    mfgEl.innerHTML=cats.map(k=>{
+      const d=mfg.categories[k];if(!d)return'';
+      const pct=d.op26?((d.actual/d.op26)*100):0;
+      const dev=d.actual-d.op26;
+      const cor=pct>100?'var(--red)':pct>85?CA:'var(--g6)';
+      return`<div class="kpi" style="border-top:3px solid ${cor};">
+        <div class="kl">${k.replace(' Expenses','')}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:3px;">
+          <span style="font-size:10px;color:var(--gray-400)">Actual: <strong style="color:var(--g7)">${fK(d.actual)}</strong></span>
+          <span style="font-size:10px;color:var(--gray-400)">OP26: <strong>${fK(d.op26)}</strong></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:5px;">
+          <div class="pb" style="flex:1"><div class="pb-f" style="background:${cor};width:${Math.min(100,pct)}%"></div></div>
+          <span style="font-size:10px;font-weight:700;color:${cor};">${pct.toFixed(1)}%</span>
+        </div>
+        <div class="ks" style="color:${dev>0?'var(--red)':'var(--g6)'};">${dev>=0?'+':''}${fK(dev)} vs OP26 · ${mfg.mes||'YTD'}</div>
+      </div>`;
+    }).join('');
+  }
   document.getElementById('dEmp').style.display='none';document.getElementById('dCont').style.display='block';
   const fd=getF();
   const fc=fd.filter(r=>r.Origem==='Forecast'),db=fd.filter(r=>r.Origem==='Realizado');
@@ -1382,6 +1643,84 @@ function renderDash(){
     <div class="kpi blue"><div class="kl">% Execução</div><div class="kv" style="color:var(--blue)">${pctEx.toFixed(1)}%</div><div class="ks"><div class="pb" style="margin-top:3px"><div class="pb-f" style="background:${pctEx>100?CR:pctEx>80?CA:C2};width:${Math.min(100,pctEx)}%"></div></div></div></div>
     <div class="kpi ${mesEst?'red':''}"><div class="kl">Mês Maior Estouro</div><div class="kv" style="font-size:15px;">${mesEst?.m||'—'}</div><div class="ks">${mesEst?'+'+fK(mesEst.d):'Sem estouro'}</div></div>
     <div class="kpi amber"><div class="kl">Manutenções Atrasadas</div><div class="kv" style="color:var(--amber)">${manuts.filter(m=>m.status==='Atrasado').length}</div><div class="ks">cadastradas</div></div>`;
+  // === YTD Acumulado por subcategoria (Jan-Abr realizados) ===
+  const ytdEl = document.getElementById('kYTD');
+  if(ytdEl){
+    const subs3 = ['Equipment Expenses','Other Fixed Expenses','Other Variable Expenses'];
+    const subCols = {'Equipment Expenses':'blue','Other Fixed Expenses':'','Other Variable Expenses':'purple'};
+    const subNms = {'Equipment Expenses':'Equipment','Other Fixed Expenses':'Other Fixed','Other Variable Expenses':'Other Variable'};
+    
+    // Get realized months that have data
+    const realMonths = [...new Set(rawData.filter(r=>r.Origem==='Realizado').map(r=>r.MesNum))].sort((a,b)=>a-b);
+    const lastMes = realMonths.length ? MS[realMonths[realMonths.length-1]-1] : '—';
+    const firstMes = realMonths.length ? MS[realMonths[0]-1] : '—';
+    
+    let ytdHtml = `<div style="background:#fff;border:1px solid rgba(180,200,183,.4);border-radius:14px;padding:16px 20px;box-shadow:0 1px 4px rgba(0,0,0,.05);">`;
+    ytdHtml += `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">`;
+    ytdHtml += `<div style="font-size:12px;font-weight:700;color:var(--g8);">📊 Consumo acumulado por subcategoria · <span style="color:var(--g6)">${firstMes}–${lastMes}/26</span></div>`;
+    ytdHtml += `<div style="font-size:10px;color:var(--gray-400);">Fonte: Actual (valores realizados confirmados)</div>`;
+    ytdHtml += `</div>`;
+    ytdHtml += `<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:11px;">`;
+    ytdHtml += `<thead><tr style="background:var(--g0);">`;
+    ytdHtml += `<th style="padding:7px 10px;text-align:left;font-weight:700;color:var(--g8);">Subcategoria</th>`;
+    realMonths.forEach(mn=>{ytdHtml+=`<th style="padding:7px 10px;text-align:right;font-weight:700;color:var(--g8);">${MS[mn-1]}</th>`;});
+    ytdHtml += `<th style="padding:7px 10px;text-align:right;font-weight:800;color:var(--g7);border-left:2px solid var(--g2);">YTD Total</th>`;
+    ytdHtml += `<th style="padding:7px 10px;text-align:right;font-weight:700;color:#1d4ed8;">% do Plan.</th>`;
+    ytdHtml += `</tr></thead><tbody>`;
+    
+    let grandReal=0, grandPlan=0;
+    const monthTotals={};
+    
+    subs3.forEach((sub,si)=>{
+      const planYTD = realMonths.reduce((a,mn)=>a+sv(rawData.filter(r=>r.Origem==='Forecast'&&r.Subcategory===sub&&r.MesNum===mn)),0);
+      const realYTD = realMonths.reduce((a,mn)=>a+sv(rawData.filter(r=>r.Origem==='Realizado'&&r.Subcategory===sub&&r.MesNum===mn)),0);
+      const pct = planYTD ? (realYTD/planYTD*100) : 0;
+      const cor = pct>105?'#dc2626':pct>95?'#d97706':'#15803d';
+      grandReal+=realYTD; grandPlan+=planYTD;
+      
+      ytdHtml += `<tr style="border-bottom:1px solid var(--gray-50);">`;
+      ytdHtml += `<td style="padding:7px 10px;font-weight:600;color:var(--g8);">${subNms[sub]}</td>`;
+      realMonths.forEach(mn=>{
+        const v=sv(rawData.filter(r=>r.Origem==='Realizado'&&r.Subcategory===sub&&r.MesNum===mn));
+        if(!monthTotals[mn])monthTotals[mn]=0;
+        monthTotals[mn]+=v;
+        ytdHtml+=`<td style="padding:7px 10px;text-align:right;">${fR(v)}</td>`;
+      });
+      ytdHtml += `<td style="padding:7px 10px;text-align:right;font-weight:700;color:var(--g7);border-left:2px solid var(--g2);">${fR(realYTD)}</td>`;
+      ytdHtml += `<td style="padding:7px 10px;text-align:right;font-weight:700;color:${cor};">${pct.toFixed(1)}%</td>`;
+      ytdHtml += `</tr>`;
+    });
+    
+    // Total row
+    const grandPct = grandPlan?(grandReal/grandPlan*100):0;
+    const grandCor = grandPct>105?'#dc2626':grandPct>95?'#d97706':'#15803d';
+    ytdHtml += `<tr style="background:var(--g0);font-weight:800;border-top:2px solid var(--g2);">`;
+    ytdHtml += `<td style="padding:8px 10px;color:var(--g8);">TOTAL</td>`;
+    realMonths.forEach(mn=>{ytdHtml+=`<td style="padding:8px 10px;text-align:right;color:var(--g7);">${fR(monthTotals[mn]||0)}</td>`;});
+    ytdHtml += `<td style="padding:8px 10px;text-align:right;font-size:13px;color:var(--g7);border-left:2px solid var(--g2);">${fR(grandReal)}</td>`;
+    ytdHtml += `<td style="padding:8px 10px;text-align:right;font-size:12px;font-weight:800;color:${grandCor};">${grandPct.toFixed(1)}%</td>`;
+    ytdHtml += `</tr></tbody></table></div>`;
+    
+    // Summary chips
+    const devYTD = grandReal - grandPlan;
+    ytdHtml += `<div style="display:flex;gap:9px;margin-top:12px;flex-wrap:wrap;">`;
+    ytdHtml += `<div style="flex:1;min-width:150px;background:var(--g0);border-radius:8px;padding:10px 13px;border-left:3px solid var(--g5);">`;
+    ytdHtml += `<div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--gray-400);margin-bottom:2px;">YTD Realizado</div>`;
+    ytdHtml += `<div style="font-size:18px;font-weight:800;color:var(--g7);">${fK(grandReal)}</div>`;
+    ytdHtml += `<div style="font-size:10px;color:var(--gray-400);">${realMonths.length} meses · ${firstMes}–${lastMes}</div></div>`;
+    ytdHtml += `<div style="flex:1;min-width:150px;background:#f0f4ff;border-radius:8px;padding:10px 13px;border-left:3px solid #1d4ed8;">`;
+    ytdHtml += `<div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--gray-400);margin-bottom:2px;">YTD Planejado</div>`;
+    ytdHtml += `<div style="font-size:18px;font-weight:800;color:#1d4ed8;">${fK(grandPlan)}</div>`;
+    ytdHtml += `<div style="font-size:10px;color:var(--gray-400);">Fcst 3+9 acumulado</div></div>`;
+    ytdHtml += `<div style="flex:1;min-width:150px;background:${devYTD>0?'#fff5f5':'#f0fdf4'};border-radius:8px;padding:10px 13px;border-left:3px solid ${devYTD>0?'#dc2626':'#16a34a'};">`;
+    ytdHtml += `<div style="font-size:9px;font-weight:700;text-transform:uppercase;color:var(--gray-400);margin-bottom:2px;">Desvio YTD</div>`;
+    ytdHtml += `<div style="font-size:18px;font-weight:800;color:${devYTD>0?'#dc2626':'#16a34a'};">${devYTD>=0?'+':''}${fK(devYTD)}</div>`;
+    ytdHtml += `<div style="font-size:10px;color:var(--gray-400);">${grandPct.toFixed(1)}% de execução</div></div>`;
+    ytdHtml += `</div></div>`;
+    
+    ytdEl.innerHTML = ytdHtml;
+  }
+
   const chips=[];
   if(devP>15)chips.push({c:'r',t:`⚠ Budget ${devP.toFixed(1)}% acima`});
   else if(devP<-10)chips.push({c:'g',t:`✓ Economia de ${fK(Math.abs(dev))}`});
@@ -1410,14 +1749,22 @@ function renderDash(){
   dc('cTipo');chts.cTipo=new Chart(document.getElementById('cTipo'),{type:'bar',data:{labels:tSrt.map(t=>t[0]),datasets:[{data:tSrt.map(t=>t[1]),backgroundColor:[C1,'#2da042',C2,CT,CB,CA,CR,CP,'#0891b2','#7c3aed'],borderWidth:0,borderRadius:3}]},options:{indexAxis:'y',...CD,scales:{x:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}},y:{...AS}}}});
 }
 
+function abrirFD_idx(idx){
+  if(window._fornSlice&&window._fornSlice[idx])abrirFD(window._fornSlice[idx].Fornecedor);
+}
 function abrirFD(forn){
   document.getElementById('fdTtl').textContent=`Detalhamento · ${forn}`;
-  const data=rawData.filter(r=>r.Fornecedor===forn);
-  const real=data.filter(r=>r.Origem==='Realizado'),plan=data.filter(r=>r.Origem==='Forecast');
+  // Use Database rows if available (has real vendor names), otherwise rawData
+  const allSrc = (window._dbRows&&window._dbRows.length)
+    ? [...window._dbRows, ...rawData.filter(r=>r.Origem==='Forecast')]
+    : rawData;
+  const data = allSrc.filter(r=>r.Fornecedor===forn);
+  const real = data.filter(r=>r.Origem==='Realizado');
+  const plan = data.filter(r=>r.Origem==='Forecast');
   document.getElementById('fdR').textContent=fK(sv(real));document.getElementById('fdP').textContent=fK(sv(plan));document.getElementById('fdQ').textContent=data.length;document.getElementById('fdMs').textContent=new Set(data.map(r=>r.MesNum)).size;
   document.getElementById('fdSub').textContent=`${data.length} lançamentos · Real: ${fK(sv(real))}`;
   const sb=s=>s==='Equipment Expenses'?'<span class="badge beq">Equip</span>':s==='Other Fixed Expenses'?'<span class="badge bfix">Fixed</span>':'<span class="badge bvar">Var</span>';
-  document.getElementById('tFD').innerHTML=data.map(r=>`<tr><td>${r.Mes} ${r.Ano}</td><td>${sb(r.Subcategory)}</td><td style="font-size:10px">${r.CC}</td><td style="font-size:10px">${r.Tipo||'—'}</td><td>${r.Origem==='Forecast'?'<span class="tag tpl">Forecast</span>':'<span class="tag tok">Real</span>'}</td><td style="text-align:right;font-weight:600">${fR(r.Valor)}</td></tr>`).join('');
+  document.getElementById('tFD').innerHTML=data.sort((a,b)=>(a.Ano*100+a.MesNum)-(b.Ano*100+b.MesNum)).map(r=>`<tr><td>${r.Mes}/${String(r.Ano).slice(2)}</td><td>${sb(r.Subcategory)}</td><td style="font-size:10px">${r.CC}</td><td style="font-size:10px">${r.Tipo||'—'}</td><td>${r.Origem==='Forecast'?'<span class="tag tpl">Forecast</span>':'<span class="tag tok">Real</span>'}</td><td style="text-align:right;font-weight:600">${fR(r.Valor)}</td></tr>`).join('');
   document.getElementById('modalFD').classList.remove('hidden');
 }
 
@@ -1465,33 +1812,128 @@ function exportBudget(){if(!rawData.length){alert('Sem dados.');return;}const su
 // FORNECEDORES
 // ═══════════════════════════════════════════
 function renderForn(){
-  const db=rawData.filter(r=>r.Origem==='Realizado');
-  if(!db.length){document.getElementById('fEmp').style.display='flex';document.getElementById('fCont').style.display='none';return;}
-  document.getElementById('fEmp').style.display='none';document.getElementById('fCont').style.display='block';
-  if(document.getElementById('ffMes').options.length<=1)populateF();
-  const mes=document.getElementById('ffMes')?.value,sub=document.getElementById('ffSub')?.value,cc=document.getElementById('ffCC')?.value;
-  const busca=(document.getElementById('ffBsc')?.value||'').toLowerCase().trim();
-  let fd=db;
-  if(mes)fd=fd.filter(r=>r.MesNum===parseInt(mes));if(sub)fd=fd.filter(r=>r.Subcategory===sub);if(cc)fd=fd.filter(r=>r.CC===cc);if(busca)fd=fd.filter(r=>(r.Fornecedor||'').toLowerCase().includes(busca));
-  const total=fd.reduce((s,r)=>s+r.Valor,0);const uF=new Set(fd.map(r=>r.Fornecedor)).size;
-  document.getElementById('fKpis').innerHTML=`<div class="kpi dk"><div class="kl">Total Realizado</div><div class="kv">${fK(total)}</div><div class="ks">${fd.length} lançamentos</div></div><div class="kpi teal"><div class="kl">Fornecedores</div><div class="kv" style="color:var(--teal)">${uF}</div><div class="ks">distintos</div></div><div class="kpi blue"><div class="kl">Meses</div><div class="kv" style="color:var(--blue)">${new Set(fd.map(r=>r.MesNum)).size}</div><div class="ks">com dados</div></div><div class="kpi amber"><div class="kl">Média/Fornecedor</div><div class="kv" style="color:var(--amber)">${uF?fK(total/uF):'—'}</div><div class="ks">realizado médio</div></div>`;
-  const fMap={};fd.forEach(r=>{fMap[r.Fornecedor||'N/A']=(fMap[r.Fornecedor||'N/A']||0)+r.Valor;});
-  const fSrt=Object.entries(fMap).sort((a,b)=>b[1]-a[1]).slice(0,15);
-  const fH=Math.max(280,fSrt.length*32+50);document.getElementById('wFR').style.height=fH+'px';
-  dc('cFR');chts.cFR=new Chart(document.getElementById('cFR'),{type:'bar',data:{labels:fSrt.map(f=>f[0].length>26?f[0].substring(0,24)+'…':f[0]),datasets:[{data:fSrt.map(f=>f[1]),backgroundColor:'rgba(29,107,44,.78)',borderColor:C1,borderWidth:1,borderRadius:3}]},options:{indexAxis:'y',...CD,onClick:(ev,els)=>{if(els.length)abrirFD(fSrt[els[0].index][0]);},onHover:(ev,els)=>{ev.native.target.style.cursor=els.length?'pointer':'default';},scales:{x:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}},y:{...AS,ticks:{font:{size:10}}}}}});
-  const top6=fSrt.slice(0,6).map(e=>e[0]);const mA=[...new Set(db.map(r=>r.MesNum))].sort((a,b)=>a-b);const cores=[C1,'#2da042',C2,CT,CB,CA];
-  dc('cFE');chts.cFE=new Chart(document.getElementById('cFE'),{type:'line',data:{labels:mA.map(m=>MSF[m-1]),datasets:top6.map((forn,i)=>({label:forn.length>16?forn.substring(0,14)+'…':forn,data:mA.map(mn=>db.filter(r=>r.Fornecedor===forn&&r.MesNum===mn).reduce((s,r)=>s+r.Valor,0)),borderColor:cores[i],backgroundColor:cores[i]+'22',fill:false,tension:.3,pointRadius:3,borderWidth:2}))},options:{...CD,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:9,padding:7}}},scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
-  const{f:sf,asc:sa}=_fSrt;
-  const sorted=[...fd].sort((a,b)=>{const va=a[sf]||'',vb=b[sf]||'';if(typeof va==='number')return sa?va-vb:vb-va;return sa?va.localeCompare(vb):vb.localeCompare(va);});
-  const pages=Math.ceil(sorted.length/FPP);_fPg=Math.min(_fPg,Math.max(1,pages));
-  const slice=sorted.slice((_fPg-1)*FPP,_fPg*FPP);
-  document.getElementById('fTotal').textContent=`${sorted.length.toLocaleString('pt-BR')} lançamentos`;
-  const sb=s=>s==='Equipment Expenses'?'<span class="badge beq">Equip</span>':s==='Other Fixed Expenses'?'<span class="badge bfix">Fixed</span>':'<span class="badge bvar">Var</span>';
-  document.getElementById('tForn').innerHTML=slice.map(r=>`<tr style="cursor:pointer" onclick="abrirFD('${(r.Fornecedor||'').replace(/'/g,"\\'")}')"><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;" title="${r.Fornecedor||''}">${r.Fornecedor||'—'}</td><td style="font-size:10px">${r.CC||'—'}</td><td>${sb(r.Subcategory)}</td><td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;font-size:10px;color:var(--gray-500);" title="${r.Descricao||''}">${r.Descricao||'—'}</td><td>${MSF[r.MesNum-1]||r.Mes}</td><td style="font-size:10px;color:var(--gray-400)">${r.Tipo||'—'}</td><td style="text-align:right;font-weight:600;color:${r.Valor<0?'var(--red)':'inherit'}">${fK(r.Valor)}</td></tr>`).join('');
-  const pags=[];if(pages>1){if(_fPg>1)pags.push(`<button class="btn bg" style="padding:3px 8px;font-size:11px;" onclick="_fPg--;renderForn()">‹</button>`);for(let p=Math.max(1,_fPg-2);p<=Math.min(pages,_fPg+2);p++)pags.push(`<button class="btn ${p===_fPg?'bp':'bg'}" style="padding:3px 8px;font-size:11px;" onclick="_fPg=${p};renderForn()">${p}</button>`);if(_fPg<pages)pags.push(`<button class="btn bg" style="padding:3px 8px;font-size:11px;" onclick="_fPg++;renderForn()">›</button>`);}
-  document.getElementById('fPag').innerHTML=pags.join('');
+  try{
+    // Use Database rows if available, else rawData Realizado
+    const db=window._dbRows&&window._dbRows.length?window._dbRows:rawData.filter(r=>r.Origem==='Realizado');
+    
+    if(!db.length){
+      document.getElementById('fEmp').style.display='flex';
+      document.getElementById('fCont').style.display='none';
+      return;
+    }
+    document.getElementById('fEmp').style.display='none';
+    document.getElementById('fCont').style.display='block';
+
+    if(document.getElementById('ffMes').options.length<=1)populateF();
+
+    const mesF=document.getElementById('ffMes')?.value;
+    const subF=document.getElementById('ffSub')?.value;
+    const ccF=document.getElementById('ffCC')?.value;
+    const bsc=(document.getElementById('ffBsc')?.value||'').toLowerCase().trim();
+
+    let fd=[...db];
+    if(mesF)fd=fd.filter(r=>r.MesNum==parseInt(mesF)&&(r.Ano===2026||!r.Ano));
+    if(subF)fd=fd.filter(r=>r.Subcategory===subF);
+    if(ccF)fd=fd.filter(r=>r.CC===ccF);
+    if(bsc)fd=fd.filter(r=>(r.Fornecedor||'').toLowerCase().includes(bsc)||(r.Descricao||'').toLowerCase().includes(bsc));
+
+    const total=fd.reduce((s,r)=>s+r.Valor,0);
+    const uF=new Set(fd.map(r=>r.Fornecedor)).size;
+    const eqTotal=fd.filter(r=>r.Subcategory==='Equipment Expenses').reduce((a,r)=>a+r.Valor,0);
+    const otherTotal=fd.filter(r=>r.Subcategory!=='Equipment Expenses').reduce((a,r)=>a+r.Valor,0);
+
+    document.getElementById('fKpis').innerHTML=`
+      <div class="kpi dk"><div class="kl">Total Realizado</div><div class="kv">${fK(total)}</div><div class="ks">${fd.length} lançamentos</div></div>
+      <div class="kpi teal"><div class="kl">Fornecedores</div><div class="kv" style="color:var(--teal)">${uF}</div><div class="ks">distintos</div></div>
+      <div class="kpi blue"><div class="kl">Equipment</div><div class="kv" style="color:var(--blue)">${fK(eqTotal)}</div><div class="ks">Equipment Exp.</div></div>
+      <div class="kpi"><div class="kl">Fixed + Variable</div><div class="kv">${fK(otherTotal)}</div><div class="ks">outros</div></div>
+      <div class="kpi amber"><div class="kl">Meses</div><div class="kv" style="color:var(--amber)">${new Set(fd.map(r=>r.MesNum)).size}</div><div class="ks">com dados</div></div>
+      <div class="kpi"><div class="kl">Média/Fornecedor</div><div class="kv">${uF?fK(total/uF):'—'}</div><div class="ks">ticket médio</div></div>`;
+
+    // Charts
+    const fMap={};
+    fd.forEach(r=>{const f=r.Fornecedor||'N/A';fMap[f]=(fMap[f]||0)+r.Valor;});
+    const fSrt=Object.entries(fMap).sort((a,b)=>b[1]-a[1]).slice(0,15);
+    const fH=Math.max(280,fSrt.length*32+50);
+    document.getElementById('wFR').style.height=fH+'px';
+    dc('cFR');
+    chts.cFR=new Chart(document.getElementById('cFR'),{
+      type:'bar',
+      data:{labels:fSrt.map(f=>f[0].length>28?f[0].substring(0,26)+'…':f[0]),
+        datasets:[{data:fSrt.map(f=>f[1]),backgroundColor:'rgba(29,107,44,.78)',borderColor:C1,borderWidth:1,borderRadius:3}]},
+      options:{indexAxis:'y',...CD,
+        onClick:(ev,els)=>{if(els.length)abrirFD(fSrt[els[0].index][0]);},
+        onHover:(ev,els)=>{ev.native.target.style.cursor=els.length?'pointer':'default';},
+        scales:{x:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}},y:{...AS,ticks:{font:{size:10}}}}}});
+
+    // Evolution chart - top 6 vendors by month
+    const top6=fSrt.slice(0,6).map(e=>e[0]);
+    const mA=[...new Set(db.map(r=>r.MesNum))].sort((a,b)=>a-b);
+    const mLabels=mA.map(mn=>{
+      const ms=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      const row=db.find(r=>r.MesNum===mn);
+      const yr=row&&row.Ano?String(row.Ano).slice(-2):'26';
+      return (ms[(mn-1)%12]||'')+'/'+yr;
+    });
+    const cores=[C1,'#2da042',C2,CT,CB,CA];
+    dc('cFE');
+    chts.cFE=new Chart(document.getElementById('cFE'),{
+      type:'line',
+      data:{labels:mLabels,
+        datasets:top6.map((forn,i)=>({
+          label:forn.length>16?forn.substring(0,14)+'…':forn,
+          data:mA.map(mn=>db.filter(r=>r.Fornecedor===forn&&r.MesNum===mn).reduce((s,r)=>s+r.Valor,0)),
+          borderColor:cores[i],backgroundColor:cores[i]+'22',fill:false,tension:.3,pointRadius:3,borderWidth:2
+        }))},
+      options:{...CD,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:9,padding:7}}},
+        scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
+
+    // Table
+    const{f:sf,asc:sa}=_fSrt;
+    const sorted=[...fd].sort((a,b)=>{
+      const va=a[sf]||'',vb=b[sf]||'';
+      if(typeof va==='number')return sa?va-vb:vb-va;
+      return sa?String(va).localeCompare(String(vb)):String(vb).localeCompare(String(va));
+    });
+    const pages=Math.ceil(sorted.length/FPP);
+    _fPg=Math.min(_fPg,Math.max(1,pages));
+    const slice=sorted.slice((_fPg-1)*FPP,_fPg*FPP);
+    document.getElementById('fTotal').textContent=sorted.length.toLocaleString('pt-BR')+' lançamentos';
+
+    const sb=s=>s==='Equipment Expenses'?'<span class="badge beq">Equip</span>':
+                s==='Other Fixed Expenses'?'<span class="badge bfix">Fixed</span>':'<span class="badge bvar">Var</span>';
+    const mesLbl=(mn,ano)=>{
+      const ms=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+      const yr=ano?String(ano).slice(-2):'26';
+      return (ms[(mn-1)%12]||'')+'/'+yr;
+    };
+
+    document.getElementById('tForn').innerHTML=slice.map(r=>`<tr style="cursor:pointer" onclick="abrirFD('${(r.Fornecedor||'').replace(/\\/g,'').replace(/'/g,'&#39;')}')">
+      <td style="font-weight:600;max-width:180px;overflow:hidden;text-overflow:ellipsis;" title="${(r.Fornecedor||'').replace(/"/g,'&quot;')}">${r.Fornecedor||'—'}</td>
+      <td style="font-size:10px">${r.CC||'—'}</td>
+      <td>${sb(r.Subcategory)}</td>
+      <td style="font-size:10px;max-width:150px;overflow:hidden;text-overflow:ellipsis;">${r.Descricao||'—'}</td>
+      <td style="font-size:10px">${mesLbl(r.MesNum,r.Ano)}</td>
+      <td style="font-size:10px;color:var(--gray-400)">${r.Tipo||'—'}</td>
+      <td style="text-align:right;font-weight:600">${fK(r.Valor)}</td>
+    </tr>`).join('');
+
+    // Pagination
+    const pags=[];
+    if(pages>1){
+      if(_fPg>1)pags.push('<button class="btn bg" style="padding:3px 8px;font-size:11px;" onclick="_fPg--;renderForn()">‹</button>');
+      for(let p=Math.max(1,_fPg-2);p<=Math.min(pages,_fPg+2);p++)
+        pags.push('<button class="btn '+(p===_fPg?'bp':'bg')+'" style="padding:3px 8px;font-size:11px;" onclick="_fPg='+p+';renderForn()">'+p+'</button>');
+      if(_fPg<pages)pags.push('<button class="btn bg" style="padding:3px 8px;font-size:11px;" onclick="_fPg++;renderForn()">›</button>');
+    }
+    document.getElementById('fPag').innerHTML=pags.join('');
+  }catch(err){
+    console.error('[renderForn]',err);
+    const el=document.getElementById('fKpis');
+    if(el)el.innerHTML='<div class="kpi" style="grid-column:1/-1;color:var(--red);">Erro ao renderizar fornecedores: '+err.message+'</div>';
+  }
 }
-function fSort(f){if(_fSrt.f===f)_fSrt.asc=!_fSrt.asc;else{_fSrt.f=f;_fSrt.asc=f!=='Valor';}_fPg=1;renderForn();}
+
 function exportFornCsv(){const db=rawData.filter(r=>r.Origem==='Realizado');const h='Fornecedor;CC;Sub;Mês;Tipo;Valor';const rows=db.map(r=>[r.Fornecedor,r.CC,r.Subcategory,r.Mes,r.Tipo,r.Valor.toFixed(2)].join(';'));const b=new Blob([h+'\n'+rows.join('\n')],{type:'text/csv;charset=utf-8;'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='fornecedores.csv';a.click();}
 
 // ═══════════════════════════════════════════
@@ -1572,7 +2014,42 @@ function salvarC(){
   cModal('modalC');renderCompPage();toast('✓ Salvo!','ok');
 }
 function delC(id){if(!confirm('Excluir?'))return;comps=comps.filter(c=>c.id!==id);dbDel('compras',id).catch(console.warn);renderCompPage();}
-function renderCompPage(){renderCKpis();renderComp();renderCCharts();renderCompPvR();}
+function renderCompPage(){
+  renderCKpis();
+  renderComp();
+  renderCCharts();
+  renderCompPvR();
+  renderCompServicosDetalhe();
+}
+
+function renderCompServicosDetalhe(){
+  const fmt=v=>v>0?fK(v):'R$ 0';
+  ['Compra','Serviço'].forEach(tipo=>{
+    const items=comps.filter(c=>c.tipo===tipo);
+    const orc=items.reduce((a,c)=>a+c.valOrc,0);
+    const aprov=items.reduce((a,c)=>a+c.valAprov,0);
+    const real=items.reduce((a,c)=>a+c.valReal,0);
+    const pend=items.filter(c=>!['Finalizado','Cancelado'].includes(c.status)).length;
+    const elId=tipo==='Compra'?'kComprasDetalhe':'kServicosDetalhe';
+    const el=document.getElementById(elId);
+    if(!el)return;
+    const cor=tipo==='Compra'?'var(--blue)':'var(--teal)';
+    el.innerHTML=`
+      <div style="text-align:center;background:#f8fafc;border-radius:7px;padding:9px;">
+        <div style="font-size:9px;color:var(--gray-400);text-transform:uppercase;margin-bottom:3px;">Orçado</div>
+        <div style="font-size:16px;font-weight:800;color:${cor};">${fmt(orc)}</div>
+      </div>
+      <div style="text-align:center;background:#f8fafc;border-radius:7px;padding:9px;">
+        <div style="font-size:9px;color:var(--gray-400);text-transform:uppercase;margin-bottom:3px;">Aprovado</div>
+        <div style="font-size:16px;font-weight:800;color:var(--g7);">${fmt(aprov)}</div>
+      </div>
+      <div style="text-align:center;background:#f8fafc;border-radius:7px;padding:9px;">
+        <div style="font-size:9px;color:var(--gray-400);text-transform:uppercase;margin-bottom:3px;">Realizado</div>
+        <div style="font-size:16px;font-weight:800;color:var(--g6);">${fmt(real)}</div>
+        <div style="font-size:9px;color:var(--gray-400);">${pend} em aberto</div>
+      </div>`;
+  });
+}
 
 function renderCompPvR(){
   const mesF=parseInt(document.getElementById('cpvMes')?.value||0)||0;
@@ -1909,7 +2386,7 @@ function renderMatriz(){
     </div>
     <div class="kpi dk"><div class="kl">Horas de Parada</div><div class="kv">${Math.round(totH).toLocaleString('pt-BR')}</div><div class="ks">acumulado total</div></div>
     <div class="kpi teal"><div class="kl">Total Eventos</div><div class="kv" style="color:var(--teal)">${totP.toLocaleString('pt-BR')}</div><div class="ks">registros</div></div>
-    <div class="kpi blue"><div class="kl">MTTR Médio</div><div class="kv" style="color:var(--blue)">${avgMTTR}h</div><div class="ks">tempo médio reparo</div></div>
+    <div class="kpi blue"><div class="kl">MTTR Médio</div><div class="kv" style="color:var(--blue)">${avgMTBF}h</div><div class="ks">tempo médio entre falhas</div></div>
   `;
 
   // Populate maq filter
@@ -1937,10 +2414,10 @@ function renderMatriz(){
         const lightBg=score>=15?'#fef2f2':score>=8?'#fffbeb':'#f0fdf4';
         const maqsHere=fd.filter(r=>r.sev_display===s&&r.prob_display===p);
         const dots=maqsHere.map(r=>`<span title="${r.maq} — ${r.prior}" 
-          style="display:inline-block;min-width:16px;height:16px;border-radius:3px;
-          background:${priorColor(r.prior)};color:#fff;font-size:7px;font-weight:800;
-          line-height:16px;text-align:center;margin:1px;padding:0 2px;cursor:pointer;"
-          onclick="destacarMaquina('${r.maq}')">${r.maq.slice(1)}</span>`).join('');
+          style="display:inline-block;min-width:24px;height:18px;border-radius:4px;
+          background:${priorColor(r.prior)};color:#fff;font-size:8px;font-weight:800;
+          line-height:18px;text-align:center;margin:1px;padding:0 3px;cursor:pointer;white-space:nowrap;"
+          onclick="destacarMaquina('${r.maq}')">${r.maq}</span>`).join('');
         html+=`<div style="background:${lightBg};border:1.5px solid ${color}33;border-radius:6px;min-height:48px;padding:3px;position:relative;">
           <div style="position:absolute;top:2px;right:3px;font-size:10px;font-weight:900;color:${color};">${score}</div>
           <div style="margin-top:14px;display:flex;flex-wrap:wrap;">${dots}</div>
@@ -1983,9 +2460,9 @@ function renderMatriz(){
   const topMTBF=[...fd].sort((a,b)=>(a.mtbf||0)-(b.mtbf||0)).slice(0,12); // menor MTBF = mais crítico
   chts.cMatrizMTTR=new Chart(document.getElementById('cMatrizMTTR'),{
     type:'bar',
-    data:{labels:topMTTR.map(r=>r.maq),
-      datasets:[{data:topMTTR.map(r=>r.mttr),
-        backgroundColor:topMTTR.map(r=>r.prior==='CRÍTICA'?'rgba(220,38,38,.75)':r.prior==='PROGRAMADA'?'rgba(245,158,11,.75)':'rgba(22,163,74,.75)'),
+    data:{labels:topMTBF.map(r=>r.maq),
+      datasets:[{data:topMTBF.map(r=>r.mtbf||0),
+        backgroundColor:topMTBF.map(r=>r.prior==='CRÍTICA'?'rgba(220,38,38,.75)':r.prior==='PROGRAMADA'?'rgba(245,158,11,.75)':'rgba(22,163,74,.75)'),
         borderRadius:4,label:'MTBF (h)'}]},
     options:{indexAxis:'y',...CD,scales:{x:{...AS,ticks:{...AS.ticks,callback:v=>v+'h'}},y:{...AS}}}
   });
@@ -2019,21 +2496,22 @@ function renderMatriz(){
   document.getElementById('tbMatriz').innerHTML=fd.map((r,idx)=>`
     <tr id="mzrow-${r.maq}" style="cursor:pointer;border-left:3px solid ${r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#f59e0b':'#16a34a'};" 
         onclick="toggleMatrizDetail('${r.maq}')">
+      <td style="text-align:center;"><input type="checkbox" class="mz-sel" value="${r.maq}" onchange="updateMatrizSelection()"></td>
       <td style="font-weight:800;color:#1e3a5f;font-size:13px;">${r.maq}</td>
       <td>${priorTag(r.prior)}</td>
       <td>${barScore(r)}</td>
-      <td style="font-size:11px;max-width:120px;overflow:hidden;text-overflow:ellipsis;" title="${r.top_falha}">${nomeFalha(r.top_falha)}</td>
+      <td style="font-size:11px;max-width:140px;overflow:hidden;text-overflow:ellipsis;" title="${r.top_falha}">${nomeFalha(r.top_falha)}</td>
       <td style="text-align:right;font-weight:600;font-size:12px;">${r.paradas}</td>
       <td style="text-align:right;font-weight:700;color:#1e3a5f;font-size:12px;">${r.horas.toLocaleString('pt-BR')}h</td>
-      <td style="text-align:right;color:var(--teal);font-size:12px;">${r.mttr}h</td>
+      <td style="text-align:right;color:var(--teal);font-size:12px;font-weight:700;">${r.mtbf||r.mttr}h</td>
       <td>${rec(r)}</td>
       <td>
-        <button class="btn" style="padding:2px 8px;font-size:9px;background:linear-gradient(135deg,#1e3a5f,#1d4ed8);color:#fff;"
-          onclick="event.stopPropagation();abrirManutFromMatriz('${r.maq}','${r.top_falha}','${r.prior}')">+ Ordem</button>
+        <button class="btn" style="padding:2px 8px;font-size:9px;background:linear-gradient(135deg,#065f46,#0d9488);color:#fff;"
+          onclick="event.stopPropagation();gerarRelatorioMaquina('${r.maq}')">📋 Relatório</button>
       </td>
     </tr>
     <tr id="mzdet-${r.maq}" style="display:none;background:linear-gradient(135deg,#f8faff,#f5f8ff);">
-      <td colspan="9" style="padding:12px 16px;">
+      <td colspan="10" style="padding:12px 16px;">
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">
           <div style="background:#fff;border-radius:10px;padding:11px;border-left:4px solid #1d4ed8;">
             <div style="font-size:9px;font-weight:700;color:#1e3a5f;text-transform:uppercase;margin-bottom:6px;">📊 Top 3 Falhas</div>
@@ -2109,6 +2587,26 @@ function abrirManutFromMatriz(maq,falha,prior){
 // ═══════════════════════════════════════════
 // SUPABASE — Salvar/Carregar Análises
 // ═══════════════════════════════════════════
+
+async function criarTabelaMatriz(){
+  const sb=getSB();if(!sb)return false;
+  try{
+    const sql=`CREATE TABLE IF NOT EXISTS matriz_analises (
+      id bigint generated always as identity primary key,
+      data text, periodo_tipo text, periodo_ref text,
+      total_maquinas integer, alta integer, media integer, baixa integer,
+      total_horas integer, total_paradas integer, mttr_medio numeric,
+      criticas text, resumo_json text
+    );`;
+    await sb.rpc('exec_sql',{sql});
+    console.log('[Supabase] tabela matriz_analises criada');
+    return true;
+  }catch(e){
+    console.warn('[Supabase] Não foi possível criar tabela via RPC:',e.message);
+    return false;
+  }
+}
+
 async function salvarMatrizSupabase(){
   const sb=getSB();
   if(!sb){toast('Sem conexão com banco de dados','err');return;}
@@ -2239,7 +2737,7 @@ function genMatrizIA(){
       • <strong>Cód. 56 (Power Failure):</strong> ${cod56} ocorrências — risco elétrico. Verificar quadros, contatores e aterramento com urgência.`);
 
     h+=blk('b','⏱','ATENÇÃO AO MTTR — Tempo de Reparo',
-      `Top 3 maiores MTTR: <strong>${topMTTR.map(r=>`${r.maq} (${r.mttr}h)`).join(' · ')}</strong><br>
+      `Top 3 menor MTBF: <strong>${topMTBF_ia.map(r=>`${r.maq} (${r.mtbf}h)`).join(' · ')}</strong><br>
       MTBF baixo indica alta frequência de falhas. Priorizar inspeção preditiva e manutenção preventiva nessas máquinas.`);
 
     h+=blk('g','🟢','EM ATENÇÃO — Monitoramento Preditivo',
@@ -2321,12 +2819,14 @@ function exportMatrizExcel(){
 // Atualiza automaticamente quando dados mudam
 // ═══════════════════════════════════════════
 function calcBridge(){
-  if(!window.dbRows||!window.fcRows)return null;
-  const all=[...window.dbRows,...window.fcRows];
+  // Use rawData directly (set by processData)
+  if(!rawData||!rawData.length)return null;
+  const fcRows=rawData.filter(r=>r.Origem==='Forecast');
+  const dbRows=rawData.filter(r=>r.Origem==='Realizado');
 
-  // Planejado por mês (Forecast)
+  // Planejado por mês (Budget OP26)
   const planMes={};
-  (window.fcRows||[]).forEach(r=>{
+  fcRows.forEach(r=>{
     const k=r.Mes;
     if(!planMes[k])planMes[k]={plan:0,meses:r.MesNum};
     planMes[k].plan+=(r.Valor||0);
@@ -2334,14 +2834,14 @@ function calcBridge(){
 
   // Realizado por mês (Actual)
   const realMes={};
-  (window.dbRows||[]).forEach(r=>{
+  dbRows.forEach(r=>{
     const k=r.Mes;
     if(!realMes[k])realMes[k]={real:0,mes:r.MesNum};
     realMes[k].real+=(r.Valor||0);
   });
 
   // Compras: planejado = valOrc, realizado = valReal
-  const compras=window._comprasData||[];
+  const compras=comps||[];
   const compPlanMes={};const compRealMes={};
   compras.forEach(c=>{
     if(!c.dataSol)return;
@@ -2354,9 +2854,9 @@ function calcBridge(){
   });
 
   // Manutenções: orçado vs realizado
-  const manuts=window._manutsData||[];
+  const manutsBridge=manuts||[];
   const maintPlanMes={};const maintRealMes={};
-  manuts.forEach(m=>{
+  manutsBridge.forEach(m=>{
     if(!m.dataPlan)return;
     const mes=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
       [new Date(m.dataPlan).getMonth()]||'';
@@ -2409,8 +2909,7 @@ function exportPlanFinCsv(){
     const mO=manuts.filter(mn=>{const d=mn.dataPlan||mn.dataReal||'';const mm=d?parseInt(d.split('-')[1]||d.split('/')[1]):0;return mm===m;}).reduce((a,mn)=>a+pNum(mn.orcado),0);
     rows.push([MSF[m-1]+'/26',bgt.toFixed(2),(cO+mO).toFixed(2),rl.toFixed(2),(bgt-rl).toFixed(2),bgt>0?Math.round(rl/bgt*100)+'%':'0%']);
   }
-  const csv=rows.map(r=>r.join(';')).join('
-');
+  const csv=rows.map(r=>r.join(';')).join('\n');
   const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
   a.download='Planning_Financeiro.csv';a.click();
 }
@@ -2422,8 +2921,7 @@ function exportPlanFinCsv(){
 function exportPlanManutCsv(){
   const rows=[['Equipamento','Tipo','Status','Criticidade','Data Plan.','Data Real.','Orçado','Realizado','Desvio']];
   manuts.forEach(m=>rows.push([m.equip||m.eq||'—',m.tipo||'—',m.status||'—',m.critica||'—',m.dataPlan||'—',m.dataReal||'—',pNum(m.orcado).toFixed(2),pNum(m.realizado).toFixed(2),(pNum(m.orcado)-pNum(m.realizado)).toFixed(2)]));
-  const csv=rows.map(r=>r.join(';')).join('
-');
+  const csv=rows.map(r=>r.join(';')).join('\n');
   const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
   a.download='Planning_Manutencao.csv';a.click();
 }
@@ -2464,7 +2962,7 @@ function renderPlanFin(){
   const totCompPlan=rows.reduce((a,r)=>a+r.compPlan,0);
   const totCompReal=rows.reduce((a,r)=>a+r.compReal,0);
 
-  document.getElementById('planFinKpis').innerHTML=`
+  document.getElementById('pfKpis').innerHTML=`
     <div class="kpi" style="border-top:3px solid #0d9488;">
       <div class="kl">Budget Planejado (OMPR)</div>
       <div class="kv" style="color:#0d9488;">${fmtR(totPlanAll)}</div>
@@ -2515,9 +3013,28 @@ function renderPlanFin(){
         <td style="text-align:right;font-weight:700;color:#065f46;">${fmtR(r.totReal)}</td>
       </tr>`)
       .join('')
-    :`<tr><td colspan="9" style="text-align:center;color:var(--gray-400);padding:20px;">
-        Processe o arquivo OMPR e cadastre compras para ver o consolidado financeiro
+    :`<tr><td colspan="9" style="text-align:center;padding:24px;">
+        <div style="font-size:32px;margin-bottom:10px;">📤</div>
+        <div style="font-weight:700;color:var(--g8);margin-bottom:6px;">Faça upload do arquivo OMPR primeiro</div>
+        <div style="font-size:11px;color:var(--gray-400);margin-bottom:12px;">Vá em Upload → selecione o OMPR_Detail.xlsb → clique Processar Dados</div>
+        <button class="btn bp" onclick="showPage('upload')">↑ Ir para Upload</button>
       </td></tr>`;
+
+  // Compras planejadas table
+  const cpEl=document.getElementById('tbComprasPlan');
+  if(cpEl){
+    const filtComps=comps.filter(c=>!['Finalizado','Cancelado'].includes(c.status));
+    cpEl.innerHTML=filtComps.length
+      ?filtComps.map(c=>`<tr>
+        <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${c.desc||'—'}</td>
+        <td>${c.subcat?c.subcat.replace(' Expenses',''):'—'}</td>
+        <td style="font-size:10px;">${c.forn||'—'}</td>
+        <td style="text-align:right;">${fmtR(c.valOrc)}</td>
+        <td style="text-align:right;color:#0d9488;">${c.valReal>0?fmtR(c.valReal):'—'}</td>
+        <td>${stTag(c.status)}</td>
+      </tr>`).join('')
+      :'<tr><td colspan="6" style="text-align:center;color:var(--gray-400);padding:12px;">Nenhuma compra cadastrada</td></tr>';
+  }
 
   // Total row
   document.getElementById('tfPlanFin').innerHTML=`
@@ -2535,24 +3052,37 @@ function renderPlanFin(){
 
   // Charts
   const chartMeses=activeRows.length?activeRows.map(r=>r.mes):['Jan','Fev','Mar','Abr'];
-  dc('cPlanFinMensal');
-  chts.cPlanFinMensal=new Chart(document.getElementById('cPlanFinMensal'),{
+  dc('cPFMensal');
+  chts.cPFMensal=new Chart(document.getElementById('cPFMensal'),{
     type:'bar',
     data:{labels:chartMeses,datasets:[
-      {label:'Forecast (OMPR)',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.plan),backgroundColor:'rgba(13,148,136,.4)',borderRadius:4},
-      {label:'Realizado (Actual)',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.real),backgroundColor:'rgba(6,95,70,.8)',borderRadius:4}
+      {label:'Budget OP26',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.plan),backgroundColor:'rgba(29,107,44,.5)',borderRadius:4},
+      {label:'Realizado (Actual)',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.real),backgroundColor:'rgba(13,148,136,.8)',borderRadius:4}
     ]},
     options:{...CD,scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
   });
 
-  dc('cPlanFinCompras');
-  chts.cPlanFinCompras=new Chart(document.getElementById('cPlanFinCompras'),{
+  dc('cPFSub');
+  // Subcategory distribution pie
+  const subNames=['Equipment','Fixed','Variable'];
+  const subReal=[
+    rawData.filter(r=>r.Origem==='Realizado'&&r.Subcategory==='Equipment Expenses').reduce((a,r)=>a+r.Valor,0),
+    rawData.filter(r=>r.Origem==='Realizado'&&r.Subcategory==='Other Fixed Expenses').reduce((a,r)=>a+r.Valor,0),
+    rawData.filter(r=>r.Origem==='Realizado'&&r.Subcategory==='Other Variable Expenses').reduce((a,r)=>a+r.Valor,0)
+  ];
+  const subBgt=[
+    rawData.filter(r=>r.Origem==='Forecast'&&r.Subcategory==='Equipment Expenses').reduce((a,r)=>a+r.Valor,0),
+    rawData.filter(r=>r.Origem==='Forecast'&&r.Subcategory==='Other Fixed Expenses').reduce((a,r)=>a+r.Valor,0),
+    rawData.filter(r=>r.Origem==='Forecast'&&r.Subcategory==='Other Variable Expenses').reduce((a,r)=>a+r.Valor,0)
+  ];
+  chts.cPFSub=new Chart(document.getElementById('cPFSub'),{
     type:'bar',
-    data:{labels:chartMeses,datasets:[
-      {label:'Orçado',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.compPlan),backgroundColor:'rgba(13,148,136,.4)',borderRadius:4},
-      {label:'Realizado',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.compReal),backgroundColor:'rgba(6,95,70,.8)',borderRadius:4}
+    data:{labels:subNames,datasets:[
+      {label:'Budget OP26',data:subBgt,backgroundColor:'rgba(29,107,44,.5)',borderRadius:4},
+      {label:'Realizado',data:subReal,backgroundColor:'rgba(13,148,136,.8)',borderRadius:4}
     ]},
-    options:{...CD,scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
+    options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9}}},
+    scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
   });
 }
 
@@ -2578,14 +3108,14 @@ function exportPlanFinExcel(){
 // Puxado de: _manutsData (ordens cadastradas)
 // ═══════════════════════════════════════════
 function renderPlanManut(){
-  const manuts=window._manutsData||[];
+  const manutsData=manuts||[];
   const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   const fmt=v=>v?v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'—';
   const fmtR=v=>v!=null&&v>0?'R$ '+fmt(v):'—';
 
   // Group by month
   const byMes={};
-  manuts.forEach(m=>{
+  manutsData.forEach(m=>{
     const dt=m.dataPlan?new Date(m.dataPlan):null;
     const mes=dt?MESES[dt.getMonth()]:'';
     if(!mes)return;
@@ -2613,7 +3143,7 @@ function renderPlanManut(){
 
   // Status counts
   const statusAll={};
-  manuts.forEach(m=>{const s=m.status||'Pendente';statusAll[s]=(statusAll[s]||0)+1;});
+  manutsData.forEach(m=>{const s=m.status||'Pendente';statusAll[s]=(statusAll[s]||0)+1;});
 
   // KPIs
   document.getElementById('planManutKpis').innerHTML=`
@@ -2682,8 +3212,8 @@ function renderPlanManut(){
   // Charts
   const chartMeses=activeRows.length?activeRows.map(r=>r.mes):['Jan','Fev','Mar','Abr'];
   const chartData=activeRows.length?activeRows:rows.slice(0,4);
-  dc('cPlanManutVal');
-  chts.cPlanManutVal=new Chart(document.getElementById('cPlanManutVal'),{
+  dc('cPMOrcReal');
+  chts.cPMOrcReal=new Chart(document.getElementById('cPMOrcReal'),{
     type:'bar',
     data:{labels:chartMeses,datasets:[
       {label:'Orçado',data:chartData.map(r=>r.orcado),backgroundColor:'rgba(99,102,241,.4)',borderRadius:4},
@@ -2692,19 +3222,33 @@ function renderPlanManut(){
     options:{...CD,scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
   });
 
-  dc('cPlanManutStatus');
+  dc('cPMTipo');
   const stLabels=Object.keys(statusAll);
   const stCols=['rgba(220,38,38,.8)','rgba(245,158,11,.8)','rgba(22,163,74,.8)','rgba(59,130,246,.8)','rgba(99,102,241,.8)'];
-  chts.cPlanManutStatus=new Chart(document.getElementById('cPlanManutStatus'),{
+  chts.cPMTipo=new Chart(document.getElementById('cPMTipo'),{
     type:'doughnut',
     data:{labels:stLabels,datasets:[{data:stLabels.map(s=>statusAll[s]),
       backgroundColor:stCols.slice(0,stLabels.length),borderWidth:0}]},
     options:{...CD,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:10,padding:10}}}}
   });
+  // Accumulated chart
+  dc('cPMAccum');
+  let accO=0,accR=0;
+  const accOrc=chartData.map(r=>{accO+=r.orcado;return accO;});
+  const accReal=chartData.map(r=>{accR+=r.realizado;return accR;});
+  chts.cPMAccum=new Chart(document.getElementById('cPMAccum'),{
+    type:'line',
+    data:{labels:chartMeses,datasets:[
+      {label:'Orçado Acum.',data:accOrc,borderColor:'rgba(99,102,241,.8)',backgroundColor:'rgba(99,102,241,.08)',fill:true,tension:.3,pointRadius:3,borderWidth:2},
+      {label:'Realizado Acum.',data:accReal,borderColor:'rgba(55,48,163,.9)',backgroundColor:'rgba(55,48,163,.08)',fill:true,tension:.3,pointRadius:3,borderWidth:2.5}
+    ]},
+    options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9}}},
+    scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
+  });
 }
 
 function exportPlanManutExcel(){
-  const manuts=window._manutsData||[];
+  const manutsData=manuts||[];
   const headers=['ID','Equipamento','Tipo','Categoria','Status','Criticidade','Responsável','Orçado','Realizado','Data Plan.','Data Real.'];
   const rows=manuts.map(m=>[m.id||'',m.equip||'',m.tipo||'',m.categoria||'',m.status||'',m.critica||'',m.resp||'',(m.orcado||0),(m.realizado||0),m.dataPlan||'',m.dataReal||'']);
   const ws2=XLSX.utils.aoa_to_sheet([headers,...rows]);
@@ -2810,6 +3354,659 @@ function _getPeriodoLabel(){
   return '';
 }
 
+
+
+// ═══════════════════════════════════════════
+// PROCESSAR BASE.XLSX — Matriz de Criticidade
+// Parse Planilha1: col8=injetora, col3=nome_falha, col4=tempo_parada, col8=data
+// ═══════════════════════════════════════════
+function processarBase(file){
+  if(!file) return;
+  const statusEl = document.getElementById('baseStatus');
+  const progBox = document.getElementById('baseProgress');
+  const progBar = document.getElementById('baseProgressBar');
+  const progLbl = document.getElementById('baseProgressLabel');
+  
+  statusEl.textContent = 'Lendo arquivo...';
+  statusEl.style.color = '#2563eb';
+  progBox.style.display = 'block';
+  progBar.style.width = '10%';
+  
+  const reader = new FileReader();
+  reader.onerror = () => { statusEl.textContent = 'Erro ao ler arquivo.'; statusEl.style.color = '#dc2626'; };
+  
+  reader.onload = (e) => {
+    try {
+      progLbl.textContent = 'Decodificando...';
+      progBar.style.width = '30%';
+      
+      const wb = XLSX.read(new Uint8Array(e.target.result), {type:'array', cellDates:true, raw:false});
+      
+      // Find Planilha1
+      const sheetName = wb.SheetNames.find(n => /planilha\s*1/i.test(n) || /sheet\s*1/i.test(n)) || wb.SheetNames[0];
+      progLbl.textContent = 'Lendo ' + sheetName + '...';
+      progBar.style.width = '50%';
+      
+      const ws = wb.Sheets[sheetName];
+      const rows = XLSX.utils.sheet_to_json(ws, {defval:null, header:1, raw:false});
+      
+      progLbl.textContent = 'Processando ' + rows.length.toLocaleString('pt-BR') + ' registros...';
+      progBar.style.width = '70%';
+      
+      // Process rows: col0=cod, col1=nome, col2=stat, col3=tempo, col4=area, col5=molde, col6=turno, col7=injetora, col8=data
+      const VALIDAS = /^([B-E])(\d{2})$/;
+      const SKIP = ['Start:','Prev.'];
+      const FALHA_SEV = {
+        'Mach defect':4,'Mach  Prob S':5,'Mach Prob S':5,
+        'Mold Prob D':3,'Mold Prob S':3,'Robot defect':3,'Robot Prob S':4,
+        'Power Failure':5,'Periph RM D':2,'Other Peri D':2,'Utility Pr S':3
+      };
+      const CODIGO_MAP = {
+        52:{filtros:['Mach defect','Mach  Prob S','Mach Prob S'],nome:'Mach Defect'},
+        53:{filtros:['Mold Prob D','Mold Prob S'],nome:'Mold Problem'},
+        55:{filtros:['Robot defect','Robot Prob S'],nome:'Robot Defect'},
+        56:{filtros:['Power Failure'],nome:'Power Failure'},
+        59:{filtros:['Periph RM D','Other Peri D'],nome:'Peripheral'},
+        60:{filtros:['Utility Pr S'],nome:'Utility Problem'}
+      };
+      
+      // Valid machines check
+      function isValid(maq){
+        if(!maq) return false;
+        const m = maq.toString().trim().match(/^([B-E])(\d{2})$/);
+        if(!m) return false;
+        const limits = {B:[1,11],C:[1,12],D:[1,11],E:[1,11]};
+        const [lo,hi] = limits[m[1]] || [99,0];
+        const n = parseInt(m[2]);
+        return n >= lo && n <= hi;
+      }
+      
+      // Collect all rows grouped by machine
+      const maqStats = {};
+      const allRows = [];
+      let parsed = 0;
+      
+      for(let ri = 1; ri < rows.length; ri++){
+        const row = rows[ri];
+        if(!row) continue;
+        const maq = (row[7]||'').toString().trim();
+        if(!isValid(maq)) continue;
+        
+        const nome = row[1] ? row[1].toString().trim() : '';
+        const tempo = parseFloat(row[3]) || 0;
+        const dataVal = row[8];
+        
+        // ONLY count rows where nome matches codes 52-60
+        // Discard: blank names, Start:*, Prev.Maint, Desc., and anything not in valid codes
+        const VALID_NOMES = [
+          'Mach defect','Mach  Prob S','Mach Prob S',
+          'Mold Prob D','Mold Prob S',
+          'Robot defect','Robot Prob S',
+          'Power Failure',
+          'Periph RM D','Other Peri D',
+          'Utility Pr S'
+        ];
+        if(!nome || !VALID_NOMES.includes(nome)) continue; // skip anything outside 52-60
+        
+        if(!maqStats[maq]) maqStats[maq] = {paradas:0, horas:0, tipos:{}, codigos:{}, datas:[]};
+        maqStats[maq].paradas++;
+        maqStats[maq].horas += tempo;
+        parsed++;
+        
+        let parsedDate = null;
+        if(dataVal){
+          try{
+            let d;
+            if(typeof dataVal === 'number' && dataVal > 40000){
+              // Excel serial number → convert to JS Date
+              d = new Date(Math.round((dataVal - 25569) * 86400 * 1000));
+            } else if(dataVal instanceof Date){
+              d = dataVal;
+            } else {
+              d = new Date(dataVal);
+            }
+            if(d && !isNaN(d.getTime()) && d.getFullYear() >= 2020){
+              maqStats[maq].datas.push(d); parsedDate = d;
+            }
+          }catch(e){}
+        }
+        // Collect for period grouping
+        allRows.push({maq, nome, tempo, date: parsedDate});
+        
+        if(nome && !SKIP.some(s => nome.includes(s)) && row[2] !== 'Desc.'){
+          if(!maqStats[maq].tipos[nome]) maqStats[maq].tipos[nome] = {count:0, horas:0};
+          maqStats[maq].tipos[nome].count++;
+          maqStats[maq].tipos[nome].horas += tempo;
+          
+          for(const [cod, info] of Object.entries(CODIGO_MAP)){
+            if(info.filtros.includes(nome)){
+              if(!maqStats[maq].codigos[cod]) maqStats[maq].codigos[cod] = {count:0, horas:0, nome:info.nome};
+              maqStats[maq].codigos[cod].count++;
+              maqStats[maq].codigos[cod].horas += tempo;
+            }
+          }
+        }
+      }
+      
+      progLbl.textContent = 'Calculando criticidade...';
+      progBar.style.width = '85%';
+      
+      // Build results
+      const results = Object.entries(maqStats).map(([maq, stats]) => {
+        const falhas = Object.entries(stats.tipos).filter(([n]) => !SKIP.some(s => n.includes(s)));
+        const sev = falhas.reduce((mx, [n]) => Math.max(mx, FALHA_SEV[n]||2), 1);
+        const falhasCount = falhas.reduce((a,[,v]) => a + v.count, 0);
+        const horas = stats.horas;
+        const rawScore = (sev * falhasCount * 0.3) + (horas * 0.5) + (stats.paradas * 0.2);
+        
+        // MTBF
+        const datas = stats.datas.sort((a,b) => a-b);
+        let mtbf = 0;
+        if(datas.length >= 2 && falhasCount > 0){
+          const periodoH = (datas[datas.length-1] - datas[0]) / 3600000;
+          mtbf = Math.round(Math.max(0, periodoH - horas) / falhasCount * 10) / 10;
+        }
+        const mttr = stats.paradas > 0 ? Math.round(horas / stats.paradas * 100) / 100 : 0;
+        
+        const top3 = falhas.sort((a,b) => b[1].count - a[1].count).slice(0,3)
+          .map(([n,v]) => [n, v.count, Math.round(v.horas*10)/10]);
+        
+        return {
+          maq, paradas: stats.paradas, horas: Math.round(horas*10)/10,
+          mtbf, mttr, sev, falhas_count: falhasCount,
+          raw_score: Math.round(rawScore*10)/10,
+          top3, top_falha: top3[0]?.[0] || 'N/A',
+          codigos: Object.fromEntries(Object.entries(stats.codigos).map(([k,v]) => [k, {count:v.count, tempo:Math.round(v.horas*10)/10, nome:v.nome}]))
+        };
+      });
+      
+      // Sort and assign priority
+      results.sort((a,b) => b.raw_score - a.raw_score);
+      const n = results.length;
+      const top10 = Math.max(1, Math.min(10, Math.round(n*0.28)));
+      const top30 = Math.max(top10+1, Math.min(30, Math.round(n*0.85)));
+      results.forEach((r, i) => {
+        if(i < top10){
+          r.prior='CRÍTICA'; r.risco=25-i;
+          r.sev_display = i<4?5:4; r.prob_display = i<4?5:i<7?4:3;
+        } else if(i < top30){
+          r.prior='PROGRAMADA'; r.risco=Math.max(8,15-Math.round((i-top10)*0.5));
+          r.sev_display=3; r.prob_display=i<20?3:2;
+        } else {
+          r.prior='ATENÇÃO'; r.risco=Math.max(1,8-(i-top30));
+          r.sev_display=2; r.prob_display=2;
+        }
+        r.risco = Math.max(1, r.risco);
+      });
+      
+      progBar.style.width = '100%';
+      progLbl.textContent = '✓ Processado!';
+      
+      // ── Build period datasets (semana / mês / ano) ──
+      // allRows = array of {maq, nome, tempo, date} already collected above
+      // Re-scan rows to group by period
+      
+      function buildPeriodResults(rowsSubset, periodoHoras){
+        const mStats = {};
+        rowsSubset.forEach(({maq, nome, tempo, date}) => {
+          if(!mStats[maq]) mStats[maq] = {paradas:0, horas:0, tipos:{}, codigos:{}, datas:[]};
+          mStats[maq].paradas++;
+          mStats[maq].horas += tempo;
+          if(date) mStats[maq].datas.push(date);
+          if(nome && !SKIP.some(s=>nome.includes(s)) && nome !== ''){
+            if(!mStats[maq].tipos[nome]) mStats[maq].tipos[nome]={count:0,horas:0};
+            mStats[maq].tipos[nome].count++; mStats[maq].tipos[nome].horas+=tempo;
+            for(const [cod,info] of Object.entries(CODIGO_MAP)){
+              if(info.filtros.includes(nome)){
+                if(!mStats[maq].codigos[cod]) mStats[maq].codigos[cod]={count:0,horas:0,nome:info.nome};
+                mStats[maq].codigos[cod].count++; mStats[maq].codigos[cod].horas+=tempo;
+              }
+            }
+          }
+        });
+        const res = Object.entries(mStats).map(([maq,stats]) => {
+          const falhas = Object.entries(stats.tipos).filter(([n])=>!SKIP.some(s=>n.includes(s)));
+          const sev = falhas.reduce((mx,[n])=>Math.max(mx,FALHA_SEV[n]||2),1);
+          const fc = falhas.reduce((a,[,v])=>a+v.count,0);
+          const ph = periodoHoras || (stats.datas.length>=2 ? (stats.datas[stats.datas.length-1]-stats.datas[0])/3600000 : 168);
+          const mtbf = fc>0 ? Math.round(Math.max(0,ph-stats.horas)/fc*10)/10 : Math.round(ph*10)/10;
+          const mttr = stats.paradas>0 ? Math.round(stats.horas/stats.paradas*100)/100 : 0;
+          const top3 = falhas.sort((a,b)=>b[1].count-a[1].count).slice(0,3).map(([n,v])=>[n,v.count,Math.round(v.horas*10)/10]);
+          return {
+            maq, paradas:stats.paradas, horas:Math.round(stats.horas*10)/10,
+            mtbf, mttr, sev, falhas_count:fc,
+            raw_score: Math.round(((sev*fc*0.3)+(stats.horas*0.5)+(stats.paradas*0.2))*10)/10,
+            top3, top_falha:top3[0]?.[0]||'N/A',
+            codigos:Object.fromEntries(Object.entries(stats.codigos).map(([k,v])=>[k,{count:v.count,tempo:Math.round(v.horas*10)/10,nome:v.nome}]))
+          };
+        });
+        res.sort((a,b)=>b.raw_score-a.raw_score);
+        const n2=res.length, t10=Math.max(1,Math.min(10,Math.round(n2*0.28))), t30=Math.max(t10+1,Math.min(30,Math.round(n2*0.85)));
+        res.forEach((r,i)=>{
+          if(i<t10){r.prior='CRÍTICA';r.risco=25-i;r.sev_display=i<4?5:4;r.prob_display=i<4?5:i<7?4:3;}
+          else if(i<t30){r.prior='PROGRAMADA';r.risco=Math.max(8,15-Math.round((i-t10)*0.5));r.sev_display=3;r.prob_display=i<20?3:2;}
+          else{r.prior='ATENÇÃO';r.risco=Math.max(1,8-(i-t30));r.sev_display=2;r.prob_display=2;}
+          r.risco=Math.max(1,r.risco);
+        });
+        return res;
+      }
+
+      // Group allRows by semana/mês/ano
+      const porSemana={}, porMes={}, porAno={};
+      allRows.forEach(row=>{
+        if(!row.date) return;
+        const d = row.date;
+        // ISO week
+        // Correct ISO week calculation
+        const tmp=new Date(d.getTime());
+        tmp.setHours(0,0,0,0);
+        tmp.setDate(tmp.getDate()+3-(tmp.getDay()||7)-1+1);
+        const jan4=new Date(tmp.getFullYear(),0,4);
+        const wn=Math.round(((tmp-jan4)/864e5+1)/7);
+        const semKey=`${tmp.getFullYear()}-W${String(wn).padStart(2,'0')}`;
+        if(!porSemana[semKey]) porSemana[semKey]=[];
+        porSemana[semKey].push(row);
+        // Month
+        const mesKey=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+        if(!porMes[mesKey]) porMes[mesKey]=[];
+        porMes[mesKey].push(row);
+        // Year
+        const anoKey=String(d.getFullYear());
+        if(!porAno[anoKey]) porAno[anoKey]=[];
+        porAno[anoKey].push(row);
+      });
+
+      const semanas={}, meses={}, anos={};
+      Object.entries(porSemana).forEach(([k,rows])=>{ semanas[k]=buildPeriodResults(rows,168); });
+      Object.entries(porMes).forEach(([k,rows])=>{ meses[k]=buildPeriodResults(rows,720); });
+      Object.entries(porAno).forEach(([k,rows])=>{ anos[k]=buildPeriodResults(rows,8760); });
+
+      const lista_semanas = Object.keys(porSemana).sort();
+      const lista_meses = Object.keys(porMes).sort();
+      const lista_anos = Object.keys(porAno).sort();
+
+      progLbl.textContent = `✓ ${lista_semanas.length} semanas · ${lista_meses.length} meses · ${lista_anos.length} anos`;
+
+      // Update global data
+      _MATRIZ_PARSED = {
+        total: results,
+        semanas, meses, anos,
+        lista_semanas, lista_meses, lista_anos,
+        mes_labels: {'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun','07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'}
+      };
+      _mzPeriodo = '';
+      
+      const criticas = results.filter(r => r.prior==='CRÍTICA').length;
+      const prog = results.filter(r => r.prior==='PROGRAMADA').length;
+      statusEl.textContent = `✓ ${parsed.toLocaleString('pt-BR')} eventos · ${results.length} máquinas · 🔴 ${criticas} críticas · 🟡 ${prog} programadas`;
+      statusEl.style.color = '#16a34a';
+      
+      setTimeout(() => { progBox.style.display = 'none'; }, 1500);
+      
+      // Auto-render matriz
+      toast('✓ Base carregada: ' + results.length + ' injetoras processadas!', 'ok');
+      setMatrizPeriodo('total');
+      
+    } catch(err) {
+      console.error('[Base]', err);
+      statusEl.textContent = 'Erro: ' + err.message;
+      statusEl.style.color = '#dc2626';
+      progBox.style.display = 'none';
+    }
+  };
+  
+  reader.readAsArrayBuffer(file);
+}
+
+
+// ═══════════════════════════════════════════
+// RELATÓRIO SEMANAL DE PRIORIDADES — PCM
+// ═══════════════════════════════════════════
+function gerarRelatorioSemanal(){
+  const activeData = _getActiveData();
+  if(!activeData || !activeData.length){
+    alert('Carregue o arquivo Base.xlsx primeiro para gerar o relatório.');
+    return;
+  }
+  const periodo = _getPeriodoLabel();
+  const criticas = activeData.filter(r=>r.prior==='CRÍTICA');
+  const prog = activeData.filter(r=>r.prior==='PROGRAMADA');
+  const atenc = activeData.filter(r=>r.prior==='ATENÇÃO');
+  const totHoras = Math.round(activeData.reduce((a,r)=>a+r.horas,0));
+  const hoje = new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const win = window.open('','_blank');
+  
+  const rowsCrit = criticas.map((r,i)=>`
+    <tr style="background:${i%2===0?'#fff':'#fff8f8'}">
+      <td style="font-weight:800;color:#dc2626;font-size:13px;padding:8px 10px;">${r.maq}</td>
+      <td style="padding:8px 10px;"><span style="background:#fee2e2;color:#dc2626;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;">CORRETIVA IMEDIATA</span></td>
+      <td style="padding:8px 10px;font-size:11px;">${nomeFalha(r.top_falha)}</td>
+      <td style="text-align:right;padding:8px 10px;font-weight:600;">${r.paradas}</td>
+      <td style="text-align:right;padding:8px 10px;font-weight:700;color:#dc2626;">${r.horas.toLocaleString('pt-BR')}h</td>
+      <td style="text-align:right;padding:8px 10px;color:#0d9488;">${r.mtbf||r.mttr}h</td>
+      <td style="padding:8px 10px;font-size:11px;">Parar máquina se necessário. Acionar técnico sênior. Causa raiz: ${nomeFalha(r.top_falha)}.</td>
+    </tr>`).join('');
+
+  const rowsProg = prog.map((r,i)=>`
+    <tr style="background:${i%2===0?'#fff':'#fffdf5'}">
+      <td style="font-weight:700;color:#d97706;font-size:13px;padding:8px 10px;">${r.maq}</td>
+      <td style="padding:8px 10px;"><span style="background:#fef3c7;color:#d97706;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;">PREVENTIVA PROGRAMADA</span></td>
+      <td style="padding:8px 10px;font-size:11px;">${nomeFalha(r.top_falha)}</td>
+      <td style="text-align:right;padding:8px 10px;font-weight:600;">${r.paradas}</td>
+      <td style="text-align:right;padding:8px 10px;font-weight:700;color:#d97706;">${r.horas.toLocaleString('pt-BR')}h</td>
+      <td style="text-align:right;padding:8px 10px;color:#0d9488;">${r.mtbf||r.mttr}h</td>
+      <td style="padding:8px 10px;font-size:11px;">Agendar parada programada. Separar peças com antecedência.</td>
+    </tr>`).join('');
+
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Relatório Semanal de Manutenção — Tupperware Brasil</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,sans-serif;font-size:11px;color:#1f2937;background:#fff;}
+    .page{padding:20px 24px;max-width:1100px;margin:0 auto;}
+    .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #1d6b2c;padding-bottom:14px;margin-bottom:18px;}
+    .logo-area h1{font-size:20px;color:#1d6b2c;font-weight:800;}
+    .logo-area p{font-size:10px;color:#6b7280;margin-top:2px;}
+    .meta{text-align:right;font-size:10px;color:#6b7280;line-height:1.8;}
+    .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px;}
+    .kpi{padding:12px 14px;border-radius:8px;border-left:4px solid;}
+    .kpi.red{background:#fff5f5;border-color:#dc2626;}
+    .kpi.amber{background:#fffbeb;border-color:#f59e0b;}
+    .kpi.green{background:#f0fdf4;border-color:#16a34a;}
+    .kpi.blue{background:#eff6ff;border-color:#3b82f6;}
+    .kpi-val{font-size:24px;font-weight:800;line-height:1;}
+    .kpi-lbl{font-size:9px;color:#6b7280;margin-top:3px;text-transform:uppercase;letter-spacing:.5px;}
+    .section-title{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:8px 12px;border-radius:6px;margin:14px 0 8px;}
+    .sec-red{background:#fee2e2;color:#dc2626;}
+    .sec-amber{background:#fef3c7;color:#d97706;}
+    .sec-green{background:#dcfce7;color:#15803d;}
+    table{border-collapse:collapse;width:100%;font-size:11px;margin-bottom:14px;}
+    th{background:#1f2937;color:#fff;padding:8px 10px;text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.5px;}
+    td{border-bottom:1px solid #f1f5f1;}
+    .footer{margin-top:20px;padding-top:10px;border-top:1px solid #e5e7eb;display:flex;justify-content:space-between;font-size:9px;color:#9ca3af;}
+    @media print{
+      @page{size:A4 landscape;margin:10mm;}
+      button{display:none!important;}
+      .page{padding:10px;}
+    }
+  </style></head><body>
+  <div class="page">
+    <button onclick="window.print()" style="margin-bottom:14px;padding:8px 18px;background:#1d6b2c;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;">🖨 Imprimir / Salvar PDF para PCM</button>
+    
+    <div class="header">
+      <div class="logo-area">
+        <h1>🔧 Relatório Semanal de Manutenção</h1>
+        <p>Tupperware Brasil · Setor de Injetoras B01–E11 · PCM</p>
+        <p style="margin-top:4px;font-size:11px;color:#1d6b2c;font-weight:700;">Período: ${periodo}</p>
+      </div>
+      <div class="meta">
+        <div><strong>Gerado em:</strong> ${hoje}</div>
+        <div><strong>Total injetoras:</strong> ${activeData.length}</div>
+        <div><strong>Total horas parada:</strong> ${totHoras.toLocaleString('pt-BR')}h</div>
+      </div>
+    </div>
+
+    <div class="kpis">
+      <div class="kpi red">
+        <div class="kpi-val" style="color:#dc2626;">${criticas.length}</div>
+        <div class="kpi-lbl">🔴 Corretiva Imediata</div>
+        <div style="font-size:9px;color:#dc2626;margin-top:3px;">Ação esta semana</div>
+      </div>
+      <div class="kpi amber">
+        <div class="kpi-val" style="color:#d97706;">${prog.length}</div>
+        <div class="kpi-lbl">🟡 Preventiva Programada</div>
+        <div style="font-size:9px;color:#d97706;margin-top:3px;">Agendar esta semana</div>
+      </div>
+      <div class="kpi green">
+        <div class="kpi-val" style="color:#16a34a;">${atenc.length}</div>
+        <div class="kpi-lbl">🟢 Em Monitoramento</div>
+        <div style="font-size:9px;color:#16a34a;margin-top:3px;">Inspeção preditiva</div>
+      </div>
+      <div class="kpi blue">
+        <div class="kpi-val" style="color:#1d4ed8;">${totHoras.toLocaleString('pt-BR')}h</div>
+        <div class="kpi-lbl">⏱ Horas de Parada</div>
+        <div style="font-size:9px;color:#1d4ed8;margin-top:3px;">Acumulado do período</div>
+      </div>
+    </div>
+
+    <div class="section-title sec-red">🚨 Intervenção Imediata — ${criticas.length} Injetoras Críticas</div>
+    <table>
+      <thead><tr>
+        <th style="width:70px">Injetora</th>
+        <th style="width:130px">Tipo de Ação</th>
+        <th>Falha Principal</th>
+        <th style="width:70px;text-align:right">Paradas</th>
+        <th style="width:80px;text-align:right">Horas</th>
+        <th style="width:70px;text-align:right">MTBF</th>
+        <th>Plano de Ação</th>
+      </tr></thead>
+      <tbody>${rowsCrit || '<tr><td colspan="7" style="text-align:center;padding:12px;color:#9ca3af;">Nenhuma injetora crítica no período</td></tr>'}</tbody>
+    </table>
+
+    <div class="section-title sec-amber">📅 Manutenção Programada — ${prog.length} Injetoras</div>
+    <table>
+      <thead><tr>
+        <th style="width:70px">Injetora</th>
+        <th style="width:130px">Tipo de Ação</th>
+        <th>Falha Principal</th>
+        <th style="width:70px;text-align:right">Paradas</th>
+        <th style="width:80px;text-align:right">Horas</th>
+        <th style="width:70px;text-align:right">MTBF</th>
+        <th>Plano de Ação</th>
+      </tr></thead>
+      <tbody>${rowsProg || '<tr><td colspan="7" style="text-align:center;padding:12px;color:#9ca3af;">Nenhuma</td></tr>'}</tbody>
+    </table>
+
+    <div class="section-title sec-green">👁 Em Monitoramento — ${atenc.length} Injetoras</div>
+    <div style="background:#f0fdf4;border-radius:8px;padding:12px 14px;font-size:11px;line-height:2;">
+      ${atenc.map(r=>`<span style="display:inline-block;background:#dcfce7;color:#15803d;padding:3px 9px;border-radius:5px;font-weight:700;margin:2px;">${r.maq}</span>`).join(' ')}
+      <div style="margin-top:8px;font-size:10px;color:#6b7280;">Incluir na rota de inspeção semanal. Aplicar termografia, análise de vibração e coleta de óleo.</div>
+    </div>
+
+    <div class="footer">
+      <span>MaintPro · Tupperware Brasil · Gerenciamento de Manutenção Industrial</span>
+      <span>Relatório gerado automaticamente — Período: ${periodo}</span>
+    </div>
+  </div>
+</body></html>`);
+  win.document.close();
+}
+
+function gerarRelatorioMaquina(maq){
+  const activeData = _getActiveData();
+  const r = activeData.find(m => m.maq === maq);
+  if(!r){ alert('Máquina não encontrada.'); return; }
+  const periodo = _getPeriodoLabel();
+  const win = window.open('','_blank');
+  const hoje = new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const priorCor = r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#d97706':'#16a34a';
+  const priorBg = r.prior==='CRÍTICA'?'#fee2e2':r.prior==='PROGRAMADA'?'#fef3c7':'#dcfce7';
+  const acao = r.prior==='CRÍTICA'
+    ?'CORRETIVA IMEDIATA — Parar máquina se necessário. Acionar técnico sênior. Verificar causa raiz.'
+    :r.prior==='PROGRAMADA'
+    ?'PREVENTIVA PROGRAMADA — Agendar parada. Separar peças sobressalentes. Definir janela com produção.'
+    :'MONITORAMENTO PREDITIVO — Incluir em rota de inspeção. Termografia e análise de vibração.';
+
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Relatório Injetora ${maq} — Tupperware Brasil</title>
+  <style>
+    body{font-family:Arial,sans-serif;font-size:11px;color:#1f2937;margin:20px 24px;}
+    h1{color:#1e3a5f;font-size:18px;}
+    .badge{display:inline-block;padding:4px 12px;border-radius:6px;font-weight:800;font-size:13px;}
+    table{border-collapse:collapse;width:100%;margin:10px 0;}
+    th{background:#1e3a5f;color:#fff;padding:7px 10px;text-align:left;font-size:10px;}
+    td{border-bottom:1px solid #f1f5f1;padding:6px 10px;}
+    .acao{background:${priorBg};border-left:4px solid ${priorCor};padding:12px 14px;border-radius:6px;margin:12px 0;font-size:12px;font-weight:600;color:${priorCor};}
+    @media print{@page{size:A4;margin:12mm;}button{display:none!important;}}
+  </style></head><body>
+  <button onclick="window.print()" style="margin-bottom:12px;padding:7px 16px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer;">🖨 Imprimir / PDF</button>
+  <h1>🔧 Relatório de Manutenção — Injetora ${maq}</h1>
+  <p style="color:#6b7280;margin:4px 0 14px;">Tupperware Brasil · ${periodo} · Gerado em ${hoje}</p>
+  <span class="badge" style="background:${priorBg};color:${priorCor};">${r.prior}</span>
+  <span style="margin-left:10px;font-size:12px;color:#6b7280;">Score de risco: <strong>${r.risco}</strong> | Raw score: ${r.raw_score}</span>
+
+  <div class="acao">⚡ ${acao}</div>
+
+  <table><thead><tr><th>Indicador</th><th>Valor</th><th>Referência</th></tr></thead><tbody>
+    <tr><td>Total de Paradas</td><td><strong>${r.paradas}</strong></td><td>no período</td></tr>
+    <tr><td>Horas de Parada</td><td><strong>${r.horas.toLocaleString('pt-BR')}h</strong></td><td>acumulado</td></tr>
+    <tr><td>MTBF</td><td><strong>${r.mtbf||r.mttr}h</strong></td><td>tempo médio entre falhas</td></tr>
+    <tr><td>MTTR</td><td><strong>${r.mttr}h</strong></td><td>tempo médio de reparo</td></tr>
+    <tr><td>Falha Principal</td><td><strong>${nomeFalha(r.top_falha)}</strong></td><td>${r.top_falha}</td></tr>
+  </tbody></table>
+
+  <h3 style="margin:12px 0 6px;color:#1e3a5f;">Top 3 Falhas</h3>
+  <table><thead><tr><th>Falha</th><th style="text-align:right">Ocorrências</th><th style="text-align:right">Horas</th></tr></thead><tbody>
+    ${r.top3.map(t=>`<tr><td>${nomeFalha(t[0])}</td><td style="text-align:right;font-weight:600;">${t[1]}x</td><td style="text-align:right;">${t[2]}h</td></tr>`).join('')}
+  </tbody></table>
+
+  ${Object.keys(r.codigos||{}).length ? `
+  <h3 style="margin:12px 0 6px;color:#1e3a5f;">Códigos de Falha Monitorados</h3>
+  <table><thead><tr><th>Código</th><th>Tipo</th><th style="text-align:right">Ocorrências</th><th style="text-align:right">Horas</th></tr></thead><tbody>
+    ${Object.entries(r.codigos).map(([c,d])=>`<tr><td><strong>${c}</strong></td><td>${d.nome}</td><td style="text-align:right;font-weight:600;">${d.count}x</td><td style="text-align:right;">${d.tempo}h</td></tr>`).join('')}
+  </tbody></table>` : ''}
+
+  <p style="margin-top:16px;font-size:9px;color:#9ca3af;">MaintPro · Tupperware Brasil · Gerenciamento de Manutenção Industrial</p>
+</body></html>`);
+  win.document.close();
+}
+
+
+// ═══════════════════════════════════════════
+// MATRIZ — Seleção múltipla para relatório personalizado
+// ═══════════════════════════════════════════
+function toggleAllMatriz(cb){
+  document.querySelectorAll('.mz-sel').forEach(el=>el.checked=cb.checked);
+  updateMatrizSelection();
+}
+
+function updateMatrizSelection(){
+  const selected=[...document.querySelectorAll('.mz-sel:checked')].map(el=>el.value);
+  const countEl=document.getElementById('matrizSelCount');
+  const btnEl=document.getElementById('btnRelSel');
+  const allCb=document.getElementById('mzSelAll');
+  const total=document.querySelectorAll('.mz-sel').length;
+  if(selected.length>0){
+    if(countEl){countEl.style.display='inline';countEl.textContent=selected.length+' selecionada'+(selected.length>1?'s':'');}
+    if(btnEl)btnEl.style.display='inline-block';
+  }else{
+    if(countEl)countEl.style.display='none';
+    if(btnEl)btnEl.style.display='none';
+  }
+  if(allCb)allCb.indeterminate=(selected.length>0&&selected.length<total);
+}
+
+function gerarRelatorioSelecionadas(){
+  const selected=[...document.querySelectorAll('.mz-sel:checked')].map(el=>el.value);
+  if(!selected.length){alert('Selecione ao menos uma injetora.');return;}
+  const activeData=_getActiveData();
+  const maquinas=selected.map(maq=>activeData.find(r=>r.maq===maq)).filter(Boolean);
+  if(!maquinas.length){alert('Dados não encontrados para as injetoras selecionadas.');return;}
+  _gerarRelatorioMaquinas(maquinas,'Relatório Personalizado — Injetoras Selecionadas');
+}
+
+
+
+function _gerarRelatorioMaquinas(maquinas,titulo){
+  const periodo=_getPeriodoLabel();
+  const win=window.open('','_blank');
+  const hoje=new Date().toLocaleDateString('pt-BR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  
+  const priCor=p=>p==='CRÍTICA'?'#dc2626':p==='PROGRAMADA'?'#d97706':'#16a34a';
+  const priBg=p=>p==='CRÍTICA'?'#fee2e2':p==='PROGRAMADA'?'#fef3c7':'#dcfce7';
+  const acaoTexto=p=>p==='CRÍTICA'
+    ?'CORRETIVA IMEDIATA — Parar se necessário. Acionar técnico sênior. Investigar causa raiz.'
+    :p==='PROGRAMADA'
+    ?'PREVENTIVA PROGRAMADA — Agendar parada. Separar peças. Definir janela com produção.'
+    :'MONITORAMENTO — Incluir em rota de inspeção. Termografia e análise de vibração.';
+  
+  const rows=maquinas.map(r=>`
+    <div style="margin-bottom:20px;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;page-break-inside:avoid;">
+      <div style="background:${priBg(r.prior)};border-left:5px solid ${priCor(r.prior)};padding:12px 16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div>
+          <span style="font-size:18px;font-weight:900;color:#1e3a5f;">Injetora ${r.maq}</span>
+          <span style="margin-left:10px;background:${priCor(r.prior)};color:#fff;padding:3px 10px;border-radius:5px;font-size:11px;font-weight:800;">${r.prior}</span>
+        </div>
+        <div style="font-size:11px;color:#6b7280;">Score: <strong>${r.risco}</strong> | Raw: ${r.raw_score}</div>
+      </div>
+      <div style="padding:14px 16px;">
+        <div style="background:${priBg(r.prior)};border-left:4px solid ${priCor(r.prior)};padding:9px 12px;border-radius:6px;margin-bottom:12px;font-size:11px;font-weight:700;color:${priCor(r.prior)};">
+          ⚡ ${acaoTexto(r.prior)}
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
+          <div style="text-align:center;background:#f9fafb;border-radius:7px;padding:8px;">
+            <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;margin-bottom:2px;">Paradas</div>
+            <div style="font-size:18px;font-weight:800;color:#1e3a5f;">${r.paradas}</div>
+          </div>
+          <div style="text-align:center;background:#f9fafb;border-radius:7px;padding:8px;">
+            <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;margin-bottom:2px;">Horas</div>
+            <div style="font-size:18px;font-weight:800;color:#dc2626;">${r.horas}h</div>
+          </div>
+          <div style="text-align:center;background:#f9fafb;border-radius:7px;padding:8px;">
+            <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;margin-bottom:2px;">MTBF</div>
+            <div style="font-size:18px;font-weight:800;color:#0d9488;">${r.mtbf||r.mttr}h</div>
+          </div>
+          <div style="text-align:center;background:#f9fafb;border-radius:7px;padding:8px;">
+            <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;margin-bottom:2px;">MTTR</div>
+            <div style="font-size:18px;font-weight:800;color:#6366f1;">${r.mttr}h</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#374151;text-transform:uppercase;margin-bottom:5px;">📊 Top 3 Falhas</div>
+            ${r.top3.map((t,i)=>`<div style="display:flex;justify-content:space-between;font-size:10px;padding:3px 0;border-bottom:1px solid #f3f4f6;">
+              <span><strong>#${i+1}</strong> ${nomeFalha(t[0])}</span>
+              <span style="color:#1e3a5f;font-weight:600;">${t[1]}x · ${t[2]}h</span>
+            </div>`).join('')}
+          </div>
+          <div>
+            <div style="font-size:10px;font-weight:700;color:#374151;text-transform:uppercase;margin-bottom:5px;">🔢 Códigos Monitorados</div>
+            ${Object.keys(r.codigos||{}).length
+              ?Object.entries(r.codigos).map(([c,d])=>`<div style="display:flex;justify-content:space-between;font-size:10px;padding:3px 0;border-bottom:1px solid #f3f4f6;">
+                <span><strong style="background:#6366f1;color:#fff;padding:1px 4px;border-radius:2px;margin-right:3px;">${c}</strong>${d.nome}</span>
+                <span style="color:#6366f1;font-weight:600;">${d.count}x·${d.tempo}h</span>
+              </div>`).join('')
+              :'<div style="font-size:10px;color:#9ca3af;">Sem ocorrências</div>'}
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>${titulo}</title>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,sans-serif;font-size:11px;color:#1f2937;background:#fff;padding:20px;}
+    h1{color:#1e3a5f;font-size:17px;font-weight:800;}
+    .meta{font-size:10px;color:#6b7280;margin:4px 0 16px;}
+    @media print{@page{size:A4;margin:10mm;}button{display:none!important;}.summary{page-break-after:avoid;}}
+  </style></head><body>
+  <button onclick="window.print()" style="margin-bottom:14px;padding:8px 18px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;">🖨 Imprimir / Salvar PDF para PCM</button>
+  <h1>${titulo}</h1>
+  <p class="meta">Tupperware Brasil · ${periodo} · ${hoje} · ${maquinas.length} injetora(s)</p>
+  <div class="summary" style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:120px;background:#fee2e2;border-radius:8px;padding:10px 14px;border-left:4px solid #dc2626;">
+      <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;">🔴 Crítica</div>
+      <div style="font-size:22px;font-weight:900;color:#dc2626;">${maquinas.filter(r=>r.prior==='CRÍTICA').length}</div>
+    </div>
+    <div style="flex:1;min-width:120px;background:#fef3c7;border-radius:8px;padding:10px 14px;border-left:4px solid #d97706;">
+      <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;">🟡 Programada</div>
+      <div style="font-size:22px;font-weight:900;color:#d97706;">${maquinas.filter(r=>r.prior==='PROGRAMADA').length}</div>
+    </div>
+    <div style="flex:1;min-width:120px;background:#dcfce7;border-radius:8px;padding:10px 14px;border-left:4px solid #16a34a;">
+      <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;">🟢 Atenção</div>
+      <div style="font-size:22px;font-weight:900;color:#16a34a;">${maquinas.filter(r=>r.prior==='ATENÇÃO').length}</div>
+    </div>
+    <div style="flex:1;min-width:120px;background:#eff6ff;border-radius:8px;padding:10px 14px;border-left:4px solid #1d4ed8;">
+      <div style="font-size:9px;color:#9ca3af;text-transform:uppercase;">⏱ Horas Total</div>
+      <div style="font-size:22px;font-weight:900;color:#1d4ed8;">${Math.round(maquinas.reduce((a,r)=>a+r.horas,0))}h</div>
+    </div>
+  </div>
+  ${rows}
+  <p style="margin-top:16px;font-size:9px;color:#9ca3af;border-top:1px solid #e5e7eb;padding-top:8px;">MaintPro · Tupperware Brasil · Gerenciamento de Manutenção Industrial · ${periodo}</p>
+</body></html>`);
+  win.document.close();
+}
 
 // ═══════════════════════════════════════════
 // INIT
