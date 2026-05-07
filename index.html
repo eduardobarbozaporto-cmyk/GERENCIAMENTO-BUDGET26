@@ -15,6 +15,7 @@ let _sb=null;
 function getSB(){if(_sb)return _sb;const lib=window.supabase;if(!lib?.createClient){console.error('Supabase SDK not ready');return null;}_sb=lib.createClient(_SB_URL,_SB_KEY,{auth:{redirectTo:location.href,persistSession:true,autoRefreshToken:true}});return _sb;}
 </script>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
 :root{
   --g9:#0d2b12;--g8:#154d20;--g7:#1d6b2c;--g6:#248736;--g5:#2da042;--g4:#48bf60;
   --g3:#7dd493;--g2:#b3e6be;--g1:#d9f2df;--g0:#edf9f0;
@@ -22,26 +23,54 @@ function getSB(){if(_sb)return _sb;const lib=window.supabase;if(!lib?.createClie
   --gray-500:#4a6e52;--gray-700:#2c4232;--gray-800:#1e2e23;
   --red:#e53935;--red-l:#fdecea;--amber:#f59e0b;--teal:#0d9488;
   --blue:#3b82f6;--purple:#8b5cf6;--orange:#f97316;
-  --fh:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;
+  --fh:'Plus Jakarta Sans',sans-serif;--fb:'Inter',sans-serif;
   --r:8px;--rl:14px;
   --sh:0 1px 3px rgba(13,43,18,.08);--sm:0 4px 12px rgba(13,43,18,.1);--sl:0 10px 28px rgba(13,43,18,.14);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--fb);background:var(--gray-50);color:var(--gray-800);min-height:100vh;font-size:14px;}
-.hdr{background:var(--g9);border-bottom:3px solid var(--g5);padding:0 16px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:500;box-shadow:0 2px 12px rgba(0,0,0,.3);}
-.hdr-brand{display:flex;align-items:center;gap:10px;padding-right:14px;border-right:1px solid rgba(255,255,255,.15);}
-.nav{display:flex;gap:1px;margin:0 8px;}
-.nb{font-family:var(--fh);font-size:11px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;padding:5px 11px;border-radius:6px;border:none;background:transparent;color:var(--g2);cursor:pointer;transition:all .15s;white-space:nowrap;}
+body{font-family:var(--fb);background:#f8faf8;color:var(--gray-800);min-height:100vh;font-size:13.5px;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+/* ── Matriz period tabs ── */
+.mz-tab{font-family:var(--fb);font-size:11px;font-weight:600;padding:5px 13px;border-radius:7px;border:none;background:transparent;color:#64748b;cursor:pointer;transition:all .15s;}
+.mz-tab-on{background:#1e3a5f!important;color:#fff!important;box-shadow:0 2px 6px rgba(30,58,95,.25);}
+.mz-tab:hover:not(.mz-tab-on){background:rgba(30,58,95,.1);color:#1e3a5f;}
+/* ── Nav grupos ── */
+.nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap;}
+.nav-sep{width:1px;height:28px;background:rgba(255,255,255,.15);margin:0 4px;}
+.nav-grupo{display:flex;align-items:center;gap:0px;}
+.nav-grupo-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(255,255,255,.45);margin-right:5px;white-space:nowrap;}
+.nav-grupo-btns{display:flex;align-items:center;gap:2px;}
+.nb{font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:.1px;padding:5px 12px;border-radius:7px;border:none;background:transparent;color:rgba(255,255,255,.6);cursor:pointer;transition:all .18s;white-space:nowrap;}
 .nb:hover{background:rgba(255,255,255,.1);color:#fff;}
-.nb.on{background:var(--g6);color:#fff;}
-.nb.sp{background:linear-gradient(135deg,var(--g7),var(--teal));color:#fff;}
+.nb.on{color:#fff;font-weight:700;}
+.nb.on-fin{background:rgba(16,185,129,.2);color:#6ee7b7;box-shadow:0 1px 6px rgba(16,185,129,.2);}
+.nb.on-maint{background:rgba(99,102,241,.25);color:#c7d2fe;box-shadow:0 1px 6px rgba(99,102,241,.2);}
+.nb.on-upload{background:rgba(255,255,255,.15);color:#fff;}
+/* Nav modules */
+.nav{display:flex;align-items:center;gap:3px;}
+.nav-div{width:1px;height:26px;background:rgba(255,255,255,.12);margin:0 6px;}
+.nav-modulo{display:flex;align-items:center;gap:2px;background:rgba(255,255,255,.04);border-radius:10px;padding:3px 6px;}
+.nav-mod-label{font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;padding:2px 6px;border-radius:5px;white-space:nowrap;margin-right:3px;}
+.nav-mod-label.fin{background:rgba(16,185,129,.15);color:rgba(110,231,183,.8);}
+.nav-mod-label.maint{background:rgba(99,102,241,.15);color:rgba(165,180,252,.8);}
+.nav-mod-btns{display:flex;gap:1px;}
+.hdr{background:linear-gradient(135deg,#0a1f0d 0%,#0d2b12 60%,#0f3318 100%);border-bottom:1px solid rgba(45,160,66,.3);padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:500;box-shadow:0 2px 20px rgba(0,0,0,.35),0 1px 0 rgba(72,191,96,.15);}
+.hdr-brand{display:flex;align-items:center;gap:10px;padding-right:14px;border-right:1px solid rgba(255,255,255,.15);}
+.nav{display:flex;gap:1px;margin:0 8px;align-items:center;flex-wrap:nowrap;overflow-x:auto;}
+.nav::-webkit-scrollbar{height:3px;}.nav::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px;}
+.nav-sep{width:1px;height:28px;background:rgba(255,255,255,.15);margin:0 8px;flex-shrink:0;}
+.nav-label{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,.35);margin-right:5px;white-space:nowrap;flex-shrink:0;}
+.nb{font-family:var(--fb);font-size:11px;font-weight:600;letter-spacing:.2px;text-transform:none;padding:6px 13px;border-radius:7px;border:none;background:transparent;color:rgba(255,255,255,.65);cursor:pointer;transition:all .18s;white-space:nowrap;}
+.nb:hover{background:rgba(255,255,255,.1);color:#fff;}
+.nb.on{background:rgba(45,160,66,.9);color:#fff;box-shadow:0 2px 8px rgba(45,160,66,.4);}
+.nb.sp{background:linear-gradient(135deg,var(--g6),var(--teal));color:#fff;box-shadow:0 2px 8px rgba(13,148,136,.3);font-weight:700;}
 .page{display:none;}.page.on{display:block;}
 .wrap{max-width:1580px;margin:0 auto;padding:18px;}
-.card{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:15px 17px;box-shadow:var(--sh);}
+.card{background:#fff;border:1px solid rgba(180,200,183,.5);border-radius:16px;padding:16px 20px;box-shadow:0 1px 4px rgba(13,43,18,.06),0 4px 16px rgba(13,43,18,.04);}
 .card-ttl{font-family:var(--fh);font-size:11px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;}
 .kpig{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:9px;margin-bottom:16px;}
 .kpi{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:13px 15px;box-shadow:var(--sh);position:relative;overflow:hidden;}
-.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--g5);}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;background:linear-gradient(90deg,var(--g6),var(--g4));border-radius:var(--rl) var(--rl) 0 0;}
 .kpi.blue::before{background:var(--blue);}
 .kpi.red::before{background:var(--red);}
 .kpi.amber::before{background:var(--amber);}
@@ -53,19 +82,19 @@ body{font-family:var(--fb);background:var(--gray-50);color:var(--gray-800);min-h
 .kpi.dk .kv{color:#fff;}
 .kpi.dk .ks{color:var(--g4);}
 .kl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--gray-400);margin-bottom:5px;}
-.kv{font-family:var(--fh);font-size:21px;font-weight:700;color:var(--g8);line-height:1;}
+.kv{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--g8);line-height:1;letter-spacing:-.5px;}
 .ks{font-size:11px;color:var(--gray-400);margin-top:2px;}
 .btn{display:inline-flex;align-items:center;gap:5px;padding:7px 16px;border-radius:var(--r);font-family:var(--fh);font-size:11px;font-weight:600;letter-spacing:.6px;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s;}
-.bp{background:var(--g6);color:#fff;}.bp:hover{background:var(--g7);}
+.bp{background:linear-gradient(135deg,var(--g6),var(--g7));color:#fff;box-shadow:0 2px 8px rgba(36,135,54,.3);font-weight:600;letter-spacing:.1px;}.bp:hover{background:linear-gradient(135deg,var(--g7),var(--g8));box-shadow:0 3px 12px rgba(36,135,54,.4);transform:translateY(-1px);}
 .bs{background:#fff;color:var(--g7);border:1.5px solid var(--g2);}.bs:hover{border-color:var(--g5);}
 .bg{background:transparent;color:var(--g6);border:1.5px solid var(--g2);}.bg:hover{background:var(--g0);}
 .bai{background:linear-gradient(135deg,var(--g7),var(--teal));color:#fff;}.bai:hover{opacity:.9;}
 .bred{background:var(--red-l);color:var(--red);border:none;}
 .btn:disabled{opacity:.4;cursor:not-allowed;}
 .tbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:9px;}
-.pg-ttl{font-family:var(--fh);font-size:21px;font-weight:700;color:var(--g9);text-transform:uppercase;letter-spacing:.3px;}
+.pg-ttl{font-family:var(--fh);font-size:22px;font-weight:800;color:var(--g9);letter-spacing:-.3px;}
 .pg-sub{font-size:11px;color:var(--gray-400);margin-top:1px;}
-.fbar{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:9px 15px;display:flex;gap:9px;flex-wrap:wrap;align-items:flex-end;box-shadow:var(--sh);margin-bottom:14px;}
+.fbar{background:linear-gradient(135deg,#f8faf8,#f5f8f8);border:1px solid rgba(180,200,183,.5);border-radius:14px;padding:10px 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;box-shadow:0 1px 4px rgba(13,43,18,.05);margin-bottom:16px;}
 .fg{display:flex;flex-direction:column;gap:2px;}
 .fg label{font-size:9px;font-weight:700;color:var(--gray-400);text-transform:uppercase;letter-spacing:.7px;}
 .fg select,.fg input[type=text]{padding:5px 22px 5px 7px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:6px;color:var(--gray-700);font-family:var(--fb);font-size:12px;min-width:105px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23638c6c'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 5px center;}
@@ -75,18 +104,18 @@ body{font-family:var(--fb);background:var(--gray-50);color:var(--gray-800);min-h
 .brs:hover{border-color:var(--red);color:var(--red);}
 .cgrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px;}
 .cgrid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:11px;}
-.cc{background:#fff;border:1px solid var(--gray-100);border-radius:var(--rl);padding:15px 17px;box-shadow:var(--sh);}
+.cc{background:#fff;border:1px solid rgba(180,200,183,.5);border-radius:16px;padding:16px 20px;box-shadow:0 1px 4px rgba(13,43,18,.06),0 4px 16px rgba(13,43,18,.04);}
 .cttl{font-family:var(--fh);font-size:12px;font-weight:600;text-transform:uppercase;color:var(--g9);margin-bottom:3px;}
 .csub{font-size:10px;color:var(--gray-400);margin-bottom:9px;}
 .tw{overflow-x:auto;}
 table.dt{width:100%;border-collapse:collapse;font-size:12px;}
-.dt th{padding:7px 11px;text-align:left;font-family:var(--fh);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--gray-400);background:var(--gray-50);border-bottom:2px solid var(--gray-100);white-space:nowrap;cursor:pointer;}
-.dt td{padding:6px 11px;border-bottom:1px solid var(--gray-50);color:var(--gray-700);white-space:nowrap;}
+.dt th{padding:8px 12px;text-align:left;font-family:var(--fb);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.6px;color:#7a9a7e;background:#f5f8f5;border-bottom:2px solid #e8f0e9;white-space:nowrap;cursor:pointer;}
+.dt td{padding:7px 12px;border-bottom:1px solid #f2f7f2;color:#2c4232;white-space:nowrap;font-size:12.5px;}
 .dt tr:hover td{background:var(--g0);}
 .badge{display:inline-block;padding:2px 6px;border-radius:4px;font-size:9px;font-weight:700;text-transform:uppercase;}
 .beq{background:#dbeafe;color:#1e40af;}.bfix{background:var(--g1);color:var(--g7);}.bvar{background:#f3e8ff;color:#6b21a8;}
 .tag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:10px;font-weight:500;}
-.tok{background:var(--g1);color:var(--g7);}.tpl{background:#fef3c7;color:#92400e;}.tpr{background:#e0f2fe;color:#0369a1;}.tdn{background:var(--g1);color:var(--g7);}.tlt{background:var(--red-l);color:var(--red);}.twn{background:#fff3cd;color:#856404;}.tcn{background:var(--gray-100);color:var(--gray-400);}
+.tok{background:#dcfce7;color:#15803d;font-weight:600;}.tpl{background:#fef3c7;color:#92400e;}.tpr{background:#dbeafe;color:#1d4ed8;font-weight:600;}.tdn{background:var(--g1);color:var(--g7);}.tlt{background:#fee2e2;color:#dc2626;font-weight:600;}.twn{background:#fef9c3;color:#a16207;font-weight:600;}.tcn{background:var(--gray-100);color:var(--gray-400);}
 .sem{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:600;}
 .sem-dot{width:7px;height:7px;border-radius:50%;}
 .sg{color:var(--g6);}.sg .sem-dot{background:var(--g5);}
@@ -98,7 +127,7 @@ table.dt{width:100%;border-collapse:collapse;font-size:12px;}
 .chip.a{background:#fff8e1;color:#92400e;border:1px solid #fcd34d;}
 .chip.g{background:var(--g0);color:var(--g7);border:1px solid var(--g2);}
 .chip.b{background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;}
-.aibox{background:linear-gradient(135deg,var(--g0),#eff6ff);border:1px solid var(--g2);border-radius:var(--rl);padding:16px 18px;margin-bottom:14px;}
+.aibox{background:linear-gradient(135deg,#f0faf2,#eff8ff);border:1px solid rgba(179,230,190,.7);border-radius:16px;padding:18px 20px;margin-bottom:16px;box-shadow:0 2px 12px rgba(13,43,18,.06);}
 .ai-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;}
 .ai-ttl{font-family:var(--fh);font-size:13px;font-weight:700;text-transform:uppercase;color:var(--g9);display:flex;align-items:center;gap:6px;}
 .ai-bdg{background:linear-gradient(135deg,var(--g6),var(--teal));color:#fff;font-size:8px;padding:2px 6px;border-radius:7px;letter-spacing:.7px;}
@@ -108,7 +137,7 @@ table.dt{width:100%;border-collapse:collapse;font-size:12px;}
 .pb-f{height:100%;border-radius:3px;}
 .modal-bg{position:fixed;inset:0;background:rgba(10,31,14,.6);z-index:1000;display:flex;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(3px);}
 .modal-bg.hidden{display:none;}
-.modal{background:#fff;border-radius:20px;padding:22px;max-width:820px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--sl);}
+.modal{background:#fff;border-radius:20px;padding:24px;max-width:820px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 60px rgba(13,43,18,.2),0 8px 20px rgba(0,0,0,.12);}
 .m-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;}
 .m-ttl{font-family:var(--fh);font-size:17px;font-weight:700;text-transform:uppercase;color:var(--g9);}
 .m-cl{background:var(--gray-100);border:none;border-radius:50%;width:30px;height:30px;cursor:pointer;font-size:15px;color:var(--gray-400);}
@@ -129,8 +158,8 @@ table.dt{width:100%;border-collapse:collapse;font-size:12px;}
 .sok{background:var(--g0);border:1px solid var(--g2);color:var(--g7);}
 .serr{background:var(--red-l);border:1px solid #f5c6c6;color:var(--red);}
 .sinfo{background:#eff6ff;border:1px solid #bfdbfe;color:#1d4ed8;}
-.sec{font-family:var(--fh);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.1px;color:var(--gray-400);margin-bottom:7px;display:flex;align-items:center;gap:5px;}
-.sec::after{content:'';flex:1;height:1px;background:var(--gray-100);}
+.sec{font-family:var(--fb);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:#8aad8e;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.sec::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,#e0eee0,transparent);}
 .vp{color:var(--red)!important;}.vn{color:var(--g6)!important;}
 /* GANTT */
 .gantt-h{display:flex;margin-bottom:2px;}
@@ -173,17 +202,36 @@ footer span{font-size:9px;color:var(--g4);}
   <div style="display:flex;align-items:center;gap:11px;">
     <div class="hdr-brand">
       <svg viewBox="0 0 40 40" fill="none" style="width:34px;height:34px;"><rect width="40" height="40" rx="7" fill="#fff"/><rect x="4" y="4" width="32" height="32" rx="5" fill="#1d6b2c"/><path d="M10 14h20M10 20h20M10 26h12" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><circle cx="30" cy="26" r="4" fill="#f5a623"/></svg>
-      <div><div style="font-family:var(--fh);font-size:14px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:1px;">Tupperware Brasil</div><div style="font-size:9px;color:var(--g3);letter-spacing:1.5px;text-transform:uppercase;">Budget Manutenção Industrial</div></div>
+      <div><div style="font-family:var(--fh);font-size:14px;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:1px;">Tupperware Brasil</div><div style="font-size:9px;color:var(--g3);letter-spacing:1.5px;text-transform:uppercase;">💰 Financeiro &nbsp;·&nbsp; 🔧 Manutenção</div></div>
     </div>
-    <nav class="nav">
-      <button class="nb on" onclick="showPage('upload')">Upload</button>
-      <button class="nb" onclick="showPage('dashboard')">Dashboard</button>
-      <button class="nb" onclick="showPage('budget')">Budget</button>
-      <button class="nb" onclick="showPage('fornecedores')">Fornecedores</button>
-      <button class="nb" onclick="showPage('manutencao')">Manutenções</button>
-      <button class="nb" onclick="showPage('compras')">Compras</button>
-      <button class="nb" onclick="showPage('cronograma')">📅 Cronograma</button>
-      <button class="nb sp" onclick="showPage('planning')">⚡ Planning</button>
+    <nav class="nav" id="mainNav">
+      <!-- UPLOAD -->
+      <button class="nb" id="nb-upload" onclick="showPage('upload')">📁 Upload</button>
+      <div class="nav-div"></div>
+
+      <!-- 💰 MÓDULO FINANCEIRO -->
+      <div class="nav-modulo">
+        <span class="nav-mod-label fin">💰 Financeiro</span>
+        <div class="nav-mod-btns">
+          <button class="nb" id="nb-dashboard" onclick="showPage('dashboard')">Dashboard</button>
+          <button class="nb" id="nb-budget" onclick="showPage('budget')">Budget</button>
+          <button class="nb" id="nb-fornecedores" onclick="showPage('fornecedores')">Fornecedores</button>
+          <button class="nb" id="nb-compras" onclick="showPage('compras')">Compras</button>
+          <button class="nb" id="nb-planning-fin" onclick="showPage('planning-fin')">📊 Planning</button>
+        </div>
+      </div>
+      <div class="nav-div"></div>
+
+      <!-- 🔧 MÓDULO MANUTENÇÃO -->
+      <div class="nav-modulo">
+        <span class="nav-mod-label maint">🔧 Manutenção</span>
+        <div class="nav-mod-btns">
+          <button class="nb" id="nb-manutencao" onclick="showPage('manutencao')">Ordens</button>
+          <button class="nb" id="nb-cronograma" onclick="showPage('cronograma')">Cronograma</button>
+          <button class="nb" id="nb-matriz" onclick="showPage('matriz')">🎯 Matriz</button>
+          <button class="nb" id="nb-planning-manut" onclick="showPage('planning-manut')">⚡ Planning</button>
+        </div>
+      </div>
     </nav>
   </div>
   <div style="display:flex;align-items:center;gap:7px;">
@@ -438,54 +486,463 @@ footer span{font-size:9px;color:var(--g4);}
 </div>
 
 <!-- PLANNING -->
-<div class="page" id="page-planning">
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: PLANNING FINANCEIRO -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page" id="page-planning-fin">
 <div class="wrap">
-  <div class="tbar"><div><div class="pg-ttl" style="background:linear-gradient(135deg,var(--g7),var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Planning vs Real</div><div class="pg-sub">Saldo mensal · Budget × Planejado × Realizado</div></div><div style="display:flex;gap:6px;"><button class="btn bai" onclick="genIA('plan')">★ IA</button><button class="btn bs" onclick="exportPlanCsv()">📊 CSV</button></div></div>
-  <div class="aibox" id="aiPBox" style="display:none"><div class="ai-hd"><div class="ai-ttl">Análise IA — Planning <span class="ai-bdg">IA</span></div><button class="btn bg" style="padding:3px 8px;font-size:10px;" onclick="this.closest('.aibox').style.display='none'">Fechar</button></div><div id="aiPTxt" style="font-size:12px;line-height:1.7;"></div></div>
-  <div class="fbar" style="background:linear-gradient(135deg,var(--g0),#eff6ff);border:1.5px solid var(--g2);">
-    <div class="fg"><label>Mês</label><select id="pvM" onchange="renderPlan()"><option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option><option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option><option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option><option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option></select></div>
-    <div class="fg"><label>Categoria</label><select id="pvC" onchange="renderPlan()"><option value="">Todas</option><option value="Equipment Expenses">Equipment</option><option value="Other Fixed Expenses">Fixed</option><option value="Other Variable Expenses">Variable</option></select></div>
-    <button class="brs" onclick="document.getElementById('pvM').value=new Date().getMonth()+1;document.getElementById('pvC').value='';renderPlan()">✕</button>
-  </div>
-  <div id="pvH" style="margin-bottom:13px;"></div>
-  <div class="abar" id="pvAl"></div>
-  <div class="sec">Resumo do Mês</div>
-  <div class="kpig" id="pvKpis"></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px;">
-    <div style="display:flex;flex-direction:column;gap:11px;">
-      <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;"><div class="card-ttl" style="margin:0;">📋 Itens de Planejamento</div><button class="btn bp" style="padding:4px 11px;font-size:10px;" onclick="document.getElementById('pvForm').style.display=document.getElementById('pvForm').style.display==='none'?'block':'none'">+ Adicionar</button></div>
-        <div id="pvForm" style="display:none;background:var(--g0);border:1.5px solid var(--g2);border-radius:var(--r);padding:11px;margin-bottom:9px;">
-          <div style="font-size:9px;font-weight:700;color:var(--g7);text-transform:uppercase;letter-spacing:.7px;margin-bottom:7px;">Novo Item</div>
-          <div style="display:grid;grid-template-columns:2fr 1fr 1fr 80px;gap:6px;margin-bottom:6px;">
-            <div><div style="font-size:9px;color:var(--gray-400);margin-bottom:1px;">DESCRIÇÃO</div><input id="pvD" placeholder="Ex: Preventiva..." style="font-size:11px;padding:4px 7px;border:1.5px solid var(--gray-100);border-radius:5px;width:100%;"></div>
-            <div><div style="font-size:9px;color:var(--gray-400);margin-bottom:1px;">CATEGORIA</div><select id="pvCat" style="font-size:11px;padding:4px 6px;border:1.5px solid var(--gray-100);border-radius:5px;width:100%;appearance:none;"><option value="Equipment Expenses">Equipment</option><option value="Other Fixed Expenses">Fixed</option><option value="Other Variable Expenses">Variable</option></select></div>
-            <div><div style="font-size:9px;color:var(--gray-400);margin-bottom:1px;">TIPO</div><select id="pvTp" style="font-size:11px;padding:4px 6px;border:1.5px solid var(--gray-100);border-radius:5px;width:100%;appearance:none;"><option value="planned">Planejado</option><option value="real">Real</option></select></div>
-            <div><div style="font-size:9px;color:var(--gray-400);margin-bottom:1px;">VALOR R$</div><input id="pvV" type="number" placeholder="0" style="font-size:11px;padding:4px 7px;border:1.5px solid var(--gray-100);border-radius:5px;width:100%;"></div>
-          </div>
-          <div style="display:flex;justify-content:flex-end;"><button class="btn bp" style="padding:5px 14px;font-size:10px;" onclick="salvarPvItem()">Salvar</button></div>
-        </div>
-        <div class="tw"><table class="dt"><thead><tr><th>Descrição</th><th>Cat</th><th>Tipo</th><th style="text-align:right">Valor</th><th></th></tr></thead><tbody id="pvTb"></tbody></table></div>
-        <div style="display:flex;justify-content:space-between;margin-top:7px;padding-top:7px;border-top:1px solid var(--gray-100);font-size:11px;"><span id="pvCnt" style="color:var(--gray-400)">0 itens</span><span style="font-weight:700;color:var(--g8)">Total: <span id="pvTot">R$ 0</span></span></div>
-      </div>
-      <div class="card">
-        <div class="card-ttl">🎯 Simulação</div>
-        <div style="display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;">
-          <div class="fg"><label>Categoria</label><select id="simC" style="font-size:12px;padding:5px 8px;border:1.5px solid var(--gray-100);border-radius:6px;"><option value="Equipment Expenses">Equipment</option><option value="Other Fixed Expenses">Fixed</option><option value="Other Variable Expenses">Variable</option></select></div>
-          <div class="fg"><label>Valor adicional (R$)</label><input type="number" id="simV" placeholder="Ex: 50000" style="font-size:12px;padding:5px 8px;border:1.5px solid var(--gray-100);border-radius:6px;width:140px;"></div>
-          <button class="btn bp" onclick="rodarSim()">Simular</button>
-        </div>
-        <div id="simR" style="margin-top:9px;"></div>
-      </div>
+  <div class="tbar">
+    <div>
+      <div class="pg-ttl" style="background:linear-gradient(135deg,var(--teal),#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">📊 Planning Financeiro</div>
+      <div class="pg-sub">Budget × Planejado × Realizado · Compras + OMPR · Atualização dinâmica</div>
     </div>
-    <div style="display:flex;flex-direction:column;gap:11px;">
-      <div class="cc"><div class="cttl">Budget × Planejado × Real</div><div style="position:relative;height:195px"><canvas id="cPV"></canvas></div></div>
-      <div class="cc"><div class="cttl">% Consumo por Conta</div><div id="pvCons"></div></div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;">
+      <button class="btn bai" onclick="genIA('plan-fin')">★ Análise IA</button>
+      <button class="btn bs" onclick="exportPlanFinCsv()">📊 Export</button>
     </div>
   </div>
-  <div class="card" style="margin-bottom:13px;">
-    <div class="card-ttl">Resumo por Categoria</div>
-    <div class="tw"><table class="dt"><thead><tr><th>Categoria</th><th style="text-align:right">Budget</th><th style="text-align:right">Planejado</th><th style="text-align:right">Real</th><th style="text-align:right">Saldo Real</th><th style="text-align:right">Saldo Plan.</th><th>% Consumo</th><th>Semáforo</th></tr></thead><tbody id="pvRB"></tbody></table></div>
+
+  <!-- IA BOX -->
+  <div class="aibox" id="aiPFinBox" style="display:none">
+    <div class="ai-hd"><div class="ai-ttl">Análise IA — Planning Financeiro <span class="ai-bdg">IA</span></div>
+    <button class="btn bg" style="padding:3px 8px;font-size:10px;" onclick="this.closest('.aibox').style.display='none'">Fechar</button></div>
+    <div id="aiPFinTxt" style="font-size:12px;line-height:1.7;"></div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="fbar">
+    <div class="fg"><label>Mês</label>
+      <select id="pfMes" onchange="renderPlanFin()">
+        <option value="0">Todos</option>
+        <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+        <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
+        <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
+        <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+      </select>
+    </div>
+    <div class="fg"><label>Subcategoria</label>
+      <select id="pfCat" onchange="renderPlanFin()">
+        <option value="">Todas</option>
+        <option value="Equipment Expenses">Equipment Expenses</option>
+        <option value="Other Fixed Expenses">Other Fixed Expenses</option>
+        <option value="Other Variable Expenses">Other Variable Expenses</option>
+      </select>
+    </div>
+    <button class="brs" onclick="document.getElementById('pfMes').value=new Date().getMonth()+1;renderPlanFin()">📅 Mês Atual</button>
+  </div>
+
+  <!-- KPIs FINANCEIROS -->
+  <div class="sec">Consolidado Financeiro</div>
+  <div class="kpig" id="pfKpis"></div>
+
+  <!-- GRÁFICOS -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div class="cc">
+      <div class="cttl">Budget × Planejado × Realizado (Mensal)</div>
+      <div style="position:relative;height:240px"><canvas id="cPFMensal"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl">Distribuição por Subcategoria</div>
+      <div style="position:relative;height:240px"><canvas id="cPFSub"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TABELA COMPARATIVA -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="card-ttl" style="margin:0;">Comparativo por Mês — Budget vs Planejado vs Realizado</div>
+      <div style="font-size:10px;color:var(--gray-400);">Fonte: OMPR + Compras + Manutenções</div>
+    </div>
+    <div class="tw">
+      <table class="dt" id="tPlanFin">
+        <thead><tr>
+          <th>Mês</th>
+          <th style="text-align:right">Budget (OMPR)</th>
+          <th style="text-align:right">Planejado (Compras+Manut)</th>
+          <th style="text-align:right">Realizado</th>
+          <th style="text-align:right">Desvio Budget</th>
+          <th style="text-align:right">% Exec.</th>
+          <th>Status</th>
+        </tr></thead>
+        <tbody id="tbPlanFin"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ITENS PLANEJADOS (de Compras) -->
+  <div class="card" style="margin-top:14px;">
+    <div class="card-ttl">📦 Compras Planejadas (da aba Compras)</div>
+    <div class="tw"><table class="dt" id="tComprasPlan">
+      <thead><tr><th>Descrição</th><th>Categoria</th><th>Fornecedor</th><th style="text-align:right">Orçado</th><th style="text-align:right">Realizado</th><th>Status</th></tr></thead>
+      <tbody id="tbComprasPlan"></tbody>
+    </table></div>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- PAGE: PLANNING MANUTENÇÃO -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="page" id="page-planning-manut">
+<div class="wrap">
+  <div class="tbar">
+    <div>
+      <div class="pg-ttl" style="background:linear-gradient(135deg,#7c3aed,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">⚡ Planning Manutenção</div>
+      <div class="pg-sub">Ordens planejadas × Executadas · Orçado × Realizado · Manutenções</div>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;">
+      <button class="btn" style="background:linear-gradient(135deg,#7c3aed,#1d4ed8);color:#fff;" onclick="genIA('plan-manut')">★ Análise IA</button>
+      <button class="btn bs" onclick="exportPlanManutCsv()">📊 Export</button>
+      <button class="btn" style="background:var(--g6);color:#fff;" onclick="showPage('manutencao');setTimeout(()=>abrirM(null),300)">+ Nova Ordem</button>
+    </div>
+  </div>
+
+  <!-- IA BOX -->
+  <div class="aibox" id="aiPManutBox" style="display:none;background:linear-gradient(135deg,#faf5ff,#eff6ff);border-color:rgba(124,58,237,.3);">
+    <div class="ai-hd"><div class="ai-ttl" style="color:#7c3aed;">Análise IA — Planning Manutenção <span class="ai-bdg" style="background:linear-gradient(135deg,#7c3aed,#1d4ed8);">IA</span></div>
+    <button class="btn bg" style="padding:3px 8px;font-size:10px;" onclick="this.closest('.aibox').style.display='none'">Fechar</button></div>
+    <div id="aiPManutTxt" style="font-size:12px;line-height:1.7;color:#3b0764;"></div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="fbar">
+    <div class="fg"><label>Mês</label>
+      <select id="pmMes" onchange="renderPlanManut()">
+        <option value="0">Todos</option>
+        <option value="1">Janeiro</option><option value="2">Fevereiro</option><option value="3">Março</option>
+        <option value="4">Abril</option><option value="5">Maio</option><option value="6">Junho</option>
+        <option value="7">Julho</option><option value="8">Agosto</option><option value="9">Setembro</option>
+        <option value="10">Outubro</option><option value="11">Novembro</option><option value="12">Dezembro</option>
+      </select>
+    </div>
+    <div class="fg"><label>Tipo</label>
+      <select id="pmTipo" onchange="renderPlanManut()">
+        <option value="">Todos</option>
+        <option value="Corretiva">Corretiva</option>
+        <option value="Preventiva">Preventiva</option>
+        <option value="Preditiva">Preditiva</option>
+      </select>
+    </div>
+    <div class="fg"><label>Status</label>
+      <select id="pmStatus" onchange="renderPlanManut()">
+        <option value="">Todos</option>
+        <option value="Concluído">Concluído</option>
+        <option value="Em andamento">Em andamento</option>
+        <option value="Pendente">Pendente</option>
+        <option value="Atrasado">Atrasado</option>
+      </select>
+    </div>
+    <button class="brs" onclick="['pmMes','pmTipo','pmStatus'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});renderPlanManut()">✕ Limpar</button>
+  </div>
+
+  <!-- KPIs MANUTENÇÃO -->
+  <div class="sec">Indicadores de Manutenção</div>
+  <div class="kpig" id="pmKpis"></div>
+
+  <!-- GRÁFICOS -->
+  <div class="cgrid" style="margin-bottom:14px;">
+    <div class="cc">
+      <div class="cttl">Orçado × Realizado por Mês</div>
+      <div style="position:relative;height:240px"><canvas id="cPMOrcReal"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl">Distribuição por Tipo de Manutenção</div>
+      <div style="position:relative;height:240px"><canvas id="cPMTipo"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TABELA DE ORDENS -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="card-ttl" style="margin:0;">Ordens Planejadas × Executadas</div>
+      <span id="pmCount" style="font-size:11px;color:var(--gray-400);"></span>
+    </div>
+    <div class="tw">
+      <table class="dt" id="tPlanManut">
+        <thead><tr>
+          <th>Equipamento</th>
+          <th>Tipo</th>
+          <th>Criticidade</th>
+          <th>Data Plan.</th>
+          <th>Data Real.</th>
+          <th style="text-align:right">Orçado</th>
+          <th style="text-align:right">Realizado</th>
+          <th style="text-align:right">Desvio</th>
+          <th>Status</th>
+          <th>Avanço</th>
+        </tr></thead>
+        <tbody id="tbPlanManut"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- RESUMO FINANCEIRO DAS MANUTENÇÕES -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;">
+    <div class="card">
+      <div class="card-ttl">💰 Resumo Financeiro por Tipo</div>
+      <div id="pmResumoTipo"></div>
+    </div>
+    <div class="card">
+      <div class="card-ttl">📈 Acumulado Orçado vs Realizado</div>
+      <div style="position:relative;height:200px"><canvas id="cPMAccum"></canvas></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="page" id="page-matriz">
+<div class="wrap">
+  <div class="tbar">
+    <div>
+      <div class="pg-ttl" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Matriz de Criticidade</div>
+      <div class="pg-sub">Análise Semanal · B01–E11 · 🔴 10 Críticas · 🟡 20 Programadas · 🟢 Atenção · Planilha1</div>
+    </div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;">
+      <button class="btn" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);color:#fff;" onclick="genMatrizIA()">★ Análise IA</button>
+      <button class="btn bs" onclick="exportMatrizPdf()">📄 Exportar PDF</button>
+      <button class="btn bs" onclick="exportMatrizExcel()">📊 Excel</button>
+      <button class="btn bs" onclick="salvarMatrizSupabase()">💾 Salvar Análise</button>
+    </div>
+  </div>
+
+  <!-- IA BOX -->
+  <div id="matrizIABox" class="aibox" style="display:none;background:linear-gradient(135deg,#f0f4ff,#e8f0fe);border-color:rgba(59,130,246,.3);">
+    <div class="ai-hd">
+      <div class="ai-ttl" style="color:#1e3a5f;">★ Análise Semanal de Criticidade — IA <span class="ai-bdg" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8);">IA</span></div>
+      <button class="btn bg" style="padding:3px 8px;font-size:10px;" onclick="document.getElementById('matrizIABox').style.display='none'">Fechar</button>
+    </div>
+    <div id="matrizIATxt" style="font-size:12px;line-height:1.7;color:#1e3a5f;"></div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="sec">Visão Geral do Parque</div>
+  <div class="kpig" id="matrizKpis"></div>
+
+  <!-- SELETOR DE PERÍODO -->
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+    <!-- Tabs de período -->
+    <div style="display:flex;background:rgba(30,58,95,.08);border-radius:10px;padding:3px;gap:2px;">
+      <button id="mzTabSem" class="mz-tab mz-tab-on" onclick="setMatrizPeriodo('semana')">📅 Semanal</button>
+      <button id="mzTabMes" class="mz-tab" onclick="setMatrizPeriodo('mes')">📆 Mensal</button>
+      <button id="mzTabAno" class="mz-tab" onclick="setMatrizPeriodo('ano')">📊 Anual</button>
+      <button id="mzTabTotal" class="mz-tab" onclick="setMatrizPeriodo('total')">🗂 Total</button>
+    </div>
+    <!-- Seletor dinâmico de período -->
+    <select id="mzPeriodoSel" onchange="renderMatriz()" style="min-width:160px;padding:5px 10px;border-radius:7px;border:1px solid #e2e8f0;font-size:12px;font-weight:600;color:#1e3a5f;">
+    </select>
+    <div style="font-size:10px;color:#94a3b8;font-style:italic;" id="mzPeriodoInfo"></div>
+  </div>
+
+  <!-- FILTROS -->
+  <div class="fbar">
+    <div class="fg"><label>Prioridade</label>
+      <select id="mzFiltPrior" onchange="renderMatriz()" style="min-width:130px;">
+        <option value="">Todas</option>
+        <option value="CRÍTICA">🔴 Crítica (Imediata)</option>
+        <option value="PROGRAMADA">🟡 Programada</option>
+        <option value="ATENÇÃO">🟢 Atenção</option>
+      </select>
+    </div>
+    <div class="fg"><label>Falha Principal</label>
+      <select id="mzFiltFalha" onchange="renderMatriz()">
+        <option value="">Todas</option>
+        <option value="Mach defect">Mach Defect</option>
+        <option value="Mold Prob D">Mold Prob D</option>
+        <option value="Robot defect">Robot Defect</option>
+        <option value="Power Failure">Power Failure</option>
+      </select>
+    </div>
+    <div class="fg"><label>Injetora</label>
+      <select id="mzFiltMaq" onchange="renderMatriz()">
+        <option value="">Todas</option>
+      </select>
+    </div>
+    <button class="brs" onclick="['mzFiltPrior','mzFiltFalha','mzFiltMaq'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=''});renderMatriz()">✕ Limpar</button>
+  </div>
+
+  <!-- MATRIZ VISUAL -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div class="card">
+      <div class="card-ttl" style="color:#1e3a5f;">🎯 Matriz de Risco (Severidade × Probabilidade)</div>
+      <div id="matrizGrid" style="margin-top:8px;"></div>
+      <div style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;font-size:10px;">
+        <span><span style="display:inline-block;width:12px;height:12px;background:#dc2626;border-radius:2px;margin-right:3px;vertical-align:middle;"></span>Alta (≥15) — Emergencial</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#f59e0b;border-radius:2px;margin-right:3px;vertical-align:middle;"></span>Média (8-14) — Programada</span>
+        <span><span style="display:inline-block;width:12px;height:12px;background:#16a34a;border-radius:2px;margin-right:3px;vertical-align:middle;"></span>Baixa (1-7) — Monitoramento</span>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-ttl" style="color:#1e3a5f;">📊 Distribuição por Nível de Risco</div>
+      <div style="position:relative;height:240px"><canvas id="cMatrizDist"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TOP CRÍTICAS -->
+  <div class="cgrid" style="margin-bottom:14px;">
+    <div class="cc">
+      <div class="cttl" style="color:#dc2626;">🚨 Top 10 · Maior Risco</div>
+      <div class="csub">Horas de parada acumuladas</div>
+      <div id="wMatrizTop" style="position:relative;height:280px"><canvas id="cMatrizTop"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl" style="color:#1e3a5f;">⏱ MTBF por Injetora</div>
+      <div class="csub">Tempo médio entre falhas (horas)</div>
+      <div id="wMatrizMTTR" style="position:relative;height:280px"><canvas id="cMatrizMTTR"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TABELA DETALHADA -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="card-ttl" style="margin:0;color:#1e3a5f;">Análise Detalhada por Injetora</div>
+      <span id="matrizCount" style="font-size:11px;color:var(--gray-400);"></span>
+    </div>
+    <div class="tw">
+      <table class="dt" id="tMatriz">
+        <thead>
+          <tr>
+            <th>Injetora</th>
+            <th style="text-align:center">Severidade</th>
+            <th style="text-align:center">Probabilidade</th>
+            <th style="text-align:center">Risco</th>
+            <th>Prioridade</th>
+            <th>Top Falha</th>
+            <th style="text-align:right">Paradas</th>
+            <th style="text-align:right">Horas</th>
+            <th style="text-align:right">MTBF (h)</th>
+            <th>Recomendação</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tbMatriz"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ANÁLISES SALVAS -->
+  <div class="card" style="margin-top:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+      <div class="card-ttl" style="margin:0;color:#1e3a5f;">💾 Análises Salvas</div>
+      <button class="btn bs" style="padding:4px 10px;font-size:10px;" onclick="carregarAnaliseSalvas()">↻ Atualizar</button>
+    </div>
+    <div id="analiseSalvas" style="font-size:12px;color:var(--gray-400);">Carregando...</div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PAGE: PLANNING FINANCEIRO                              -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page" id="page-planning-fin">
+<div class="wrap">
+  <div class="tbar">
+    <div>
+      <div class="pg-ttl" style="background:linear-gradient(135deg,#065f46,#0d9488);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Planning Financeiro</div>
+      <div class="pg-sub">Planejado vs Realizado · Budget OMPR + Compras · Atualização dinâmica</div>
+    </div>
+    <div style="display:flex;gap:7px;">
+      <button class="btn bs" onclick="exportPlanFinExcel()">📊 Excel</button>
+    </div>
+  </div>
+
+  <!-- KPIs dinâmicos -->
+  <div class="sec">Consolidado Financeiro</div>
+  <div class="kpig" id="planFinKpis"></div>
+
+  <!-- Gráficos -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div class="cc">
+      <div class="cttl" style="color:#065f46;">📈 Budget vs Realizado Mensal</div>
+      <div class="csub">Forecast OMPR × Actual</div>
+      <div style="position:relative;height:260px"><canvas id="cPlanFinMensal"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl" style="color:#065f46;">🛒 Compras — Orçado vs Realizado</div>
+      <div class="csub">Por mês · dados da aba Compras</div>
+      <div style="position:relative;height:260px"><canvas id="cPlanFinCompras"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Tabela Planejado vs Realizado por mês -->
+  <div class="card">
+    <div class="card-ttl" style="color:#065f46;margin-bottom:10px;">Resumo Mensal — Planejado × Realizado</div>
+    <div class="tw">
+      <table class="dt">
+        <thead>
+          <tr>
+            <th>Mês</th>
+            <th style="text-align:right">Budget (Forecast)</th>
+            <th style="text-align:right">Realizado (Actual)</th>
+            <th style="text-align:right">Desvio</th>
+            <th style="text-align:right">% Exec.</th>
+            <th style="text-align:right">Compras Orçadas</th>
+            <th style="text-align:right">Compras Realizadas</th>
+            <th style="text-align:right">Total Planejado</th>
+            <th style="text-align:right">Total Realizado</th>
+          </tr>
+        </thead>
+        <tbody id="tbPlanFin"></tbody>
+        <tfoot id="tfPlanFin"></tfoot>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════ -->
+<!-- PAGE: PLANNING MANUTENÇÃO                             -->
+<!-- ══════════════════════════════════════════════════════ -->
+<div class="page" id="page-planning-manut">
+<div class="wrap">
+  <div class="tbar">
+    <div>
+      <div class="pg-ttl" style="background:linear-gradient(135deg,#3730a3,#6366f1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Planning Manutenção</div>
+      <div class="pg-sub">Ordens planejadas vs executadas · Orçado vs Realizado · Atualização dinâmica</div>
+    </div>
+    <div style="display:flex;gap:7px;">
+      <button class="btn" style="background:linear-gradient(135deg,#3730a3,#6366f1);color:#fff;" onclick="renderPlanManut()">↻ Atualizar</button>
+      <button class="btn bs" onclick="exportPlanManutExcel()">📊 Excel</button>
+    </div>
+  </div>
+
+  <!-- KPIs -->
+  <div class="sec">Consolidado de Manutenção</div>
+  <div class="kpig" id="planManutKpis"></div>
+
+  <!-- Gráficos -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px;">
+    <div class="cc">
+      <div class="cttl" style="color:#3730a3;">💰 Orçado vs Realizado Mensal</div>
+      <div class="csub">Valores das ordens de manutenção</div>
+      <div style="position:relative;height:260px"><canvas id="cPlanManutVal"></canvas></div>
+    </div>
+    <div class="cc">
+      <div class="cttl" style="color:#3730a3;">📋 Ordens por Status</div>
+      <div class="csub">Distribuição de todas as ordens</div>
+      <div style="position:relative;height:260px"><canvas id="cPlanManutStatus"></canvas></div>
+    </div>
+  </div>
+
+  <!-- Tabela ordens -->
+  <div class="card">
+    <div class="card-ttl" style="color:#3730a3;margin-bottom:10px;">Ordens de Manutenção — Planejado × Realizado</div>
+    <div class="tw">
+      <table class="dt">
+        <thead>
+          <tr>
+            <th>Mês</th>
+            <th style="text-align:right">Qtd Ordens</th>
+            <th style="text-align:right">Orçado</th>
+            <th style="text-align:right">Realizado</th>
+            <th style="text-align:right">Desvio</th>
+            <th style="text-align:right">% Exec.</th>
+            <th>Status Predominante</th>
+          </tr>
+        </thead>
+        <tbody id="tbPlanManut"></tbody>
+        <tfoot id="tfPlanManut"></tfoot>
+      </table>
+    </div>
   </div>
 </div>
 </div>
@@ -687,7 +1144,7 @@ function showPage(n){
   const pg=document.getElementById('page-'+n);
   if(!pg)return;
   pg.classList.add('on');
-  const tabs=['upload','dashboard','budget','fornecedores','manutencao','compras','cronograma','planning'];
+  const tabs=['upload','dashboard','budget','fornecedores','manutencao','compras','planning-fin','planning-manut','matriz','cronograma'];
   const idx=tabs.indexOf(n);
   if(idx>=0)document.querySelectorAll('.nb')[idx]?.classList.add('on');
   if(n==='dashboard'&&rawData.length)renderDash();
@@ -696,7 +1153,15 @@ function showPage(n){
   if(n==='manutencao')renderManut();
   if(n==='compras'){renderCompPage();}
   if(n==='cronograma')renderCronograma();
-  if(n==='planning')renderPlan();
+  if(n==='planning-fin')renderPlanFin();
+  if(n==='planning-manut')renderPlanManut();
+  if(n==='matriz'){
+    const doRender=()=>{if(!_mzPeriodo){setMatrizPeriodo('semana');}else{renderMatriz();}setTimeout(carregarAnaliseSalvas,500);};
+    if(!_MATRIZ_PARSED){
+      document.getElementById('matrizKpis').innerHTML='<div style="padding:20px;color:#64748b;font-size:13px;">⏳ Carregando dados da Matriz...</div>';
+      carregarMatrizData(doRender);
+    } else { doRender(); }
+  }
 }
 function cModal(id){document.getElementById(id).classList.add('hidden');}
 
@@ -745,72 +1210,85 @@ function parseFcst(wb,nm){
   return rows;
 }
 
-function parseDB(wb,nm){
-  const rows=[];const ws=wb.Sheets[nm];if(!ws){console.warn('[DB] Sheet not found:',nm);return rows;}
-  const ref=ws['!ref'];if(!ref){console.warn('[DB] No ref in sheet',nm);return rows;}
-  const range=XLSX.utils.decode_range(ref);
-  // Build dense 2D grid using actual cell addresses (handles sparse xlsb correctly)
-  const grid=[];
-  for(let R=range.s.r;R<=range.e.r;R++){
-    const rowArr=[];
-    for(let C=range.s.c;C<=range.e.c;C++){
-      const addr=XLSX.utils.encode_cell({r:R,c:C});
-      const cell=ws[addr];
-      rowArr.push(cell?cell.v:null);
-    }
-    grid.push(rowArr);
-  }
-  const colOff=range.s.c;
-  // Find header row with DASHBOARD column
-  let hR=-1,mC={};
-  for(let ri=0;ri<Math.min(grid.length,30);ri++){
-    const row=grid[ri];
-    const hasDash=row.some(c=>c&&normStr(c.toString())==='DASHBOARD');
-    if(hasDash){
-      hR=ri;
-      row.forEach((cell,localci)=>{
+function parseDB(wb,actualNm,dbNm){
+  // Parse Actual tab for realizado values (confirmed: 389 rows for MANUTENCAO/MOLDAGEM/IMPRESSAO/FERRAMENTARIA)
+  const rows=[];
+  
+  // === ACTUAL TAB: monthly realized values ===
+  const wsA=wb.Sheets[actualNm];
+  if(wsA){
+    const jsonA=XLSX.utils.sheet_to_json(wsA,{defval:null,header:1,raw:true});
+    if(jsonA&&jsonA.length>4){
+      const hrow=jsonA[3]||[];
+      const typeRow=jsonA[2]||[];
+      // Find month cols and Act/Fcst type
+      const mC={},actCols=new Set();
+      hrow.forEach((cell,ci)=>{
         if(!cell)return;
         const s=normStr(cell.toString());
-        if(/^(FY|YTD|YTG|TOTAL|SOMA|GRAND)/.test(s))return;
+        if(/^(FY|YTD|YTG|TOTAL)/.test(s))return;
         const m=parseMH(cell);
-        if(m&&m.ano===2026)mC[localci]=m;
+        if(m&&m.ano===2026)mC[ci]=m;
       });
-      break;
+      typeRow.forEach((v,ci)=>{if(v==='Act')actCols.add(ci);});
+      console.log('[Actual] mCols:'+JSON.stringify(Object.keys(mC))+' actCols:'+JSON.stringify([...actCols]));
+      for(let ri=4;ri<jsonA.length;ri++){
+        const row=jsonA[ri];if(!row||row.every(v=>v==null))continue;
+        const cc=(row[7]||'').toString().trim();if(!isCC(cc))continue;
+        const sub=normSub(row[9]);if(!sub)continue;
+        const tipo=(row[8]||'').toString().trim();
+        const desc=(row[10]||tipo).toString().trim();
+        for(const[ciStr,m]of Object.entries(mC)){
+          const ci=parseInt(ciStr);
+          // Use all 2026 cols (Act + Fcst) since Fcst cols will be 0 anyway
+          const val=pNum(row[ci]);if(val===0)continue;
+          rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:tipo,Descricao:desc||tipo,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
+        }
+      }
+      console.log('[Actual] Parsed '+rows.length+' rows');
     }
   }
-  // Fallback: find by 2026 month columns
-  if(hR<0){
-    for(let ri=0;ri<Math.min(grid.length,30);ri++){
-      const row=grid[ri];const found={};
-      row.forEach((cell,ci)=>{if(!cell)return;const m=parseMH(cell);if(m&&m.ano===2026)found[ci]=m;});
-      if(Object.keys(found).length>=1){mC=found;hR=ri;break;}
+  
+  // === DATABASE TAB: vendor/fornecedor detail (for drill-down) ===
+  // Merge fornecedor info from Database tab when available
+  const wsD=wb.Sheets[dbNm];
+  if(wsD&&rows.length===0){
+    // Fallback: use Database tab if Actual returns nothing
+    const ref=wsD['!ref'];
+    if(ref){
+      const range=XLSX.utils.decode_range(ref);
+      const grid=[];
+      for(let R=range.s.r;R<=range.e.r;R++){
+        const rowArr=[];
+        for(let C=range.s.c;C<=range.e.c;C++){
+          const addr=XLSX.utils.encode_cell({r:R,c:C});
+          const cell=wsD[addr];
+          rowArr.push(cell?cell.v:null);
+        }
+        grid.push(rowArr);
+      }
+      let hR=-1,mC={};
+      for(let ri=0;ri<Math.min(grid.length,30);ri++){
+        const row=grid[ri];
+        const hasDash=row.some(c=>c&&normStr(c.toString())==='DASHBOARD');
+        if(hasDash){hR=ri;row.forEach((cell,ci)=>{if(!cell)return;const s=normStr(cell.toString());if(/^(FY|YTD|YTG|TOTAL)/.test(s))return;const m=parseMH(cell);if(m&&m.ano===2026)mC[ci]=m;});break;}
+      }
+      if(hR>=0&&Object.keys(mC).length){
+        for(let ri=hR+1;ri<grid.length;ri++){
+          const row=grid[ri];if(!row||row.every(v=>v==null))continue;
+          const sub=normSub(row[4]);if(!sub)continue;
+          const cc=(row[2]||'').toString().trim();if(!isCC(cc))continue;
+          const forn=(row[5]||cc).toString().trim();
+          const tipo=(row[3]||'').toString().trim();
+          for(const[ci,m]of Object.entries(mC)){
+            const val=pNum(row[parseInt(ci)]);if(val===0)continue;
+            rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:forn,Descricao:forn,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
+          }
+        }
+        console.log('[Database fallback] Parsed '+rows.length+' rows');
+      }
     }
   }
-  if(hR<0||!Object.keys(mC).length){console.warn('[DB] Header not found, hR='+hR+' mC='+JSON.stringify(mC));return rows;}
-  const hrow=grid[hR];
-  let subC=4,ccC=2,fornC=5,tipoC=3;
-  hrow.forEach((cell,ci)=>{
-    if(!cell)return;const s=normStr(cell.toString());
-    if(s==='DASHBOARD')subC=ci;
-    if(s.includes('UNID')&&(s.includes('NEGOC')||s.includes('NEG')))ccC=ci;
-    if(s.includes('EXPLICAC')&&s.includes('NOME'))fornC=ci;
-    if(s.includes('ID.')&&s.includes('CONTA'))tipoC=ci;
-  });
-  console.log('[DB] hR='+hR+' subC='+subC+' ccC='+ccC+' fornC='+fornC+' months='+JSON.stringify(Object.keys(mC)));
-  for(let ri=hR+1;ri<grid.length;ri++){
-    const row=grid[ri];
-    if(!row||row.every(v=>v==null))continue;
-    const sub=normSub(row[subC]);if(!sub)continue;
-    const cc=(row[ccC]||'').toString().trim();if(!isCC(cc))continue;
-    const fornRaw=(row[fornC]||'').toString().trim();
-    if(/^aloc\s*rateio|^rateio\s*aloc/i.test(fornRaw))continue;
-    const forn=fornRaw||cc;const tipo=(row[tipoC]||'').toString().trim();
-    for(const[ci,m]of Object.entries(mC)){
-      const val=pNum(row[parseInt(ci)]);if(val===0)continue;
-      rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:forn,Descricao:forn,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
-    }
-  }
-  console.log('[DB] Parsed '+rows.length+' rows from sheet '+nm);
   return rows;
 }
 
@@ -836,9 +1314,11 @@ function processData(){
     let fcNm=names.find(isFcst)||names.find(n=>/^op\s*26$/i.test(n))||names.find(n=>/forecast/i.test(n))||names.find(n=>/budget/i.test(n));
     let dbNm=names.find(n=>/^database$/i.test(n.trim()))||names.find(n=>/database/i.test(n))||names.find(n=>/realizado/i.test(n));
     if(!fcNm)fcNm=names[0];if(!dbNm)dbNm=names.find(n=>n!==fcNm)||names[0];
-    console.log('[OMPR] Forecast:',fcNm,'| Database:',dbNm);
+    const actualNm=names.find(n=>/^actual$/i.test(n.trim()))||names.find(n=>/actual/i.test(n)&&!/fcst/i.test(n))||dbNm;
+    console.log('[OMPR] Forecast:',fcNm,'| Actual:',actualNm,'| Database:',dbNm);
+
     setProg(55,'Forecast: '+fcNm+'...');const fcR=parseFcst(wb,fcNm);
-    setProg(75,'Database: '+dbNm+'...');const dbR=parseDB(wb,dbNm);
+    setProg(75,'Actual: '+actualNm+'...');const dbR=parseDB(wb,actualNm,dbNm);
     document.getElementById('iFc').textContent=fcR.length.toLocaleString('pt-BR');
     document.getElementById('iDb').textContent=dbR.length.toLocaleString('pt-BR');
     setProg(95,'Consolidando...');
@@ -1067,7 +1547,6 @@ function renderManut(){
   const crits=['Alta','Média','Baixa'];
   chts.cMCrit=new Chart(document.getElementById('cMCrit'),{type:'bar',data:{labels:crits,datasets:[{label:'Orçado',data:crits.map(c=>manuts.filter(m=>m.critica===c).reduce((a,m)=>a+m.orcado,0)),backgroundColor:[CR+'99',CA+'99','rgba(29,107,44,.7)'],borderRadius:4},{label:'Realizado',data:crits.map(c=>manuts.filter(m=>m.critica===c).reduce((a,m)=>a+m.realizado,0)),backgroundColor:[CR+'55',CA+'55','rgba(72,191,96,.7)'],borderRadius:4}]},options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
   // GANTT
-  const ganttLista=lista; // use filtered list
   const sCor={'Concluído':C1,'Em andamento':CA,'Planejado':CB,'Não iniciado':'#94a3b8','Atrasado':CR,'Cancelado':'#64748b','Aguardando compra':CP};
   let gh=`<div class="gantt-h"><div class="gantt-hl">Equipamento</div>${MS.map(m=>`<div class="gantt-hm">${m}</div>`).join('')}</div>`;
   if(lista.length){lista.forEach(m=>{if(!m.dataPlan)return;const dp=new Date(m.dataPlan+'T00:00');const dr=m.dataReal?new Date(m.dataReal+'T00:00'):null;const mi=dp.getMonth();const mf=dr?dr.getMonth():mi;const cor=sCor[m.status]||'#94a3b8';const span=Math.max(1,mf-mi+1);gh+=`<div class="gantt-row"><div class="gantt-lbl" title="${m.equip}">${m.equip}</div><div class="gantt-months">${MS.map((_,ci)=>{let bar='';if(ci===mi){const w=`calc(${span*100}% - 4px)`;bar=`<div class="gantt-bar" style="background:${cor};left:2px;width:${w};" title="${m.equip}·${m.status}·${fDt(m.dataPlan)}">${span>1?m.equip.slice(0,10)+(m.equip.length>10?'…':''):''}</div>`;}return`<div class="gantt-m">${bar}</div>`;}).join('')}</div></div>`;})}
@@ -1226,7 +1705,7 @@ function renderCronograma(){
   </div>`;
   if(lista.length===0){gh+='<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:12px;">Nenhuma manutenção com os filtros atuais.</div>';}
   else{
-    const sorted=[...ganttLista].sort((a,b)=>{
+    const sorted=[...lista].sort((a,b)=>{
       if(a.dataPlan&&b.dataPlan)return new Date(a.dataPlan)-new Date(b.dataPlan);
       return 0;
     });
@@ -1319,6 +1798,1019 @@ function calcAcumuladoManut(){
   });
   return acum;
 }
+
+// ═══════════════════════════════════════════
+// MATRIZ DE CRITICIDADE — Análise Semanal
+// ═══════════════════════════════════════════
+
+let _MATRIZ_PARSED = null;
+let _matrizLoading = false;
+let _matrizCallbacks = [];
+
+function _getMPeriodos(){
+  return _MATRIZ_PARSED || {total:[],semanas:{},meses:{},anos:{},lista_semanas:[],lista_meses:[],lista_anos:[],mes_labels:{}};
+}
+
+async function carregarMatrizData(callback){
+  if(_MATRIZ_PARSED){ if(callback) callback(); return; }
+  if(_matrizLoading){ if(callback) _matrizCallbacks.push(callback); return; }
+  _matrizLoading = true;
+  if(callback) _matrizCallbacks.push(callback);
+  try{
+    const r = await fetch('matriz_data.json');
+    _MATRIZ_PARSED = await r.json();
+    console.log('[Matriz] Data loaded:', _MATRIZ_PARSED.total?.length, 'machines');
+  }catch(e){
+    console.error('[Matriz] Failed to load data:', e);
+    _MATRIZ_PARSED = {total:[],semanas:{},meses:{},anos:{},lista_semanas:[],lista_meses:[],lista_anos:[],mes_labels:{}};
+  }
+  _matrizLoading = false;
+  _matrizCallbacks.forEach(cb=>{ try{cb();}catch(e){} });
+  _matrizCallbacks = [];
+}
+
+const MATRIZ_PERIODOS={
+  get total(){return _getMPeriodos().total;},
+  get semanas(){return _getMPeriodos().semanas;},
+  get meses(){return _getMPeriodos().meses;},
+  get anos(){return _getMPeriodos().anos;},
+  get lista_semanas(){return _getMPeriodos().lista_semanas;},
+  get lista_meses(){return _getMPeriodos().lista_meses;},
+  get lista_anos(){return _getMPeriodos().lista_anos;},
+  get mes_labels(){return _getMPeriodos().mes_labels;}
+};
+const MATRIZ_DATA=MATRIZ_PERIODOS.total;
+
+const FALHA_PT = {
+  'Mach defect':'Defeito de Máquina','Mach  Prob S':'Problema Máquina (Sério)',
+  'Mold Prob D':'Problema de Molde','Mold Prob S':'Problema Molde (Sério)',
+  'Robot defect':'Defeito de Robô','Robot Prob S':'Problema Robô (Sério)',
+  'Power Failure':'Falha Elétrica','Periph RM D':'Periférico RM',
+  'Other Peri D':'Outro Periférico','Utility Pr S':'Utilidade (Sério)',
+  'Intervenção da ':'Intervenção Manut.','Manutenção ':'Manutenção Prog.'
+};
+const COD_NOMES = {52:'Mach Defect',53:'Mold Problem',55:'Robot Defect',56:'Power Failure',59:'Peripheral',60:'Utility Problem'};
+function nomeFalha(f){return FALHA_PT[f]||f||'N/A';}
+
+// Semana atual ISO
+function getCurrentWeek(){
+  const d=new Date();const jan4=new Date(d.getFullYear(),0,4);
+  const w=Math.ceil(((d-jan4)/864e5+jan4.getDay()+1)/7);
+  return `${d.getFullYear()}-W${String(w).padStart(2,'0')}`;
+}
+
+let matrizFiltroSemana = '';
+let matrizFiltroMes = '';
+
+function renderMatriz(){
+  // Initialize period selector on first render
+  if(!_mzPeriodo){_populatePeriodoSel();}
+
+  const fp=document.getElementById('mzFiltPrior')?.value||'';
+  const fm=document.getElementById('mzFiltMaq')?.value||'';
+
+  // Get active dataset based on selected period
+  const activeData=_getActiveData();
+  const periodoLabel=_getPeriodoLabel();
+
+  // Update page subtitle with current period
+  const sub=document.querySelector('#page-matriz .pg-sub');
+  if(sub) sub.textContent=`Análise ${_mzTipo==='semana'?'Semanal':_mzTipo==='mes'?'Mensal':_mzTipo==='ano'?'Anual':'Histórica'} · ${periodoLabel} · B01–E11 · Planilha1`;
+
+  // Filter data
+  let fd=activeData.filter(r=>
+    (!fp||r.prior===fp)&&
+    (!fm||r.maq===fm)
+  );
+
+  const criticas=activeData.filter(r=>r.prior==='CRÍTICA');
+  const prog=activeData.filter(r=>r.prior==='PROGRAMADA');
+  const atenc=activeData.filter(r=>r.prior==='ATENÇÃO');
+  const totH=activeData.reduce((a,r)=>a+r.horas,0);
+  const totP=activeData.reduce((a,r)=>a+r.paradas,0);
+  const avgMTBF=activeData.length?(activeData.reduce((a,r)=>a+(r.mtbf||0),0)/activeData.length).toFixed(1):'—';
+
+  // KPIs
+  document.getElementById('matrizKpis').innerHTML=`
+    <div class="kpi" style="border-top:3px solid #dc2626;cursor:pointer;" onclick="document.getElementById('mzFiltPrior').value='CRÍTICA';renderMatriz()">
+      <div class="kl">🔴 Intervenção Imediata</div>
+      <div class="kv" style="color:#dc2626;">${criticas.length}</div>
+      <div class="ks">máquinas críticas</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid #f59e0b;cursor:pointer;" onclick="document.getElementById('mzFiltPrior').value='PROGRAMADA';renderMatriz()">
+      <div class="kl">🟡 Manutenção Programada</div>
+      <div class="kv" style="color:#f59e0b;">${prog.length}</div>
+      <div class="ks">agendar esta semana</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid #16a34a;cursor:pointer;" onclick="document.getElementById('mzFiltPrior').value='ATENÇÃO';renderMatriz()">
+      <div class="kl">🟢 Em Atenção</div>
+      <div class="kv" style="color:#16a34a;">${atenc.length}</div>
+      <div class="ks">monitorar</div>
+    </div>
+    <div class="kpi dk"><div class="kl">Horas de Parada</div><div class="kv">${Math.round(totH).toLocaleString('pt-BR')}</div><div class="ks">acumulado total</div></div>
+    <div class="kpi teal"><div class="kl">Total Eventos</div><div class="kv" style="color:var(--teal)">${totP.toLocaleString('pt-BR')}</div><div class="ks">registros</div></div>
+    <div class="kpi blue"><div class="kl">MTTR Médio</div><div class="kv" style="color:var(--blue)">${avgMTTR}h</div><div class="ks">tempo médio reparo</div></div>
+  `;
+
+  // Populate maq filter
+  const mzSel=document.getElementById('mzFiltMaq');
+  if(mzSel&&mzSel.options.length<=1){
+    MATRIZ_DATA.forEach(r=>{const o=document.createElement('option');o.value=r.maq;o.textContent=r.maq+' ('+r.prior+')';mzSel.appendChild(o);});
+  }
+
+  // MATRIZ VISUAL 5×5
+  const grid=document.getElementById('matrizGrid');
+  if(grid){
+    const SEV_L=['','Muito Baixo','Baixo','Moderado','Muito Alto','Catastrófico'];
+    const PROB_L=['','Muito Baixa','Baixa','Média','Alta','Muito Alta'];
+    const priorColor=p=>p==='CRÍTICA'?'#dc2626':p==='PROGRAMADA'?'#f59e0b':'#16a34a';
+    const priorBg=p=>p==='CRÍTICA'?'#fee2e2':p==='PROGRAMADA'?'#fef3c7':'#dcfce7';
+
+    let html=`<div style="display:grid;grid-template-columns:44px repeat(5,1fr);gap:2px;font-size:9px;">`;
+    html+=`<div></div>`;
+    for(let p=5;p>=1;p--)html+=`<div style="text-align:center;font-weight:700;color:#1e3a5f;padding:2px 0;">${PROB_L[p]}</div>`;
+    for(let s=5;s>=1;s--){
+      html+=`<div style="display:flex;align-items:center;justify-content:flex-end;padding-right:4px;color:#1e3a5f;font-weight:700;font-size:8px;text-align:right;">${SEV_L[s]}</div>`;
+      for(let p=5;p>=1;p--){
+        const score=s*p;
+        const color=score>=15?'#dc2626':score>=8?'#f59e0b':'#16a34a';
+        const lightBg=score>=15?'#fef2f2':score>=8?'#fffbeb':'#f0fdf4';
+        const maqsHere=fd.filter(r=>r.sev_display===s&&r.prob_display===p);
+        const dots=maqsHere.map(r=>`<span title="${r.maq} — ${r.prior}" 
+          style="display:inline-block;min-width:16px;height:16px;border-radius:3px;
+          background:${priorColor(r.prior)};color:#fff;font-size:7px;font-weight:800;
+          line-height:16px;text-align:center;margin:1px;padding:0 2px;cursor:pointer;"
+          onclick="destacarMaquina('${r.maq}')">${r.maq.slice(1)}</span>`).join('');
+        html+=`<div style="background:${lightBg};border:1.5px solid ${color}33;border-radius:6px;min-height:48px;padding:3px;position:relative;">
+          <div style="position:absolute;top:2px;right:3px;font-size:10px;font-weight:900;color:${color};">${score}</div>
+          <div style="margin-top:14px;display:flex;flex-wrap:wrap;">${dots}</div>
+        </div>`;
+      }
+    }
+    html+=`</div><div style="text-align:center;font-size:9px;font-weight:700;color:#1e3a5f;margin-top:4px;">→ PROBABILIDADE DE OCORRÊNCIA</div>`;
+    html=`<div style="font-size:8px;font-weight:700;color:#1e3a5f;writing-mode:vertical-lr;transform:rotate(180deg);float:left;height:260px;display:flex;align-items:center;margin-right:6px;">SEVERIDADE (IMPACTO) ↑</div>`+html;
+    grid.innerHTML=html;
+  }
+
+  // Charts
+  dc('cMatrizDist');
+  chts.cMatrizDist=new Chart(document.getElementById('cMatrizDist'),{
+    type:'doughnut',
+    data:{labels:['🔴 Crítica (10)','🟡 Programada (20)','🟢 Atenção ('+atenc.length+')'],
+      datasets:[{data:[criticas.length,prog.length,atenc.length],
+        backgroundColor:['#dc2626','#f59e0b','#16a34a'],
+        borderWidth:0,hoverOffset:4}]},
+    options:{...CD,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:10,padding:10}}}}
+  });
+
+  const topN=fd.slice(0,12);
+  dc('cMatrizTop');
+  chts.cMatrizTop=new Chart(document.getElementById('cMatrizTop'),{
+    type:'bar',
+    data:{labels:topN.map(r=>r.maq),
+      datasets:[
+        {label:'Horas Parada',data:topN.map(r=>r.horas),
+          backgroundColor:topN.map(r=>r.prior==='CRÍTICA'?'rgba(220,38,38,.8)':r.prior==='PROGRAMADA'?'rgba(245,158,11,.8)':'rgba(22,163,74,.8)'),
+          borderRadius:4,yAxisID:'y'},
+        {label:'Paradas',data:topN.map(r=>r.paradas),
+          backgroundColor:'rgba(59,130,246,.3)',borderRadius:4,type:'bar',yAxisID:'y1'}
+      ]},
+    options:{...CD,scales:{y:{...AS,position:'left'},y1:{...AS,position:'right',grid:{drawOnChartArea:false}}},
+      plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}}}
+  });
+
+  dc('cMatrizMTTR');
+  const topMTBF=[...fd].sort((a,b)=>(a.mtbf||0)-(b.mtbf||0)).slice(0,12); // menor MTBF = mais crítico
+  chts.cMatrizMTTR=new Chart(document.getElementById('cMatrizMTTR'),{
+    type:'bar',
+    data:{labels:topMTTR.map(r=>r.maq),
+      datasets:[{data:topMTTR.map(r=>r.mttr),
+        backgroundColor:topMTTR.map(r=>r.prior==='CRÍTICA'?'rgba(220,38,38,.75)':r.prior==='PROGRAMADA'?'rgba(245,158,11,.75)':'rgba(22,163,74,.75)'),
+        borderRadius:4,label:'MTBF (h)'}]},
+    options:{indexAxis:'y',...CD,scales:{x:{...AS,ticks:{...AS.ticks,callback:v=>v+'h'}},y:{...AS}}}
+  });
+
+  // TABLE
+  document.getElementById('matrizCount').textContent=fd.length+' injetoras';
+  
+  const priorTag=p=>p==='CRÍTICA'
+    ?`<span class="tag" style="background:#fee2e2;color:#dc2626;font-weight:800;">🔴 CRÍTICA</span>`
+    :p==='PROGRAMADA'
+    ?`<span class="tag" style="background:#fef3c7;color:#a16207;font-weight:700;">🟡 PROGRAMADA</span>`
+    :`<span class="tag" style="background:#dcfce7;color:#15803d;font-weight:700;">🟢 ATENÇÃO</span>`;
+  
+  const rec=r=>{
+    if(r.prior==='CRÍTICA')return'<span style="color:#dc2626;font-weight:700;font-size:10px;">⚡ Corretiva Imediata</span>';
+    if(r.prior==='PROGRAMADA')return'<span style="color:#f59e0b;font-size:10px;">📅 Preventiva Programada</span>';
+    return'<span style="color:#16a34a;font-size:10px;">👁 Preditiva / Monitor.</span>';
+  };
+  
+  const barScore=r=>{
+    const pct=Math.min(100,Math.round(r.raw_score/20));
+    const c=r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#f59e0b':'#16a34a';
+    return`<div style="display:flex;align-items:center;gap:4px;">
+      <div style="width:50px;height:7px;background:#f1f5f1;border-radius:4px;overflow:hidden;">
+        <div style="width:${pct}%;height:100%;background:${c};border-radius:4px;"></div>
+      </div>
+      <span style="font-size:10px;font-weight:700;color:${c};">${r.risco}</span>
+    </div>`;
+  };
+
+  document.getElementById('tbMatriz').innerHTML=fd.map((r,idx)=>`
+    <tr id="mzrow-${r.maq}" style="cursor:pointer;border-left:3px solid ${r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#f59e0b':'#16a34a'};" 
+        onclick="toggleMatrizDetail('${r.maq}')">
+      <td style="font-weight:800;color:#1e3a5f;font-size:13px;">${r.maq}</td>
+      <td>${priorTag(r.prior)}</td>
+      <td>${barScore(r)}</td>
+      <td style="font-size:11px;max-width:120px;overflow:hidden;text-overflow:ellipsis;" title="${r.top_falha}">${nomeFalha(r.top_falha)}</td>
+      <td style="text-align:right;font-weight:600;font-size:12px;">${r.paradas}</td>
+      <td style="text-align:right;font-weight:700;color:#1e3a5f;font-size:12px;">${r.horas.toLocaleString('pt-BR')}h</td>
+      <td style="text-align:right;color:var(--teal);font-size:12px;">${r.mttr}h</td>
+      <td>${rec(r)}</td>
+      <td>
+        <button class="btn" style="padding:2px 8px;font-size:9px;background:linear-gradient(135deg,#1e3a5f,#1d4ed8);color:#fff;"
+          onclick="event.stopPropagation();abrirManutFromMatriz('${r.maq}','${r.top_falha}','${r.prior}')">+ Ordem</button>
+      </td>
+    </tr>
+    <tr id="mzdet-${r.maq}" style="display:none;background:linear-gradient(135deg,#f8faff,#f5f8ff);">
+      <td colspan="9" style="padding:12px 16px;">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">
+          <div style="background:#fff;border-radius:10px;padding:11px;border-left:4px solid #1d4ed8;">
+            <div style="font-size:9px;font-weight:700;color:#1e3a5f;text-transform:uppercase;margin-bottom:6px;">📊 Top 3 Falhas</div>
+            ${r.top3.map((t,i)=>`<div style="font-size:11px;margin-bottom:3px;display:flex;justify-content:space-between;">
+              <span><strong>#${i+1}</strong> ${nomeFalha(t[0])}</span>
+              <span style="color:#1e3a5f;font-weight:600;">${t[1]}x / ${t[2]}h</span>
+            </div>`).join('')}
+          </div>
+          <div style="background:#fff;border-radius:10px;padding:11px;border-left:4px solid #7c3aed;">
+            <div style="font-size:9px;font-weight:700;color:#1e3a5f;text-transform:uppercase;margin-bottom:6px;">🔢 Códigos 52·53·55·56·59·60</div>
+            ${r.codigos&&Object.keys(r.codigos).length
+              ?Object.entries(r.codigos).map(([c,d])=>`<div style="font-size:10px;margin-bottom:3px;display:flex;justify-content:space-between;align-items:center;">
+                  <span><strong style="background:#7c3aed;color:#fff;padding:1px 4px;border-radius:3px;margin-right:3px;">${c}</strong>${d.nome}</span>
+                  <span style="color:#7c3aed;font-weight:700;">${d.count}x/${d.tempo}h</span>
+                </div>`).join('')
+              :'<div style="font-size:10px;color:#9ca3af;">Sem ocorrências dos códigos monitorados</div>'}
+          </div>
+          <div style="background:#fff;border-radius:10px;padding:11px;border-left:4px solid ${r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#f59e0b':'#16a34a'};">
+            <div style="font-size:9px;font-weight:700;color:#1e3a5f;text-transform:uppercase;margin-bottom:6px;">🎯 Plano de Ação</div>
+            <div style="font-size:11px;line-height:1.6;">
+              ${r.prior==='CRÍTICA'
+                ?'<strong style="color:#dc2626;">⚡ IMEDIATO:</strong> Parar máquina se necessário. Acionar técnico sênior. Verificar '+nomeFalha(r.top_falha)+' como causa raiz.'
+                :r.prior==='PROGRAMADA'
+                ?'<strong style="color:#f59e0b;">📅 ESTA SEMANA:</strong> Agendar parada programada. Separar peças sobressalentes. Priorizar '+nomeFalha(r.top_falha)+'.'
+                :'<strong style="color:#16a34a;">👁 MONITORAR:</strong> Acompanhar indicadores semanais. Incluir na rota de inspeção preditiva.'}
+            </div>
+            <div style="margin-top:6px;font-size:10px;color:var(--gray-400);">
+              Score total: <strong>${r.raw_score}</strong> · Ranking: <strong>#${MATRIZ_DATA.indexOf(r)+1}</strong> de ${MATRIZ_DATA.length}
+            </div>
+          </div>
+          <div style="background:#fff;border-radius:10px;padding:11px;border-left:4px solid var(--teal);">
+            <div style="font-size:9px;font-weight:700;color:#1e3a5f;text-transform:uppercase;margin-bottom:6px;">📈 Tendência (Últimas Semanas)</div>
+            ${r.trend&&r.trend.length?r.trend.map(t=>`<div style="font-size:10px;margin-bottom:2px;display:flex;justify-content:space-between;">
+              <span style="color:#6b7280;">${t.semana}</span>
+              <span><strong>${t.paradas}</strong> paradas · <strong>${t.horas}h</strong></span>
+            </div>`).join(''):'<div style="font-size:10px;color:#9ca3af;">Sem dados semanais</div>'}
+          </div>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function toggleMatrizDetail(maq){
+  const el=document.getElementById('mzdet-'+maq);
+  if(el)el.style.display=el.style.display==='none'?'table-row':'none';
+}
+
+function destacarMaquina(maq){
+  const filtEl=document.getElementById('mzFiltMaq');
+  if(filtEl){filtEl.value=maq;renderMatriz();}
+  setTimeout(()=>{
+    const row=document.getElementById('mzrow-'+maq);
+    if(row){row.scrollIntoView({behavior:'smooth',block:'center'});
+      row.style.transition='background .3s';
+      row.style.background='#dbeafe';
+      setTimeout(()=>row.style.background='',2500);}
+  },200);
+}
+
+function abrirManutFromMatriz(maq,falha,prior){
+  showPage('manutencao');
+  setTimeout(()=>{
+    abrirM(null);
+    const eq=document.getElementById('mEq');if(eq)eq.value='Injetora '+maq;
+    const tp=document.getElementById('mTp');if(tp)tp.value=prior==='CRÍTICA'?'Corretiva':'Preventiva';
+    const cr=document.getElementById('mCr');if(cr)cr.value=prior==='CRÍTICA'?'Alta':prior==='PROGRAMADA'?'Média':'Baixa';
+    const de=document.getElementById('mDe');if(de)de.value='Falha: '+falha+' | Injetora: '+maq+' | Gerado pela Matriz de Criticidade';
+    const pr=document.getElementById('mPr');if(pr)pr.value=prior==='CRÍTICA'?'1 - Urgente':prior==='PROGRAMADA'?'2 - Alta':'3 - Normal';
+  },400);
+}
+
+// ═══════════════════════════════════════════
+// SUPABASE — Salvar/Carregar Análises
+// ═══════════════════════════════════════════
+async function salvarMatrizSupabase(){
+  const sb=getSB();
+  if(!sb){toast('Sem conexão com banco de dados','err');return;}
+  const criticas=_getActiveData().filter(r=>r.prior==='CRÍTICA');
+  const prog=_getActiveData().filter(r=>r.prior==='PROGRAMADA');
+  const atenc=_getActiveData().filter(r=>r.prior==='ATENÇÃO');
+  const analise={
+    data: new Date().toISOString(),
+    periodo_tipo: _mzTipo,
+    periodo_ref: _mzPeriodo||'total',
+    total_maquinas: MATRIZ_DATA.length,
+    alta: criticas.length,
+    media: prog.length,
+    baixa: atenc.length,
+    total_horas: Math.round(MATRIZ_DATA.reduce((a,r)=>a+r.horas,0)),
+    total_paradas: MATRIZ_DATA.reduce((a,r)=>a+r.paradas,0),
+    mttr_medio: +(MATRIZ_DATA.reduce((a,r)=>a+(r.mtbf||r.mttr),0)/MATRIZ_DATA.length).toFixed(2),
+    criticas: JSON.stringify(criticas.map(r=>r.maq)),
+    resumo_json: JSON.stringify(MATRIZ_DATA.map(r=>{
+      return{maq:r.maq,prior:r.prior,risco:r.risco,raw_score:r.raw_score,
+              horas:r.horas,paradas:r.paradas,top_falha:r.top_falha}
+    }))
+  };
+  try{
+    const{error}=await sb.from('matriz_analises').insert(analise);
+    if(error){
+      console.warn('[Supabase] Erro ao salvar:',error.message);
+      toast('⚠ Crie a tabela matriz_analises no Supabase (SQL no console)','warn');
+      console.log('SQL:\nCREATE TABLE matriz_analises (\n  id bigint generated always as identity primary key,\n  data text,total_maquinas integer,alta integer,media integer,baixa integer,\n  total_horas integer,total_paradas integer,mttr_medio numeric,\n  criticas text,resumo_json text\n);\nALTER TABLE matriz_analises ENABLE ROW LEVEL SECURITY;\nCREATE POLICY "acesso" ON matriz_analises FOR ALL TO public USING (auth.role()=\'authenticated\');');
+      return;
+    }
+    toast('✅ Análise semanal salva no banco!','ok');
+    carregarAnaliseSalvas();
+  }catch(e){
+    console.error('[Supabase]',e);
+    toast('Erro ao salvar: '+e.message,'err');
+  }
+}
+
+async function carregarAnaliseSalvas(){
+  const sb=getSB();if(!sb)return;
+  const el=document.getElementById('analiseSalvas');if(!el)return;
+  el.innerHTML='<div style="color:var(--gray-400);font-size:12px;padding:8px;">Carregando histórico...</div>';
+  try{
+    const{data,error}=await sb.from('matriz_analises').select('*').order('id',{ascending:false}).limit(10);
+    if(error||!data?.length){
+      el.innerHTML='<div style="color:var(--gray-400);font-size:12px;padding:8px 0;">Nenhuma análise salva ainda. Clique em "💾 Salvar Análise".</div>';
+      return;
+    }
+    el.innerHTML=data.map((a,i)=>{
+      const dt=new Date(a.data).toLocaleString('pt-BR');
+      const crits=a.criticas?JSON.parse(a.criticas):[];
+      return`<div style="background:${i===0?'#f0f7ff':'var(--gray-50)'};border:1px solid ${i===0?'rgba(59,130,246,.2)':'var(--gray-100)'};border-radius:10px;padding:10px 14px;margin-bottom:7px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#1e3a5f;">${i===0?'⭐ Última análise — ':''}${dt}</div>
+            <div style="font-size:10px;color:var(--gray-400);margin-top:2px;">${a.total_maquinas} máquinas · ${a.total_horas?.toLocaleString('pt-BR')}h paradas · MTTR: ${a.mttr_medio}h</div>
+            ${crits.length?`<div style="font-size:10px;margin-top:3px;color:#dc2626;"><strong>Críticas:</strong> ${crits.slice(0,8).join(' · ')}${crits.length>8?'...':''}</div>`:''}</div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;">
+            <span style="background:#fee2e2;color:#dc2626;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;">🔴 ${a.alta}</span>
+            <span style="background:#fef3c7;color:#a16207;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;">🟡 ${a.media}</span>
+            <span style="background:#dcfce7;color:#15803d;padding:3px 8px;border-radius:5px;font-size:10px;font-weight:700;">🟢 ${a.baixa}</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){
+    el.innerHTML='<div style="color:var(--gray-400);font-size:12px;padding:8px 0;">Tabela não encontrada. Execute o SQL no Supabase Dashboard.</div>';
+  }
+}
+
+// ═══════════════════════════════════════════
+// IA — Análise Inteligente do Cenário Semanal
+// ═══════════════════════════════════════════
+function genMatrizIA(){
+  const box=document.getElementById('matrizIABox');
+  const txt=document.getElementById('matrizIATxt');
+  if(!box||!txt)return;
+  box.style.display='block';
+  txt.innerHTML='<div style="display:flex;align-items:center;gap:8px;color:#1e3a5f;font-size:12px;padding:4px 0;"><div class="spin"></div>Analisando 35 injetoras B01–E11...</div>';
+
+  setTimeout(()=>{
+    const criticas=_getActiveData().filter(r=>r.prior==='CRÍTICA');
+    const prog=_getActiveData().filter(r=>r.prior==='PROGRAMADA');
+    const atenc=_getActiveData().filter(r=>r.prior==='ATENÇÃO');
+    const activeIA=_getActiveData();
+  const totH=Math.round(activeIA.reduce((a,r)=>a+r.horas,0));
+    const topScore=activeIA.slice(0,3);
+    const topMTBF_ia=[...activeIA].sort((a,b)=>(a.mtbf||999)-(b.mtbf||999)).slice(0,3); // menor MTBF = mais crítico
+    const cod52=activeIA.reduce((a,r)=>a+(r.codigos&&r.codigos['52']?r.codigos['52'].count:0),0);
+    const cod53=activeIA.reduce((a,r)=>a+(r.codigos&&r.codigos['53']?r.codigos['53'].count:0),0);
+    const cod56=activeIA.reduce((a,r)=>a+(r.codigos&&r.codigos['56']?r.codigos['56'].count:0),0);
+
+    function blk(cor,ico,titulo,corpo){
+      const bgs={'r':'#fef2f2','a':'#fefce8','g':'#f0fdf4','b':'#eff6ff','p':'#faf5ff'}[cor]||'#fff';
+      const bcs={'r':'#dc2626','a':'#d97706','g':'#16a34a','b':'#2563eb','p':'#7c3aed'}[cor]||'#94a3b8';
+      return`<div style="padding:11px 14px;background:${bgs};border-left:4px solid ${bcs};border-radius:8px;margin-bottom:8px;">
+        <div style="font-size:10px;font-weight:800;text-transform:uppercase;color:${bcs};margin-bottom:5px;">${ico} ${titulo}</div>
+        <div style="font-size:11px;line-height:1.7;color:#374151;">${corpo}</div>
+      </div>`;
+    }
+
+    const semana=_getPeriodoLabel();
+    let h=`
+    <div style="background:#1e3a5f;color:#fff;border-radius:10px;padding:12px 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+      <div><div style="font-size:12px;font-weight:800;letter-spacing:.5px;">📋 ANÁLISE SEMANAL DE CRITICIDADE</div>
+      <div style="font-size:10px;opacity:.75;margin-top:2px;">Semana: ${semana} · ${MATRIZ_DATA.length} injetoras B01–E11 · ${totH.toLocaleString('pt-BR')}h acumuladas</div></div>
+      <div style="display:flex;gap:8px;">
+        <span style="background:#dc2626;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;">🔴 ${criticas.length} Críticas</span>
+        <span style="background:#d97706;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;">🟡 ${prog.length} Programadas</span>
+        <span style="background:#15803d;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:800;">🟢 ${atenc.length} Atenção</span>
+      </div>
+    </div>`;
+
+    h+=blk('r','🚨','INTERVENÇÃO IMEDIATA — Top 10 Críticas',
+      `<strong>Injetoras:</strong> ${criticas.map(r=>`<span style="background:#fee2e2;padding:1px 5px;border-radius:3px;margin:1px;display:inline-block;">${r.maq}</span>`).join(' ')}<br>
+      Essas máquinas acumulam <strong>${Math.round(criticas.reduce((a,r)=>a+r.horas,0)).toLocaleString('pt-BR')} horas de parada</strong>.
+      Requer ação imediata esta semana — acionar equipe técnica sênior, verificar disponibilidade de peças e programar paradas corretivas.
+      Prioridade máxima: <strong>${topScore[0].maq}</strong> (score ${topScore[0].raw_score}), <strong>${topScore[1].maq}</strong> (${topScore[1].raw_score}), <strong>${topScore[2].maq}</strong> (${topScore[2].raw_score}).`);
+
+    h+=blk('a','📅','MANUTENÇÃO PROGRAMADA — 20 Máquinas',
+      `<strong>Agendar nesta semana:</strong> ${prog.slice(0,10).map(r=>r.maq).join(', ')}${prog.length>10?' + mais '+( prog.length-10):''}<br>
+      Planejar manutenção preventiva/corretiva programada. Separar kits de peças com antecedência e definir janelas de parada com a produção.`);
+
+    h+=blk('p','🔢','ANÁLISE POR CÓDIGO DE FALHA',
+      `• <strong>Cód. 52 (Mach Defect):</strong> ${cod52} ocorrências — maior vetor de criticidade. Priorizar revisão de sistemas mecânicos e hidráulicos.<br>
+      • <strong>Cód. 53 (Mold Problem):</strong> ${cod53} ocorrências — alta recorrência. Avaliar estado dos moldes com a ferramentaria.<br>
+      • <strong>Cód. 56 (Power Failure):</strong> ${cod56} ocorrências — risco elétrico. Verificar quadros, contatores e aterramento com urgência.`);
+
+    h+=blk('b','⏱','ATENÇÃO AO MTTR — Tempo de Reparo',
+      `Top 3 maiores MTTR: <strong>${topMTTR.map(r=>`${r.maq} (${r.mttr}h)`).join(' · ')}</strong><br>
+      MTBF baixo indica alta frequência de falhas. Priorizar inspeção preditiva e manutenção preventiva nessas máquinas.`);
+
+    h+=blk('g','🟢','EM ATENÇÃO — Monitoramento Preditivo',
+      `<strong>${atenc.map(r=>r.maq).join(', ')}</strong><br>
+      Incluir na rota de inspeção semanal. Aplicar técnicas preditivas: termografia, análise de vibração e coleta de óleo. Registrar qualquer anomalia antes que evolua para falha.`);
+
+    txt.innerHTML=h;
+  },800);
+}
+
+// ═══════════════════════════════════════════
+// EXPORTS
+// ═══════════════════════════════════════════
+function exportMatrizPdf(){
+  const win=window.open('','_blank');
+  const criticas=_getActiveData().filter(r=>r.prior==='CRÍTICA');
+  const prog=_getActiveData().filter(r=>r.prior==='PROGRAMADA');
+  const rows=MATRIZ_DATA.map(r=>`
+    <tr style="border-left:4px solid ${r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#f59e0b':'#16a34a'};">
+      <td style="font-weight:800;">${r.maq}</td>
+      <td style="color:${r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#d97706':'#16a34a'};font-weight:800;">${r.prior}</td>
+      <td style="text-align:center;font-weight:900;font-size:15px;">${r.risco}</td>
+      <td>${nomeFalha(r.top_falha)}</td>
+      <td style="text-align:right;">${r.paradas}</td>
+      <td style="text-align:right;">${r.horas}h</td>
+      <td style="text-align:right;">${r.mttr}h</td>
+      <td style="font-size:10px;">${r.prior==='CRÍTICA'?'⚡ Corretiva Imediata':r.prior==='PROGRAMADA'?'📅 Preventiva Prog.':'👁 Preditiva'}</td>
+    </tr>`).join('');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+  <title>Matriz Criticidade — Tupperware Brasil</title>
+  <style>
+    body{font-family:Arial,sans-serif;font-size:11px;margin:15px;color:#1f2937;}
+    h1{color:#1e3a5f;font-size:16px;margin-bottom:4px;}
+    .sub{color:#6b7280;font-size:10px;margin-bottom:12px;}
+    .sum{display:flex;gap:10px;margin:10px 0;flex-wrap:wrap;}
+    .box{padding:8px 14px;border-radius:6px;font-weight:800;font-size:12px;}
+    table{border-collapse:collapse;width:100%;font-size:10px;}
+    th{background:#1e3a5f;color:#fff;padding:7px 8px;text-align:left;font-size:9px;text-transform:uppercase;letter-spacing:.5px;}
+    td{border-bottom:1px solid #f1f5f1;padding:5px 8px;}
+    tr:hover td{background:#f8faff;}
+    @media print{@page{size:A4 landscape;margin:8mm;}button{display:none;}}
+  </style></head><body>
+  <button onclick="window.print()" style="margin-bottom:12px;padding:7px 16px;background:#1e3a5f;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:700;">🖨 Imprimir / Salvar PDF</button>
+  <h1>🎯 Matriz de Criticidade — Injetoras Tupperware Brasil</h1>
+  <p class="sub">Gerado em ${new Date().toLocaleString('pt-BR')} · ${MATRIZ_DATA.length} injetoras (B01–E11) · ${Math.round(MATRIZ_DATA.reduce((a,r)=>a+r.horas,0)).toLocaleString()}h acumuladas</p>
+  <div class="sum">
+    <div class="box" style="background:#fee2e2;color:#dc2626;">🔴 Crítica: ${criticas.length} máquinas</div>
+    <div class="box" style="background:#fef3c7;color:#d97706;">🟡 Programada: ${prog.length} máquinas</div>
+    <div class="box" style="background:#dcfce7;color:#15803d;">🟢 Atenção: ${MATRIZ_DATA.filter(r=>r.prior==='ATENÇÃO').length} máquinas</div>
+  </div>
+  <table>
+    <thead><tr><th>Injetora</th><th>Prioridade</th><th>Score</th><th>Top Falha</th><th>Paradas</th><th>Horas</th><th>MTBF (h)</th><th>Ação</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table></body></html>`);
+  win.document.close();
+}
+
+function exportMatrizExcel(){
+  const expDataXls=_getActiveData();
+  const headers=['Injetora','Prioridade','Score Risco','Top Falha','Paradas','Horas','MTBF (h)','Cód.52 Mach','Cód.53 Mold','Cód.55 Robot','Cód.56 Power','Cód.59 Periph','Cód.60 Utility','Recomendação'];
+  const rows=expDataXls.map(r=>[
+    r.maq,r.prior,r.risco,r.top_falha,r.paradas,r.horas,(r.mtbf||r.mttr),
+    r.codigos?.['52']?.count||0,r.codigos?.['53']?.count||0,
+    r.codigos?.['55']?.count||0,r.codigos?.['56']?.count||0,
+    r.codigos?.['59']?.count||0,r.codigos?.['60']?.count||0,
+    r.prior==='CRÍTICA'?'Corretiva Imediata':r.prior==='PROGRAMADA'?'Preventiva Programada':'Preditiva/Monitoramento'
+  ]);
+  const ws2=XLSX.utils.aoa_to_sheet([headers,...rows]);
+  ws2['!cols']=[{wch:8},{wch:14},{wch:8},{wch:22},{wch:8},{wch:8},{wch:8},{wch:10},{wch:10},{wch:10},{wch:10},{wch:10},{wch:12},{wch:22}];
+  const wb2=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb2,ws2,'Matriz Criticidade');
+  XLSX.writeFile(wb2,'Matriz_Criticidade_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+
+// ═══════════════════════════════════════════
+// BRIDGE — Dados Dinâmicos Conectados
+// Compras + Manutenções → Planning Fin + Planning Manut
+// Atualiza automaticamente quando dados mudam
+// ═══════════════════════════════════════════
+function calcBridge(){
+  if(!window.dbRows||!window.fcRows)return null;
+  const all=[...window.dbRows,...window.fcRows];
+
+  // Planejado por mês (Forecast)
+  const planMes={};
+  (window.fcRows||[]).forEach(r=>{
+    const k=r.Mes;
+    if(!planMes[k])planMes[k]={plan:0,meses:r.MesNum};
+    planMes[k].plan+=(r.Valor||0);
+  });
+
+  // Realizado por mês (Actual)
+  const realMes={};
+  (window.dbRows||[]).forEach(r=>{
+    const k=r.Mes;
+    if(!realMes[k])realMes[k]={real:0,mes:r.MesNum};
+    realMes[k].real+=(r.Valor||0);
+  });
+
+  // Compras: planejado = valOrc, realizado = valReal
+  const compras=window._comprasData||[];
+  const compPlanMes={};const compRealMes={};
+  compras.forEach(c=>{
+    if(!c.dataSol)return;
+    const mes=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
+      [new Date(c.dataSol).getMonth()]||'';
+    if(!compPlanMes[mes])compPlanMes[mes]=0;
+    if(!compRealMes[mes])compRealMes[mes]=0;
+    compPlanMes[mes]+=(c.valOrc||0);
+    compRealMes[mes]+=(c.valReal||0);
+  });
+
+  // Manutenções: orçado vs realizado
+  const manuts=window._manutsData||[];
+  const maintPlanMes={};const maintRealMes={};
+  manuts.forEach(m=>{
+    if(!m.dataPlan)return;
+    const mes=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez']
+      [new Date(m.dataPlan).getMonth()]||'';
+    if(!maintPlanMes[mes])maintPlanMes[mes]=0;
+    if(!maintRealMes[mes])maintRealMes[mes]=0;
+    maintPlanMes[mes]+=(m.orcado||0);
+    maintRealMes[mes]+=(m.realizado||0);
+  });
+
+  return{planMes,realMes,compPlanMes,compRealMes,maintPlanMes,maintRealMes};
+}
+
+// Store data references globally for bridge
+window._comprasData=window._comprasData||[];
+window._manutsData=window._manutsData||[];
+
+// Called after any data update
+function onDataUpdate(source){
+  console.log('[Bridge] Data updated from:',source);
+  const b=calcBridge();
+  if(!b)return;
+  // Notify planning pages to re-render if active
+  const cur=document.querySelector('.nb.on-fin, .nb.on-maint');
+  if(cur){
+    const page=cur.id?.replace('nb-','');
+    if(page==='planning-fin')renderPlanFin&&renderPlanFin();
+    if(page==='planning-manut')renderPlanManut&&renderPlanManut();
+    if(page==='dashboard')renderDash&&renderDash();
+  }
+}
+
+// Hook into existing data loads
+
+
+// ═══════════════════════════════════════════
+// PLANNING FINANCEIRO — dinâmico: OMPR + Compras + Manutenções
+// ═══════════════════════════════════════════
+function getPFMes(){return parseInt(document.getElementById('pfMes')?.value||'0');}
+function getPFCat(){return document.getElementById('pfCat')?.value||'';}
+
+
+function exportPlanFinCsv(){
+  const rows=[['Mês','Budget','Planejado','Realizado','Desvio','%Exec']];
+  const subs=['Equipment Expenses','Other Fixed Expenses','Other Variable Expenses'];
+  const MSF=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  for(let m=1;m<=12;m++){
+    const bgt=subs.reduce((a,s)=>a+getBgt(s,m),0);
+    const rl=subs.reduce((a,s)=>a+getRl(s,m),0);
+    const cO=comps.filter(c=>{const d=c.dataSol||c.dataFech||'';const mm=d?parseInt(d.split('-')[1]||d.split('/')[1]):0;return mm===m;}).reduce((a,c)=>a+pNum(c.valOrc),0);
+    const mO=manuts.filter(mn=>{const d=mn.dataPlan||mn.dataReal||'';const mm=d?parseInt(d.split('-')[1]||d.split('/')[1]):0;return mm===m;}).reduce((a,mn)=>a+pNum(mn.orcado),0);
+    rows.push([MSF[m-1]+'/26',bgt.toFixed(2),(cO+mO).toFixed(2),rl.toFixed(2),(bgt-rl).toFixed(2),bgt>0?Math.round(rl/bgt*100)+'%':'0%']);
+  }
+  const csv=rows.map(r=>r.join(';')).join('
+');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='Planning_Financeiro.csv';a.click();
+}
+
+// ═══════════════════════════════════════════
+// PLANNING MANUTENÇÃO — dinâmico: Manutenções
+// ═══════════════════════════════════════════
+
+function exportPlanManutCsv(){
+  const rows=[['Equipamento','Tipo','Status','Criticidade','Data Plan.','Data Real.','Orçado','Realizado','Desvio']];
+  manuts.forEach(m=>rows.push([m.equip||m.eq||'—',m.tipo||'—',m.status||'—',m.critica||'—',m.dataPlan||'—',m.dataReal||'—',pNum(m.orcado).toFixed(2),pNum(m.realizado).toFixed(2),(pNum(m.orcado)-pNum(m.realizado)).toFixed(2)]));
+  const csv=rows.map(r=>r.join(';')).join('
+');
+  const a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download='Planning_Manutencao.csv';a.click();
+}
+
+// Compatibility alias
+
+
+// ═══════════════════════════════════════════
+// PLANNING FINANCEIRO — renderPlanFin
+// Puxado de: dbRows (realizado) + fcRows (forecast) + _comprasData
+// ═══════════════════════════════════════════
+function renderPlanFin(){
+  const bridge=calcBridge();
+  const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const fmt=v=>v?v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'—';
+  const fmtR=v=>v!=null?'R$ '+fmt(v):'—';
+
+  // Build per-month summary
+  const rows=MESES.map((m,i)=>{
+    const plan=(bridge?.planMes[m]?.plan)||0;
+    const real=(bridge?.realMes[m]?.real)||0;
+    const compPlan=(bridge?.compPlanMes[m])||0;
+    const compReal=(bridge?.compRealMes[m])||0;
+    const totPlan=plan+compPlan;
+    const totReal=real+compReal;
+    const desv=totReal-totPlan;
+    const pct=totPlan?Math.round(totReal/totPlan*100):0;
+    return{mes:m,i,plan,real,compPlan,compReal,totPlan,totReal,desv,pct};
+  });
+
+  const hasData=rows.some(r=>r.plan>0||r.real>0||r.compPlan>0);
+
+  // KPIs
+  const totPlanAll=rows.reduce((a,r)=>a+r.totPlan,0);
+  const totRealAll=rows.reduce((a,r)=>a+r.totReal,0);
+  const totDesvAll=totRealAll-totPlanAll;
+  const execPct=totPlanAll?Math.round(totRealAll/totPlanAll*100):0;
+  const totCompPlan=rows.reduce((a,r)=>a+r.compPlan,0);
+  const totCompReal=rows.reduce((a,r)=>a+r.compReal,0);
+
+  document.getElementById('planFinKpis').innerHTML=`
+    <div class="kpi" style="border-top:3px solid #0d9488;">
+      <div class="kl">Budget Planejado (OMPR)</div>
+      <div class="kv" style="color:#0d9488;">${fmtR(totPlanAll)}</div>
+      <div class="ks">forecast acumulado</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid #065f46;">
+      <div class="kl">Realizado (Actual)</div>
+      <div class="kv" style="color:#065f46;">${fmtR(totRealAll)}</div>
+      <div class="ks">executado</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid ${totDesvAll>0?'#dc2626':'#16a34a'};">
+      <div class="kl">Desvio</div>
+      <div class="kv" style="color:${totDesvAll>0?'#dc2626':'#16a34a'};">${fmtR(totDesvAll)}</div>
+      <div class="ks">${totDesvAll>0?'acima do budget':'dentro do budget'}</div>
+    </div>
+    <div class="kpi dk">
+      <div class="kl">% Execução</div>
+      <div class="kv">${execPct}%</div>
+      <div class="ks">do budget</div>
+    </div>
+    <div class="kpi teal">
+      <div class="kl">Compras Orçadas</div>
+      <div class="kv" style="color:var(--teal)">${fmtR(totCompPlan)}</div>
+      <div class="ks">total do período</div>
+    </div>
+    <div class="kpi blue">
+      <div class="kl">Compras Realizadas</div>
+      <div class="kv" style="color:var(--blue)">${fmtR(totCompReal)}</div>
+      <div class="ks">pago/aprovado</div>
+    </div>
+  `;
+
+  // Table
+  const activeRows=rows.filter(r=>r.totPlan>0||r.totReal>0);
+  document.getElementById('tbPlanFin').innerHTML=activeRows.length
+    ?activeRows.map(r=>`
+      <tr>
+        <td style="font-weight:700;">${r.mes}/26</td>
+        <td style="text-align:right;">${fmtR(r.plan)}</td>
+        <td style="text-align:right;color:#065f46;font-weight:600;">${fmtR(r.real)}</td>
+        <td style="text-align:right;color:${r.desv>0?'#dc2626':'#16a34a'};font-weight:700;">${r.desv>0?'+':''}${fmtR(r.desv)}</td>
+        <td style="text-align:right;">
+          <span style="background:${r.pct>=100?'#fee2e2':r.pct>=80?'#fef3c7':'#dcfce7'};color:${r.pct>=100?'#dc2626':r.pct>=80?'#a16207':'#15803d'};padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;">${r.pct}%</span>
+        </td>
+        <td style="text-align:right;">${fmtR(r.compPlan)}</td>
+        <td style="text-align:right;color:#0d9488;font-weight:600;">${fmtR(r.compReal)}</td>
+        <td style="text-align:right;font-weight:700;">${fmtR(r.totPlan)}</td>
+        <td style="text-align:right;font-weight:700;color:#065f46;">${fmtR(r.totReal)}</td>
+      </tr>`)
+      .join('')
+    :`<tr><td colspan="9" style="text-align:center;color:var(--gray-400);padding:20px;">
+        Processe o arquivo OMPR e cadastre compras para ver o consolidado financeiro
+      </td></tr>`;
+
+  // Total row
+  document.getElementById('tfPlanFin').innerHTML=`
+    <tr style="background:#f0fdf4;font-weight:800;border-top:2px solid #d1fae5;">
+      <td>TOTAL</td>
+      <td style="text-align:right;">${fmtR(rows.reduce((a,r)=>a+r.plan,0))}</td>
+      <td style="text-align:right;color:#065f46;">${fmtR(rows.reduce((a,r)=>a+r.real,0))}</td>
+      <td style="text-align:right;color:${totDesvAll>0?'#dc2626':'#16a34a'};">${fmtR(totDesvAll)}</td>
+      <td style="text-align:right;"><span style="background:#dbeafe;color:#1d4ed8;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:800;">${execPct}%</span></td>
+      <td style="text-align:right;">${fmtR(totCompPlan)}</td>
+      <td style="text-align:right;color:#0d9488;">${fmtR(totCompReal)}</td>
+      <td style="text-align:right;">${fmtR(totPlanAll)}</td>
+      <td style="text-align:right;color:#065f46;">${fmtR(totRealAll)}</td>
+    </tr>`;
+
+  // Charts
+  const chartMeses=activeRows.length?activeRows.map(r=>r.mes):['Jan','Fev','Mar','Abr'];
+  dc('cPlanFinMensal');
+  chts.cPlanFinMensal=new Chart(document.getElementById('cPlanFinMensal'),{
+    type:'bar',
+    data:{labels:chartMeses,datasets:[
+      {label:'Forecast (OMPR)',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.plan),backgroundColor:'rgba(13,148,136,.4)',borderRadius:4},
+      {label:'Realizado (Actual)',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.real),backgroundColor:'rgba(6,95,70,.8)',borderRadius:4}
+    ]},
+    options:{...CD,scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
+  });
+
+  dc('cPlanFinCompras');
+  chts.cPlanFinCompras=new Chart(document.getElementById('cPlanFinCompras'),{
+    type:'bar',
+    data:{labels:chartMeses,datasets:[
+      {label:'Orçado',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.compPlan),backgroundColor:'rgba(13,148,136,.4)',borderRadius:4},
+      {label:'Realizado',data:(activeRows.length?activeRows:rows.slice(0,4)).map(r=>r.compReal),backgroundColor:'rgba(6,95,70,.8)',borderRadius:4}
+    ]},
+    options:{...CD,scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
+  });
+}
+
+function exportPlanFinExcel(){
+  const bridge=calcBridge();
+  const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const headers=['Mês','Forecast OMPR','Realizado OMPR','Compras Orçadas','Compras Realizadas','Total Planejado','Total Realizado','Desvio','% Execução'];
+  const rows=MESES.map(m=>{
+    const plan=(bridge?.planMes[m]?.plan)||0;
+    const real=(bridge?.realMes[m]?.real)||0;
+    const cp=(bridge?.compPlanMes[m])||0;
+    const cr=(bridge?.compRealMes[m])||0;
+    return[m+'/26',plan,real,cp,cr,plan+cp,real+cr,real+cr-(plan+cp),plan+cp?(Math.round((real+cr)/(plan+cp)*100)+'%'):'—'];
+  });
+  const ws2=XLSX.utils.aoa_to_sheet([headers,...rows]);
+  const wb2=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb2,ws2,'Planning Financeiro');
+  XLSX.writeFile(wb2,'Planning_Financeiro_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+// ═══════════════════════════════════════════
+// PLANNING MANUTENÇÃO — renderPlanManut
+// Puxado de: _manutsData (ordens cadastradas)
+// ═══════════════════════════════════════════
+function renderPlanManut(){
+  const manuts=window._manutsData||[];
+  const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const fmt=v=>v?v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'—';
+  const fmtR=v=>v!=null&&v>0?'R$ '+fmt(v):'—';
+
+  // Group by month
+  const byMes={};
+  manuts.forEach(m=>{
+    const dt=m.dataPlan?new Date(m.dataPlan):null;
+    const mes=dt?MESES[dt.getMonth()]:'';
+    if(!mes)return;
+    if(!byMes[mes])byMes[mes]={ordens:0,orcado:0,realizado:0,status:{}};
+    byMes[mes].ordens++;
+    byMes[mes].orcado+=(m.orcado||0);
+    byMes[mes].realizado+=(m.realizado||0);
+    const st=m.status||'Pendente';
+    byMes[mes].status[st]=(byMes[mes].status[st]||0)+1;
+  });
+
+  const rows=MESES.map(m=>{
+    const d=byMes[m]||{ordens:0,orcado:0,realizado:0,status:{}};
+    const desv=d.realizado-d.orcado;
+    const pct=d.orcado?Math.round(d.realizado/d.orcado*100):0;
+    const topStatus=Object.entries(d.status).sort((a,b)=>b[1]-a[1])[0]?.[0]||'—';
+    return{mes:m,...d,desv,pct,topStatus};
+  });
+
+  const activeRows=rows.filter(r=>r.ordens>0);
+  const totOrdens=rows.reduce((a,r)=>a+r.ordens,0);
+  const totOrc=rows.reduce((a,r)=>a+r.orcado,0);
+  const totReal=rows.reduce((a,r)=>a+r.realizado,0);
+  const execPct=totOrc?Math.round(totReal/totOrc*100):0;
+
+  // Status counts
+  const statusAll={};
+  manuts.forEach(m=>{const s=m.status||'Pendente';statusAll[s]=(statusAll[s]||0)+1;});
+
+  // KPIs
+  document.getElementById('planManutKpis').innerHTML=`
+    <div class="kpi" style="border-top:3px solid #6366f1;">
+      <div class="kl">Total Ordens</div>
+      <div class="kv" style="color:#6366f1;">${totOrdens}</div>
+      <div class="ks">cadastradas</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid #3730a3;">
+      <div class="kl">Total Orçado</div>
+      <div class="kv" style="color:#3730a3;">${fmtR(totOrc)}</div>
+      <div class="ks">planejado</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid #065f46;">
+      <div class="kl">Total Realizado</div>
+      <div class="kv" style="color:#065f46;">${fmtR(totReal)}</div>
+      <div class="ks">executado</div>
+    </div>
+    <div class="kpi dk">
+      <div class="kl">% Execução</div>
+      <div class="kv">${execPct}%</div>
+      <div class="ks">do orçado</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid #dc2626;">
+      <div class="kl">Desvio</div>
+      <div class="kv" style="color:${totReal-totOrc>0?'#dc2626':'#16a34a'};">${fmtR(totReal-totOrc)}</div>
+      <div class="ks">${totReal-totOrc>0?'acima':'abaixo'} do orçado</div>
+    </div>
+    <div class="kpi" style="border-top:3px solid #f59e0b;">
+      <div class="kl">Em Aberto</div>
+      <div class="kv" style="color:#f59e0b;">${statusAll['Pendente']||0}</div>
+      <div class="ks">ordens pendentes</div>
+    </div>
+  `;
+
+  // Table
+  document.getElementById('tbPlanManut').innerHTML=activeRows.length
+    ?activeRows.map(r=>`
+      <tr>
+        <td style="font-weight:700;">${r.mes}/26</td>
+        <td style="text-align:right;">${r.ordens}</td>
+        <td style="text-align:right;">${fmtR(r.orcado)}</td>
+        <td style="text-align:right;color:#065f46;font-weight:600;">${fmtR(r.realizado)}</td>
+        <td style="text-align:right;color:${r.desv>0?'#dc2626':'#16a34a'};font-weight:700;">${r.desv>0?'+':''}${fmtR(r.desv)}</td>
+        <td style="text-align:right;">
+          <span style="background:${r.pct>=100?'#fee2e2':r.pct>=80?'#fef3c7':'#dcfce7'};color:${r.pct>=100?'#dc2626':r.pct>=80?'#a16207':'#15803d'};padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;">${r.pct}%</span>
+        </td>
+        <td><span class="tag">${r.topStatus}</span></td>
+      </tr>`)
+      .join('')
+    :`<tr><td colspan="7" style="text-align:center;color:var(--gray-400);padding:20px;">
+        Cadastre ordens de manutenção na aba Ordens para ver o planning
+      </td></tr>`;
+
+  document.getElementById('tfPlanManut').innerHTML=`
+    <tr style="background:#eff0ff;font-weight:800;border-top:2px solid #c7d2fe;">
+      <td>TOTAL</td>
+      <td style="text-align:right;">${totOrdens}</td>
+      <td style="text-align:right;">${fmtR(totOrc)}</td>
+      <td style="text-align:right;color:#065f46;">${fmtR(totReal)}</td>
+      <td style="text-align:right;color:${totReal-totOrc>0?'#dc2626':'#16a34a'};">${fmtR(totReal-totOrc)}</td>
+      <td style="text-align:right;"><span style="background:#dbeafe;color:#1d4ed8;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:800;">${execPct}%</span></td>
+      <td>—</td>
+    </tr>`;
+
+  // Charts
+  const chartMeses=activeRows.length?activeRows.map(r=>r.mes):['Jan','Fev','Mar','Abr'];
+  const chartData=activeRows.length?activeRows:rows.slice(0,4);
+  dc('cPlanManutVal');
+  chts.cPlanManutVal=new Chart(document.getElementById('cPlanManutVal'),{
+    type:'bar',
+    data:{labels:chartMeses,datasets:[
+      {label:'Orçado',data:chartData.map(r=>r.orcado),backgroundColor:'rgba(99,102,241,.4)',borderRadius:4},
+      {label:'Realizado',data:chartData.map(r=>r.realizado),backgroundColor:'rgba(55,48,163,.8)',borderRadius:4}
+    ]},
+    options:{...CD,scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>v>=1e6?'R$'+Math.round(v/1e6)+'M':v>=1e3?'R$'+Math.round(v/1e3)+'k':'R$'+v}}}}
+  });
+
+  dc('cPlanManutStatus');
+  const stLabels=Object.keys(statusAll);
+  const stCols=['rgba(220,38,38,.8)','rgba(245,158,11,.8)','rgba(22,163,74,.8)','rgba(59,130,246,.8)','rgba(99,102,241,.8)'];
+  chts.cPlanManutStatus=new Chart(document.getElementById('cPlanManutStatus'),{
+    type:'doughnut',
+    data:{labels:stLabels,datasets:[{data:stLabels.map(s=>statusAll[s]),
+      backgroundColor:stCols.slice(0,stLabels.length),borderWidth:0}]},
+    options:{...CD,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:10,padding:10}}}}
+  });
+}
+
+function exportPlanManutExcel(){
+  const manuts=window._manutsData||[];
+  const headers=['ID','Equipamento','Tipo','Categoria','Status','Criticidade','Responsável','Orçado','Realizado','Data Plan.','Data Real.'];
+  const rows=manuts.map(m=>[m.id||'',m.equip||'',m.tipo||'',m.categoria||'',m.status||'',m.critica||'',m.resp||'',(m.orcado||0),(m.realizado||0),m.dataPlan||'',m.dataReal||'']);
+  const ws2=XLSX.utils.aoa_to_sheet([headers,...rows]);
+  const wb2=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb2,ws2,'Planning Manutenção');
+  XLSX.writeFile(wb2,'Planning_Manutencao_'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+
+
+// ═══════════════════════════════════════════
+// MATRIZ — Controle de Período
+// ═══════════════════════════════════════════
+let _mzTipo = 'semana'; // semana | mes | ano | total
+let _mzPeriodo = ''; // specific period key
+
+function setMatrizPeriodo(tipo){
+  _mzTipo = tipo;
+  // Update tab styles
+  ['Sem','Mes','Ano','Total'].forEach(t=>{
+    const el=document.getElementById('mzTab'+t);
+    if(el) el.classList.remove('mz-tab-on');
+  });
+  const map={semana:'Sem',mes:'Mes',ano:'Ano',total:'Total'};
+  const el=document.getElementById('mzTab'+map[tipo]);
+  if(el) el.classList.add('mz-tab-on');
+  // Populate period selector
+  _populatePeriodoSel();
+  renderMatriz();
+}
+
+function _populatePeriodoSel(){
+  const sel=document.getElementById('mzPeriodoSel');
+  const info=document.getElementById('mzPeriodoInfo');
+  if(!sel) return;
+  sel.innerHTML='';
+  const MES_PT={'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun',
+                '07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'};
+
+  if(_mzTipo==='total'){
+    sel.style.display='none';
+    if(info) info.textContent='Jan/2025 até hoje — todos os dados';
+    _mzPeriodo='total';
+    return;
+  }
+  sel.style.display='block';
+
+  if(_mzTipo==='semana'){
+    const sems=[...MATRIZ_PERIODOS.lista_semanas].reverse();
+    sems.forEach((s,i)=>{
+      const opt=document.createElement('option');
+      opt.value=s;
+      const [ano,w]=s.split('-W');
+      opt.textContent=(i===0?'⭐ ':'')+`Semana ${w} / ${ano}`;
+      sel.appendChild(opt);
+    });
+    if(info) info.textContent='Análise semanal — padrão de acompanhamento';
+  } else if(_mzTipo==='mes'){
+    const meses=[...MATRIZ_PERIODOS.lista_meses].reverse();
+    meses.forEach((m,i)=>{
+      const opt=document.createElement('option');
+      opt.value=m;
+      const [ano,mm]=m.split('-');
+      opt.textContent=(i===0?'⭐ ':'')+(MES_PT[mm]||mm)+' / '+ano;
+      sel.appendChild(opt);
+    });
+    if(info) info.textContent='Análise mensal';
+  } else if(_mzTipo==='ano'){
+    const anos=[...MATRIZ_PERIODOS.lista_anos].reverse();
+    anos.forEach((a,i)=>{
+      const opt=document.createElement('option');
+      opt.value=a;
+      opt.textContent=(i===0?'⭐ ':'')+a;
+      sel.appendChild(opt);
+    });
+    if(info) info.textContent='Análise anual consolidada';
+  }
+  _mzPeriodo=sel.value;
+  sel.onchange=()=>{_mzPeriodo=sel.value;renderMatriz();};
+}
+
+function _getActiveData(){
+  if(_mzTipo==='total') return MATRIZ_PERIODOS.total;
+  if(_mzTipo==='semana') return MATRIZ_PERIODOS.semanas[_mzPeriodo]||MATRIZ_PERIODOS.total;
+  if(_mzTipo==='mes') return MATRIZ_PERIODOS.meses[_mzPeriodo]||MATRIZ_PERIODOS.total;
+  if(_mzTipo==='ano') return MATRIZ_PERIODOS.anos[_mzPeriodo]||MATRIZ_PERIODOS.total;
+  return MATRIZ_PERIODOS.total;
+}
+
+function _getPeriodoLabel(){
+  const MES_PT={'01':'Jan','02':'Fev','03':'Mar','04':'Abr','05':'Mai','06':'Jun',
+                '07':'Jul','08':'Ago','09':'Set','10':'Out','11':'Nov','12':'Dez'};
+  if(_mzTipo==='total') return 'Histórico Completo (Jan/2025–Hoje)';
+  if(_mzTipo==='semana' && _mzPeriodo){
+    const [ano,w]=_mzPeriodo.split('-W');
+    return `Semana ${w} / ${ano}`;
+  }
+  if(_mzTipo==='mes' && _mzPeriodo){
+    const [ano,mm]=_mzPeriodo.split('-');
+    return `${MES_PT[mm]||mm} / ${ano}`;
+  }
+  if(_mzTipo==='ano') return `Ano ${_mzPeriodo}`;
+  return '';
+}
+
+
 // ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
