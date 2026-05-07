@@ -182,6 +182,7 @@ footer span{font-size:9px;color:var(--g4);}
       <button class="nb" onclick="showPage('fornecedores')">Fornecedores</button>
       <button class="nb" onclick="showPage('manutencao')">Manutenções</button>
       <button class="nb" onclick="showPage('compras')">Compras</button>
+      <button class="nb" onclick="showPage('cronograma')">📅 Cronograma</button>
       <button class="nb sp" onclick="showPage('planning')">⚡ Planning</button>
     </nav>
   </div>
@@ -332,7 +333,7 @@ footer span{font-size:9px;color:var(--g4);}
     </div>
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;"><div class="card-ttl" style="margin:0">Lançamentos</div><span id="fTotal" style="font-size:11px;color:var(--gray-400);"></span></div>
-      <div class="tw"><table class="dt"><thead><tr><th onclick="fSort('Fornecedor')">Fornecedor ↕</th><th onclick="fSort('CC')">CC ↕</th><th onclick="fSort('Subcategory')">Subcategoria ↕</th><th onclick="fSort('Mes')">Mês ↕</th><th onclick="fSort('Tipo')">Tipo ↕</th><th style="text-align:right" onclick="fSort('Valor')">Valor ↕</th></tr></thead><tbody id="tForn"></tbody></table></div>
+      <div class="tw"><table class="dt"><thead><tr><th onclick="fSort('Fornecedor')">Fornecedor ↕</th><th onclick="fSort('CC')">CC ↕</th><th onclick="fSort('Subcategory')">Subcategoria ↕</th><th onclick="fSort('Descricao')">Descrição ↕</th><th onclick="fSort('Mes')">Mês ↕</th><th onclick="fSort('Tipo')">Tipo/Conta ↕</th><th style="text-align:right" onclick="fSort('Valor')">Valor ↕</th></tr></thead><tbody id="tForn"></tbody></table></div>
       <div id="fPag" style="display:flex;justify-content:center;gap:4px;margin-top:9px;flex-wrap:wrap;"></div>
     </div>
   </div>
@@ -347,7 +348,7 @@ footer span{font-size:9px;color:var(--g4);}
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
       <button class="btn bp" onclick="abrirM(null)">+ Nova</button>
       <button class="btn bai" onclick="genIA('manut')">★ IA</button>
-      <button class="btn bs" style="font-size:10px;" onclick="showPage('planning')">📅 Cronograma</button>
+      <button class="btn bs" style="font-size:10px;" onclick="showPage('cronograma')">📅 Cronograma</button>
     </div>
   </div>
   <div class="aibox" id="aiMBox" style="display:none"><div class="ai-hd"><div class="ai-ttl">Análise IA — Manutenções <span class="ai-bdg">IA</span></div><button class="btn bg" style="padding:3px 8px;font-size:10px;" onclick="this.closest('.aibox').style.display='none'">Fechar</button></div><div id="aiMTxt" style="font-size:12px;line-height:1.7;"></div></div>
@@ -360,12 +361,17 @@ footer span{font-size:9px;color:var(--g4);}
     <button id="bMelh" class="btn bs" style="padding:4px 11px;font-size:10px;" onclick="setMTipo('melhoria')">Melhorias</button>
     <select id="mfSt" onchange="renderManut()" style="padding:4px 18px 4px 7px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:6px;font-size:11px;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22%3E%3Cpath d=%22M0 0l5 6 5-6z%22 fill=%22%23638c6c%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 5px center;"><option value="">Todos Status</option><option>Não iniciado</option><option>Planejado</option><option>Em andamento</option><option>Concluído</option><option>Atrasado</option><option>Cancelado</option></select>
     <select id="mfCr" onchange="renderManut()" style="padding:4px 18px 4px 7px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:6px;font-size:11px;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22%3E%3Cpath d=%22M0 0l5 6 5-6z%22 fill=%22%23638c6c%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 5px center;"><option value="">Todas Criticidades</option><option>Alta</option><option>Média</option><option>Baixa</option></select>
+    <select id="mfTpF" onchange="renderManut()" style="padding:4px 18px 4px 7px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:6px;font-size:11px;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22%3E%3Cpath d=%22M0 0l5 6 5-6z%22 fill=%22%23638c6c%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 5px center;"><option value="">Todos os Tipos</option><option>Obrigatória por norma</option><option>Preventiva</option><option>Melhoria</option><option>Corretiva</option><option>Projeto</option></select>
     <button class="brs" onclick="resetMF()">✕ Limpar</button>
   </div>
   <div class="card"><div class="tw"><table class="dt"><thead id="mHead"></thead><tbody id="mBody"></tbody></table></div></div>
   <div class="cgrid" style="margin-top:13px;">
-    <div class="cc"><div class="cttl">Status</div><div style="position:relative;height:200px"><canvas id="cMSt"></canvas></div></div>
+    <div class="cc"><div class="cttl">Status das Manutenções</div><div style="position:relative;height:200px"><canvas id="cMSt"></canvas></div></div>
     <div class="cc"><div class="cttl">Financeiro · Orçado × Realizado</div><div style="position:relative;height:200px"><canvas id="cMFin"></canvas></div></div>
+  </div>
+  <div class="cgrid" style="margin-top:11px;">
+    <div class="cc"><div class="cttl">Acumulado Mensal · Orçado vs Realizado</div><div class="csub">Por mês de execução planejada</div><div style="position:relative;height:200px"><canvas id="cMAcum"></canvas></div></div>
+    <div class="cc"><div class="cttl">Distribuição por Criticidade · Financeiro</div><div style="position:relative;height:200px"><canvas id="cMCrit"></canvas></div></div>
   </div>
   <div class="card" style="margin-top:13px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;">
@@ -410,9 +416,23 @@ footer span{font-size:9px;color:var(--g4);}
     <div class="fg"><label>Busca</label><input type="text" id="cfBsc" placeholder="Desc., fornecedor..." oninput="renderComp()"></div>
     <button class="brs" onclick="resetCF()">✕ Limpar</button>
   </div>
+  <!-- Planning vs Real de Compras -->
+  <div class="card" style="margin-bottom:13px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;">
+      <div class="card-ttl" style="margin:0;">📊 Planejado vs Realizado vs Orçado</div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <div class="fg"><label style="font-size:9px;font-weight:700;color:var(--gray-400);text-transform:uppercase;">Mês</label><select id="cpvMes" onchange="renderCompPvR()" style="padding:4px 18px 4px 7px;background:var(--gray-50);border:1.5px solid var(--gray-100);border-radius:6px;font-size:11px;appearance:none;background-image:url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%226%22%3E%3Cpath d=%22M0 0l5 6 5-6z%22 fill=%22%23638c6c%22/%3E%3C/svg%3E');background-repeat:no-repeat;background-position:right 5px center;"><option value="">Todos</option></select></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:9px;margin-bottom:12px;" id="cpvKpis"></div>
+    <div class="cgrid">
+      <div style="position:relative;height:200px"><canvas id="cCpvMes"></canvas></div>
+      <div style="position:relative;height:200px"><canvas id="cCpvSub"></canvas></div>
+    </div>
+  </div>
   <div class="card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px;"><span id="cCount" style="font-size:11px;color:var(--gray-400)">0</span><span style="font-size:11px;color:var(--gray-400)">Total: <strong id="cTot" style="color:var(--g7)">—</strong></span></div>
-    <div class="tw"><table class="dt"><thead><tr><th>Data</th><th>Fornecedor</th><th>Descrição</th><th>Tipo</th><th>Subcat.</th><th>Nº Req</th><th style="text-align:right">Orçado</th><th style="text-align:right">Aprovado</th><th style="text-align:right">Realizado</th><th>Status</th><th>Prazo</th><th>Ações</th></tr></thead><tbody id="tComp"></tbody></table></div>
+    <div class="tw"><table class="dt"><thead><tr><th>Data</th><th>Fornecedor</th><th>Descrição</th><th>Tipo Compra</th><th>Subcat.</th><th>Nº Req</th><th style="text-align:right">Orçado</th><th style="text-align:right">Aprovado</th><th style="text-align:right">Realizado</th><th>Status</th><th>Prazo</th><th>Ações</th></tr></thead><tbody id="tComp"></tbody></table></div>
   </div>
 </div>
 </div>
@@ -471,6 +491,44 @@ footer span{font-size:9px;color:var(--g4);}
 </div>
 
 <footer><span>© Tupperware Brasil · MaintPro · Gerenciamento Budget Industrial</span><span style="font-family:var(--fh);font-size:9px;font-weight:700;color:var(--g3);">Sistema Interno</span></footer>
+</div>
+
+<!-- CRONOGRAMA -->
+<div class="page" id="page-cronograma">
+<div class="wrap">
+  <div class="tbar">
+    <div><div class="pg-ttl">Cronograma de Manutenções 2026</div><div class="pg-sub">Gantt anual · Status · Criticidade</div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      <button class="btn bp" onclick="abrirM(null)">+ Nova</button>
+      <button class="btn bs" onclick="exportGanttPdf()">📄 Exportar PDF</button>
+      <button class="btn bg" onclick="showPage('manutencao')">← Manutenções</button>
+    </div>
+  </div>
+  <div class="fbar">
+    <div class="fg"><label>Status</label><select id="gfSt" onchange="renderCronograma()"><option value="">Todos</option><option>Não iniciado</option><option>Planejado</option><option>Em andamento</option><option>Concluído</option><option>Atrasado</option><option>Cancelado</option></select></div>
+    <div class="fg"><label>Criticidade</label><select id="gfCr" onchange="renderCronograma()"><option value="">Todas</option><option>Alta</option><option>Média</option><option>Baixa</option></select></div>
+    <div class="fg"><label>Tipo</label><select id="gfTp" onchange="renderCronograma()"><option value="">Todos</option><option>Obrigatória por norma</option><option>Preventiva</option><option>Melhoria</option><option>Corretiva</option><option>Projeto</option></select></div>
+    <button class="brs" onclick="['gfSt','gfCr','gfTp'].forEach(id=>{document.getElementById(id).value='';});renderCronograma()">✕ Limpar</button>
+  </div>
+  <div class="kpig" id="gKpis"></div>
+  <div class="card" style="margin-bottom:14px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;">
+      <div class="card-ttl" style="margin:0;">Linha do Tempo 2026</div>
+      <div style="display:flex;gap:10px;font-size:10px;color:var(--gray-400);">
+        <span><span style="display:inline-block;width:12px;height:8px;background:var(--g6);border-radius:2px;margin-right:3px;"></span>Concluído</span>
+        <span><span style="display:inline-block;width:12px;height:8px;background:var(--amber);border-radius:2px;margin-right:3px;"></span>Em andamento</span>
+        <span><span style="display:inline-block;width:12px;height:8px;background:var(--blue);border-radius:2px;margin-right:3px;"></span>Planejado</span>
+        <span><span style="display:inline-block;width:12px;height:8px;background:#94a3b8;border-radius:2px;margin-right:3px;"></span>Não iniciado</span>
+        <span><span style="display:inline-block;width:12px;height:8px;background:var(--red);border-radius:2px;margin-right:3px;"></span>Atrasado</span>
+      </div>
+    </div>
+    <div id="ganttFullW" style="overflow-x:auto;"></div>
+  </div>
+  <div class="cgrid" style="margin-top:13px;">
+    <div class="cc"><div class="cttl">Distribuição por Mês</div><div class="csub">Manutenções planejadas por mês</div><div style="position:relative;height:200px"><canvas id="cGanttMes"></canvas></div></div>
+    <div class="cc"><div class="cttl">Orçado vs Realizado por Tipo</div><div style="position:relative;height:200px"><canvas id="cGanttTp"></canvas></div></div>
+  </div>
+</div>
 </div>
 
 <!-- MODAL MANUTENCAO -->
@@ -573,6 +631,7 @@ async function carregarDB(){
     dbOk=true;toast('✓ Dados carregados','ok');
     const pn=document.querySelector('.page.on')?.id?.replace('page-','');
     if(pn==='manutencao')renderManut();
+    if(pn==='cronograma')renderCronograma();
     if(pn==='compras')renderCompPage();
   }catch(e){console.error(e);toast('Erro banco — modo local','warn');}
 }
@@ -625,15 +684,18 @@ function showApp(){document.getElementById('auth').style.display='none';document
 function showPage(n){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
-  document.getElementById('page-'+n).classList.add('on');
-  const tabs=['upload','dashboard','budget','fornecedores','manutencao','compras','planning'];
+  const pg=document.getElementById('page-'+n);
+  if(!pg)return;
+  pg.classList.add('on');
+  const tabs=['upload','dashboard','budget','fornecedores','manutencao','compras','cronograma','planning'];
   const idx=tabs.indexOf(n);
   if(idx>=0)document.querySelectorAll('.nb')[idx]?.classList.add('on');
   if(n==='dashboard'&&rawData.length)renderDash();
   if(n==='budget'&&rawData.length)renderBudget();
   if(n==='fornecedores'&&rawData.length)renderForn();
   if(n==='manutencao')renderManut();
-  if(n==='compras')renderCompPage();
+  if(n==='compras'){renderCompPage();}
+  if(n==='cronograma')renderCronograma();
   if(n==='planning')renderPlan();
 }
 function cModal(id){document.getElementById(id).classList.add('hidden');}
@@ -684,38 +746,71 @@ function parseFcst(wb,nm){
 }
 
 function parseDB(wb,nm){
-  const rows=[];const ws=wb.Sheets[nm];if(!ws)return rows;
-  const json=XLSX.utils.sheet_to_json(ws,{defval:null,header:1,raw:true});
-  if(!json?.length)return rows;
+  const rows=[];const ws=wb.Sheets[nm];if(!ws){console.warn('[DB] Sheet not found:',nm);return rows;}
+  const ref=ws['!ref'];if(!ref){console.warn('[DB] No ref in sheet',nm);return rows;}
+  const range=XLSX.utils.decode_range(ref);
+  // Build dense 2D grid using actual cell addresses (handles sparse xlsb correctly)
+  const grid=[];
+  for(let R=range.s.r;R<=range.e.r;R++){
+    const rowArr=[];
+    for(let C=range.s.c;C<=range.e.c;C++){
+      const addr=XLSX.utils.encode_cell({r:R,c:C});
+      const cell=ws[addr];
+      rowArr.push(cell?cell.v:null);
+    }
+    grid.push(rowArr);
+  }
+  const colOff=range.s.c;
+  // Find header row with DASHBOARD column
   let hR=-1,mC={};
-  for(let ri=0;ri<Math.min(json.length,25);ri++){
-    const row=json[ri]||[];
+  for(let ri=0;ri<Math.min(grid.length,30);ri++){
+    const row=grid[ri];
     const hasDash=row.some(c=>c&&normStr(c.toString())==='DASHBOARD');
     if(hasDash){
       hR=ri;
-      row.forEach((cell,ci)=>{if(!cell)return;const s=normStr(cell.toString());if(/^(FY|YTD|YTG|TOTAL|SOMA|GRAND)/.test(s))return;const m=parseMH(cell);if(m&&m.ano===2026)mC[ci]=m;});
+      row.forEach((cell,localci)=>{
+        if(!cell)return;
+        const s=normStr(cell.toString());
+        if(/^(FY|YTD|YTG|TOTAL|SOMA|GRAND)/.test(s))return;
+        const m=parseMH(cell);
+        if(m&&m.ano===2026)mC[localci]=m;
+      });
       break;
     }
   }
+  // Fallback: find by 2026 month columns
   if(hR<0){
-    for(let ri=0;ri<Math.min(json.length,25);ri++){
-      const row=json[ri]||[];const found={};
+    for(let ri=0;ri<Math.min(grid.length,30);ri++){
+      const row=grid[ri];const found={};
       row.forEach((cell,ci)=>{if(!cell)return;const m=parseMH(cell);if(m&&m.ano===2026)found[ci]=m;});
       if(Object.keys(found).length>=1){mC=found;hR=ri;break;}
     }
   }
-  if(hR<0||!Object.keys(mC).length)return rows;
-  const hrow=json[hR]||[];let subC=4,ccC=2,fornC=5,tipoC=3;
-  hrow.forEach((cell,ci)=>{if(!cell)return;const s=normStr(cell.toString());if(s==='DASHBOARD')subC=ci;if(s.includes('UNID')||s.includes('NEGOCIO'))ccC=ci;if(s.includes('EXPLICACAO')||s.includes('NOME ALFA')||s==='FORNECEDOR')fornC=ci;if(s.includes('ID. DA CONTA')||s.includes('TIPO CONTA'))tipoC=ci;});
-  for(let ri=hR+1;ri<json.length;ri++){
-    const row=json[ri];if(!row||row.every(v=>v==null))continue;
+  if(hR<0||!Object.keys(mC).length){console.warn('[DB] Header not found, hR='+hR+' mC='+JSON.stringify(mC));return rows;}
+  const hrow=grid[hR];
+  let subC=4,ccC=2,fornC=5,tipoC=3;
+  hrow.forEach((cell,ci)=>{
+    if(!cell)return;const s=normStr(cell.toString());
+    if(s==='DASHBOARD')subC=ci;
+    if(s.includes('UNID')&&(s.includes('NEGOC')||s.includes('NEG')))ccC=ci;
+    if(s.includes('EXPLICAC')&&s.includes('NOME'))fornC=ci;
+    if(s.includes('ID.')&&s.includes('CONTA'))tipoC=ci;
+  });
+  console.log('[DB] hR='+hR+' subC='+subC+' ccC='+ccC+' fornC='+fornC+' months='+JSON.stringify(Object.keys(mC)));
+  for(let ri=hR+1;ri<grid.length;ri++){
+    const row=grid[ri];
+    if(!row||row.every(v=>v==null))continue;
     const sub=normSub(row[subC]);if(!sub)continue;
     const cc=(row[ccC]||'').toString().trim();if(!isCC(cc))continue;
     const fornRaw=(row[fornC]||'').toString().trim();
     if(/^aloc\s*rateio|^rateio\s*aloc/i.test(fornRaw))continue;
     const forn=fornRaw||cc;const tipo=(row[tipoC]||'').toString().trim();
-    for(const[ci,m]of Object.entries(mC)){const val=pNum(row[parseInt(ci)]);if(val===0)continue;rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:forn,Descricao:forn,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});}
+    for(const[ci,m]of Object.entries(mC)){
+      const val=pNum(row[parseInt(ci)]);if(val===0)continue;
+      rows.push({Subcategory:sub,CC:cc,Tipo:tipo,Fornecedor:forn,Descricao:forn,Origem:'Realizado',MesNum:m.num,Mes:m.label,Ano:m.ano,Valor:val});
+    }
   }
+  console.log('[DB] Parsed '+rows.length+' rows from sheet '+nm);
   return rows;
 }
 
@@ -765,6 +860,9 @@ function populateF(){
   const fill=(id,vals,lFn,ph)=>{const el=document.getElementById(id);if(!el)return;el.innerHTML=`<option value="">${ph||'Todos'}</option>`+vals.map(v=>`<option value="${v}">${lFn?lFn(v):v}</option>`).join('');};
   fill('fMes',mes,m=>MSF[m-1],'Todos');fill('fSub',uniq('Subcategory'),null,'Todas');fill('fCC',uniq('CC'),null,'Todos');fill('fForn',uniq('Fornecedor'),null,'Todos');
   fill('ffMes',mes,m=>MSF[m-1],'Todos');fill('ffSub',uniq('Subcategory'),null,'Todas');fill('ffCC',uniq('CC'),null,'Todos');
+  // Populate compras PvR month filter
+  const cpvEl=document.getElementById('cpvMes');
+  if(cpvEl){cpvEl.innerHTML='<option value="">Todos</option>'+MS.map((m,i)=>`<option value="${i+1}">${MSF[i]}</option>`).join('');}
 }
 function getF(){
   const mes=document.getElementById('fMes')?.value,sub=document.getElementById('fSub')?.value,cc=document.getElementById('fCC')?.value,forn=document.getElementById('fForn')?.value;
@@ -772,7 +870,7 @@ function getF(){
 }
 function resetF(){['fMes','fSub','fCC','fForn'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});renderDash();}
 function resetFF(){['ffMes','ffSub','ffCC'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});const b=document.getElementById('ffBsc');if(b)b.value='';_fPg=1;renderForn();}
-function resetMF(){window._mTipo='';document.getElementById('mfSt').value='';document.getElementById('mfCr').value='';}
+function resetMF(){window._mTipo='';['mfSt','mfCr','mfTpF'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});setMTipo('');}
 function resetCF(){['cfSt','cfTp','cfBsc'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});renderComp();}
 
 // ═══════════════════════════════════════════
@@ -909,7 +1007,7 @@ function renderForn(){
   const slice=sorted.slice((_fPg-1)*FPP,_fPg*FPP);
   document.getElementById('fTotal').textContent=`${sorted.length.toLocaleString('pt-BR')} lançamentos`;
   const sb=s=>s==='Equipment Expenses'?'<span class="badge beq">Equip</span>':s==='Other Fixed Expenses'?'<span class="badge bfix">Fixed</span>':'<span class="badge bvar">Var</span>';
-  document.getElementById('tForn').innerHTML=slice.map(r=>`<tr style="cursor:pointer" onclick="abrirFD('${(r.Fornecedor||'').replace(/'/g,"\\'")}')"><td style="max-width:180px;overflow:hidden;text-overflow:ellipsis;" title="${r.Fornecedor||''}">${r.Fornecedor||'—'}</td><td>${r.CC||'—'}</td><td>${sb(r.Subcategory)}</td><td>${MSF[r.MesNum-1]||r.Mes}</td><td style="font-size:10px;color:var(--gray-400)">${r.Tipo||'—'}</td><td style="text-align:right;font-weight:600;color:${r.Valor<0?'var(--red)':'inherit'}">${fK(r.Valor)}</td></tr>`).join('');
+  document.getElementById('tForn').innerHTML=slice.map(r=>`<tr style="cursor:pointer" onclick="abrirFD('${(r.Fornecedor||'').replace(/'/g,"\\'")}')"><td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;" title="${r.Fornecedor||''}">${r.Fornecedor||'—'}</td><td style="font-size:10px">${r.CC||'—'}</td><td>${sb(r.Subcategory)}</td><td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;font-size:10px;color:var(--gray-500);" title="${r.Descricao||''}">${r.Descricao||'—'}</td><td>${MSF[r.MesNum-1]||r.Mes}</td><td style="font-size:10px;color:var(--gray-400)">${r.Tipo||'—'}</td><td style="text-align:right;font-weight:600;color:${r.Valor<0?'var(--red)':'inherit'}">${fK(r.Valor)}</td></tr>`).join('');
   const pags=[];if(pages>1){if(_fPg>1)pags.push(`<button class="btn bg" style="padding:3px 8px;font-size:11px;" onclick="_fPg--;renderForn()">‹</button>`);for(let p=Math.max(1,_fPg-2);p<=Math.min(pages,_fPg+2);p++)pags.push(`<button class="btn ${p===_fPg?'bp':'bg'}" style="padding:3px 8px;font-size:11px;" onclick="_fPg=${p};renderForn()">${p}</button>`);if(_fPg<pages)pags.push(`<button class="btn bg" style="padding:3px 8px;font-size:11px;" onclick="_fPg++;renderForn()">›</button>`);}
   document.getElementById('fPag').innerHTML=pags.join('');
 }
@@ -950,14 +1048,26 @@ function renderManut(){
     if(m.orcado>0&&m.realizado>m.orcado)als.push({c:'r',t:`💰 "${m.equip}" acima do orçamento: +${fK(m.realizado-m.orcado)}`});
   });
   document.getElementById('mAlerts').innerHTML=als.slice(0,5).map(a=>`<div class="chip ${a.c}">${a.t}</div>`).join('');
-  const tipo=window._mTipo||'',stF=document.getElementById('mfSt')?.value||'',crF=document.getElementById('mfCr')?.value||'';
-  const lista=manuts.filter(m=>(!tipo||m.categoria===tipo)&&(!stF||m.status===stF)&&(!crF||m.critica===crF));
+  const lista=getManutFiltrados();
   document.getElementById('mHead').innerHTML=`<tr><th>Equipamento</th><th>Tipo</th><th>Criticidade</th><th>Fornecedor</th><th style="text-align:right">Orçado</th><th style="text-align:right">Realizado</th><th>Data Plan.</th><th>Status</th><th>Avanço</th><th>Ações</th></tr>`;
   document.getElementById('mBody').innerHTML=lista.length?lista.map(m=>`<tr><td style="font-weight:500;max-width:150px;overflow:hidden;text-overflow:ellipsis;" title="${m.equip}">${m.equip||'—'}</td><td><span class="tag tpr" style="font-size:9px">${m.tipo}</span></td><td><span class="sem ${m.critica==='Alta'?'sr':m.critica==='Média'?'sa':'sg'}"><span class="sem-dot"></span>${m.critica}</span></td><td style="font-size:10px;color:var(--gray-400);max-width:90px;overflow:hidden;text-overflow:ellipsis;">${m.forn||'—'}</td><td style="text-align:right">${fR(m.orcado)}</td><td style="text-align:right;color:var(--g7)">${m.realizado>0?fR(m.realizado):'—'}</td><td style="font-size:10px">${fDt(m.dataPlan)}</td><td>${stTag(m.status)}</td><td style="min-width:75px"><div style="display:flex;align-items:center;gap:3px"><div class="pb" style="flex:1"><div class="pb-f" style="background:${m.avanco>=100?'var(--g5)':m.avanco>=50?CA:CR};width:${m.avanco}%"></div></div><span style="font-size:9px">${m.avanco}%</span></div></td><td><div style="display:flex;gap:2px;"><button class="btn bg" style="padding:2px 6px;font-size:9px;" onclick="abrirM(${m.id})">✎</button><button class="btn bred" style="padding:2px 6px;font-size:9px;" onclick="delM(${m.id})">✕</button></div></td></tr>`).join(''):`<tr><td colspan="10" style="text-align:center;color:var(--gray-400);padding:16px;">Nenhuma manutenção.</td></tr>`;
   dc('cMSt');const sL=['Não iniciado','Planejado','Em andamento','Concluído','Atrasado','Cancelado'];
   chts.cMSt=new Chart(document.getElementById('cMSt'),{type:'doughnut',data:{labels:sL,datasets:[{data:sL.map(s=>manuts.filter(m=>m.status===s).length),backgroundColor:['#94a3b8',CB,CA,'#22c55e',CR,'#64748b'],borderWidth:0}]},options:{...CD,plugins:{legend:{display:true,position:'bottom',labels:{font:{size:10},boxWidth:9,padding:7}}}}});
-  dc('cMFin');if(manuts.length)chts.cMFin=new Chart(document.getElementById('cMFin'),{type:'bar',data:{labels:manuts.map(m=>m.equip.length>14?m.equip.slice(0,12)+'…':m.equip),datasets:[{label:'Orçado',data:manuts.map(m=>m.orcado),backgroundColor:'rgba(29,107,44,.7)',borderRadius:3},{label:'Realizado',data:manuts.map(m=>m.realizado),backgroundColor:'rgba(72,191,96,.7)',borderRadius:3}]},options:{indexAxis:'y',...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:7,padding:7}}},scales:{x:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}},y:{...AS}}}});
+  dc('cMFin');
+  const fLista=getManutFiltrados();
+  if(fLista.length)chts.cMFin=new Chart(document.getElementById('cMFin'),{type:'bar',data:{labels:fLista.map(m=>m.equip.length>14?m.equip.slice(0,12)+'…':m.equip),datasets:[{label:'Orçado',data:fLista.map(m=>m.orcado),backgroundColor:'rgba(29,107,44,.7)',borderRadius:3},{label:'Realizado',data:fLista.map(m=>m.realizado),backgroundColor:'rgba(72,191,96,.7)',borderRadius:3}]},options:{indexAxis:'y',...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:7,padding:7}}},scales:{x:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}},y:{...AS}}}});
+  // Acumulado mensal
+  dc('cMAcum');
+  const orcMes=MS.map((_,i)=>manuts.filter(m=>m.dataPlan&&new Date(m.dataPlan+'T00:00').getMonth()===i).reduce((a,m)=>a+m.orcado,0));
+  const rlMes=MS.map((_,i)=>manuts.filter(m=>m.dataPlan&&new Date(m.dataPlan+'T00:00').getMonth()===i).reduce((a,m)=>a+m.realizado,0));
+  let aO=0,aR=0;const aOrc=[],aRl=[];orcMes.forEach((v,i)=>{aO+=v;aR+=rlMes[i];aOrc.push(aO);aRl.push(aR);});
+  chts.cMAcum=new Chart(document.getElementById('cMAcum'),{type:'line',data:{labels:MS,datasets:[{label:'Orçado Acum.',data:aOrc,borderColor:C1,backgroundColor:'rgba(29,107,44,.07)',fill:true,tension:.3,pointRadius:3,borderWidth:2.5},{label:'Realizado Acum.',data:aRl,borderColor:C2,backgroundColor:'rgba(72,191,96,.07)',fill:true,tension:.3,pointRadius:3,borderWidth:2}]},options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
+  // Por criticidade
+  dc('cMCrit');
+  const crits=['Alta','Média','Baixa'];
+  chts.cMCrit=new Chart(document.getElementById('cMCrit'),{type:'bar',data:{labels:crits,datasets:[{label:'Orçado',data:crits.map(c=>manuts.filter(m=>m.critica===c).reduce((a,m)=>a+m.orcado,0)),backgroundColor:[CR+'99',CA+'99','rgba(29,107,44,.7)'],borderRadius:4},{label:'Realizado',data:crits.map(c=>manuts.filter(m=>m.critica===c).reduce((a,m)=>a+m.realizado,0)),backgroundColor:[CR+'55',CA+'55','rgba(72,191,96,.7)'],borderRadius:4}]},options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
   // GANTT
+  const ganttLista=lista; // use filtered list
   const sCor={'Concluído':C1,'Em andamento':CA,'Planejado':CB,'Não iniciado':'#94a3b8','Atrasado':CR,'Cancelado':'#64748b','Aguardando compra':CP};
   let gh=`<div class="gantt-h"><div class="gantt-hl">Equipamento</div>${MS.map(m=>`<div class="gantt-hm">${m}</div>`).join('')}</div>`;
   if(lista.length){lista.forEach(m=>{if(!m.dataPlan)return;const dp=new Date(m.dataPlan+'T00:00');const dr=m.dataReal?new Date(m.dataReal+'T00:00'):null;const mi=dp.getMonth();const mf=dr?dr.getMonth():mi;const cor=sCor[m.status]||'#94a3b8';const span=Math.max(1,mf-mi+1);gh+=`<div class="gantt-row"><div class="gantt-lbl" title="${m.equip}">${m.equip}</div><div class="gantt-months">${MS.map((_,ci)=>{let bar='';if(ci===mi){const w=`calc(${span*100}% - 4px)`;bar=`<div class="gantt-bar" style="background:${cor};left:2px;width:${w};" title="${m.equip}·${m.status}·${fDt(m.dataPlan)}">${span>1?m.equip.slice(0,10)+(m.equip.length>10?'…':''):''}</div>`;}return`<div class="gantt-m">${bar}</div>`;}).join('')}</div></div>`;})}
@@ -983,7 +1093,33 @@ function salvarC(){
   cModal('modalC');renderCompPage();toast('✓ Salvo!','ok');
 }
 function delC(id){if(!confirm('Excluir?'))return;comps=comps.filter(c=>c.id!==id);dbDel('compras',id).catch(console.warn);renderCompPage();}
-function renderCompPage(){renderCKpis();renderComp();renderCCharts();}
+function renderCompPage(){renderCKpis();renderComp();renderCCharts();renderCompPvR();}
+
+function renderCompPvR(){
+  const mesF=parseInt(document.getElementById('cpvMes')?.value||0)||0;
+  const filtC=mesF?comps.filter(c=>c.dataSol&&new Date(c.dataSol+'T00:00').getMonth()+1===mesF):comps;
+  const totOrc=filtC.reduce((a,c)=>a+c.valOrc,0);
+  const totAprov=filtC.reduce((a,c)=>a+c.valAprov,0);
+  const totReal=filtC.reduce((a,c)=>a+c.valReal,0);
+  const totPend=filtC.filter(c=>!['Finalizado','Cancelado'].includes(c.status)).reduce((a,c)=>a+(c.valAprov||c.valOrc||0),0);
+  const devOA=totAprov>0?((totReal-totAprov)/totAprov*100):0;
+  document.getElementById('cpvKpis').innerHTML=`
+    <div class="kpi dk"><div class="kl">Total Orçado</div><div class="kv" style="font-size:17px;">${fK(totOrc)}</div><div class="ks">planejado</div></div>
+    <div class="kpi blue"><div class="kl">Total Aprovado</div><div class="kv" style="font-size:17px;color:var(--blue)">${fK(totAprov)}</div><div class="ks">${totOrc>0?(totAprov/totOrc*100).toFixed(0)+'%':'—'} do orçado</div></div>
+    <div class="kpi teal"><div class="kl">Realizado</div><div class="kv" style="font-size:17px;color:var(--teal)">${fK(totReal)}</div><div class="ks">${totAprov>0?(totReal/totAprov*100).toFixed(0)+'%':'—'} do aprovado</div></div>
+    <div class="kpi ${totPend>totOrc?'red':'amber'}"><div class="kl">Em Aberto</div><div class="kv" style="font-size:17px;color:var(--amber)">${fK(totPend)}</div><div class="ks">comprometido</div></div>
+    <div class="kpi ${devOA>10?'red':devOA<-10?'':''}"><div class="kl">Desvio Real vs Aprov.</div><div class="kv ${devOA>0?'vp':'vn'}" style="font-size:17px;">${(devOA>=0?'+':'')+devOA.toFixed(1)+'%'}</div><div class="ks">variação</div></div>`;
+  // Chart: evolução mensal
+  dc('cCpvMes');
+  const mesOrc=MS.map((_,i)=>comps.filter(c=>c.dataSol&&new Date(c.dataSol+'T00:00').getMonth()===i).reduce((a,c)=>a+c.valOrc,0));
+  const mesAprov=MS.map((_,i)=>comps.filter(c=>c.dataSol&&new Date(c.dataSol+'T00:00').getMonth()===i).reduce((a,c)=>a+c.valAprov,0));
+  const mesReal=MS.map((_,i)=>comps.filter(c=>c.dataSol&&new Date(c.dataSol+'T00:00').getMonth()===i).reduce((a,c)=>a+c.valReal,0));
+  chts.cCpvMes=new Chart(document.getElementById('cCpvMes'),{type:'bar',data:{labels:MS,datasets:[{label:'Orçado',data:mesOrc,backgroundColor:'rgba(29,107,44,.7)',borderRadius:3},{label:'Aprovado',data:mesAprov,backgroundColor:'rgba(59,130,246,.7)',borderRadius:3},{label:'Realizado',data:mesReal,backgroundColor:'rgba(13,148,136,.7)',borderRadius:3}]},options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
+  // Chart: por subcategoria
+  dc('cCpvSub');
+  const subs=['Equipment Expenses','Other Fixed Expenses','Other Variable Expenses'];
+  chts.cCpvSub=new Chart(document.getElementById('cCpvSub'),{type:'bar',data:{labels:['Equipment','Fixed','Variable'],datasets:[{label:'Orçado',data:subs.map(s=>filtC.filter(c=>c.subcat===s).reduce((a,c)=>a+c.valOrc,0)),backgroundColor:'rgba(29,107,44,.7)',borderRadius:3},{label:'Aprovado',data:subs.map(s=>filtC.filter(c=>c.subcat===s).reduce((a,c)=>a+c.valAprov,0)),backgroundColor:'rgba(59,130,246,.7)',borderRadius:3},{label:'Realizado',data:subs.map(s=>filtC.filter(c=>c.subcat===s).reduce((a,c)=>a+c.valReal,0)),backgroundColor:'rgba(13,148,136,.7)',borderRadius:3}]},options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
+}
 function renderCKpis(){
   const emA=comps.filter(c=>!['Finalizado','Cancelado'].includes(c.status));const vA=emA.reduce((a,c)=>a+(c.valAprov||c.valOrc||0),0);const qAp=comps.filter(c=>c.status==='Aguardando aprovação').length;const vAp=comps.filter(c=>c.status==='Aguardando aprovação').reduce((a,c)=>a+c.valOrc,0);const fin=comps.filter(c=>c.status==='Finalizado').length;const vFin=comps.filter(c=>c.status==='Finalizado').reduce((a,c)=>a+c.valReal,0);const vTA=comps.reduce((a,c)=>a+c.valAprov,0);
   document.getElementById('cKpis').innerHTML=`<div class="kpi dk"><div class="kl">Em Aberto</div><div class="kv">${fK(vA)}</div><div class="ks">${emA.length} solicitações</div></div><div class="kpi red"><div class="kl">Aguard. Aprovação</div><div class="kv" style="color:var(--red)">${fK(vAp)}</div><div class="ks">${qAp} solicitações</div></div><div class="kpi"><div class="kl">Finalizados</div><div class="kv" style="color:var(--g6)">${fK(vFin)}</div><div class="ks">${fin} concluídos</div></div><div class="kpi teal"><div class="kl">Total Aprovado</div><div class="kv" style="color:var(--teal)">${fK(vTA)}</div><div class="ks">comprometido</div></div><div class="kpi blue"><div class="kl">Total Cadastrado</div><div class="kv" style="color:var(--blue)">${comps.length}</div><div class="ks">solicitações</div></div><div class="kpi amber"><div class="kl">Ticket Médio</div><div class="kv" style="color:var(--amber)">${comps.length?fK(comps.reduce((a,c)=>a+c.valOrc,0)/comps.length):'—'}</div><div class="ks">por solicitação</div></div>`;
@@ -1063,6 +1199,126 @@ function iaM(){const tot=manuts.length,conc=manuts.filter(m=>m.status==='Conclu�
 function iaC(){const emA=comps.filter(c=>!['Finalizado','Cancelado'].includes(c.status)).length;const qAp=comps.filter(c=>c.status==='Aguardando aprovação').length;const vcds=comps.filter(c=>{if(!c.prazo||['Finalizado','Cancelado'].includes(c.status))return false;return new Date(c.prazo+'T00:00')<new Date();});let h=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:7px;margin-bottom:11px;">${mkM2('Em Aberto',emA,'solicitações',null,null,emA>0?CR:'var(--g6)')}${mkM2('Aguard.',qAp,'aprovação',null,null,qAp>0?CR:'var(--g6)')}${mkM2('Prazos Venc.',vcds.length,vcds.length>0?'⚠ ação!':'ok',null,null,vcds.length>0?CR:'var(--g6)')}${mkM2('Finaliz.',comps.filter(c=>c.status==='Finalizado').length,'concluídos',null,null,'var(--g6)')}</div>`;vcds.forEach(c=>h+=mkA('r','🚨',`"${c.desc||c.forn}" — prazo vencido (${fDt(c.prazo)})`));if(qAp>0)h+=mkA('a','⏳',`${qAp} compra(s) aguardando aprovação!`);if(!vcds.length&&!qAp)h+=mkA('g','✅','Sem gargalos críticos.');return h;}
 function iaP(){const mes=getPvM(),cat=getPvC();const subs=['Equipment Expenses','Other Fixed Expenses','Other Variable Expenses'];const fS=cat?[cat]:subs;let tB=0,tR=0,tP=0;fS.forEach(s=>{tB+=getBgt(s,mes);tR+=getRl(s,mes);tP+=pvItems.filter(i=>i.mes===mes&&i.tipo==='planned'&&i.cat===s).reduce((a,i)=>a+i.valor,0);});const sR=tB-tR,pR=tB>0?(tR/tB*100):0,risco=(tP+tR)>tB;let h=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:7px;margin-bottom:11px;">${mkM2('Budget',fK(tB),'Forecast',null,null,'var(--g8)')}${mkM2('Planejado',fK(tP),`${tB>0?(tP/tB*100).toFixed(1):0}%`,tB>0?tP/tB*100:0,CB,'var(--blue)')}${mkM2('Realizado',fK(tR),`${pR.toFixed(1)}%`,pR,pR>100?CR:pR>80?CA:C2,'var(--teal)')}${mkM2('Saldo',fK(sR),sR<0?'ESTOURO':'disponível',null,null,sR<0?CR:'var(--g6)')}</div>`;if(risco)h+=mkA('r','🚨',`Plan+Real (${fK(tP+tR)}) > Budget (${fK(tB)}).`);if(pR>80&&!risco)h+=mkA('a','⚡',`${pR.toFixed(0)}% consumido. Atenção!`);if(!risco&&pR<50)h+=mkA('g','✅',`Budget ok. ${fK(sR)} disponíveis.`);if(!pvItems.filter(i=>i.mes===mes).length)h+=mkA('b','💡','Nenhum item de planejamento. Adicione para melhorar a previsão.');return h;}
 
+
+// ═══════════════════════════════════════════
+// CRONOGRAMA DEDICADO
+// ═══════════════════════════════════════════
+function renderCronograma(){
+  const stF=document.getElementById('gfSt')?.value||'';
+  const crF=document.getElementById('gfCr')?.value||'';
+  const tpF=document.getElementById('gfTp')?.value||'';
+  const lista=manuts.filter(m=>(!stF||m.status===stF)&&(!crF||m.critica===crF)&&(!tpF||m.tipo===tpF));
+  const tot=lista.length,conc=lista.filter(m=>m.status==='Concluído').length;
+  const atrs=lista.filter(m=>m.status==='Atrasado').length,emA=lista.filter(m=>m.status==='Em andamento').length;
+  const tO=lista.reduce((a,m)=>a+m.orcado,0),tR=lista.reduce((a,m)=>a+m.realizado,0);
+  document.getElementById('gKpis').innerHTML=`
+    <div class="kpi dk"><div class="kl">Total Filtrado</div><div class="kv">${tot}</div><div class="ks">manutenções</div></div>
+    <div class="kpi"><div class="kl">Concluídas</div><div class="kv" style="color:var(--g6)">${conc}</div><div class="ks">${tot?Math.round(conc/tot*100):0}%</div></div>
+    <div class="kpi blue"><div class="kl">Em Andamento</div><div class="kv" style="color:var(--blue)">${emA}</div><div class="ks">em execução</div></div>
+    <div class="kpi ${atrs>0?'red':''}"><div class="kl">Atrasadas</div><div class="kv ${atrs>0?'vp':''}">${atrs}</div><div class="ks">${atrs>0?'⚠ atenção':'ok'}</div></div>
+    <div class="kpi amber"><div class="kl">Orçado Total</div><div class="kv" style="color:var(--amber)">${fK(tO)}</div><div class="ks">planejado</div></div>
+    <div class="kpi ${tR>tO?'red':'teal'}"><div class="kl">Realizado</div><div class="kv" style="color:var(--teal)">${fK(tR)}</div><div class="ks">${tO>0?(tR/tO*100).toFixed(0)+'%':'-'} exec.</div></div>`;
+  // Build Gantt
+  const sCor={'Concluído':C1,'Em andamento':CA,'Planejado':CB,'Não iniciado':'#94a3b8','Atrasado':CR,'Cancelado':'#64748b','Aguardando compra':CP};
+  let gh=`<div style="display:flex;margin-bottom:2px;">
+    <div style="min-width:220px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--gray-400);text-transform:uppercase;padding:4px 10px;border-right:2px solid var(--gray-100);">Equipamento / Ação</div>
+    ${MS.map(m=>`<div style="flex:1;min-width:62px;font-family:var(--fh);font-size:9px;font-weight:700;color:var(--gray-400);text-align:center;padding:4px 2px;border-right:1px solid var(--gray-100);">${m}</div>`).join('')}
+  </div>`;
+  if(lista.length===0){gh+='<div style="text-align:center;padding:24px;color:var(--gray-400);font-size:12px;">Nenhuma manutenção com os filtros atuais.</div>';}
+  else{
+    const sorted=[...ganttLista].sort((a,b)=>{
+      if(a.dataPlan&&b.dataPlan)return new Date(a.dataPlan)-new Date(b.dataPlan);
+      return 0;
+    });
+    sorted.forEach(m=>{
+      if(!m.dataPlan)return;
+      const dp=new Date(m.dataPlan+'T00:00');
+      const dr=m.dataReal?new Date(m.dataReal+'T00:00'):null;
+      const mi=dp.getMonth();
+      const mf=dr?dr.getMonth():mi;
+      const cor=sCor[m.status]||'#94a3b8';
+      const span=Math.max(1,mf-mi+1);
+      const critCor=m.critica==='Alta'?'var(--red)':m.critica==='Média'?CA:'var(--g5)';
+      gh+=`<div style="display:flex;align-items:center;border-bottom:1px solid var(--gray-50);min-height:38px;" onmouseover="this.style.background='var(--g0)'" onmouseout="this.style.background=''">
+        <div style="min-width:220px;max-width:220px;padding:5px 10px;font-size:11px;color:var(--g8);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;border-right:2px solid var(--gray-100);cursor:pointer;" onclick="abrirM(${m.id})" title="${m.equip}">
+          <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:${critCor};margin-right:4px;"></span>${m.equip}
+        </div>
+        <div style="display:flex;flex:1;">
+          ${MS.map((_,ci)=>{
+            let bar='';
+            if(ci===mi){
+              const w=`calc(${span*100}% - 4px)`;
+              bar=`<div style="position:absolute;top:7px;left:2px;height:22px;border-radius:4px;background:${cor};width:${w};display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;overflow:hidden;white-space:nowrap;padding:0 4px;cursor:pointer;z-index:1;" onclick="abrirM(${m.id})" title="${m.equip} · ${m.status} · ${fDt(m.dataPlan)} · ${fR(m.orcado)}">${span>2?m.equip.slice(0,14)+(m.equip.length>14?'…':''):m.avanco+'%'}</div>`;
+            }
+            return `<div style="flex:1;min-width:62px;border-right:1px solid var(--gray-100);position:relative;height:38px;">${bar}</div>`;
+          }).join('')}
+        </div>
+      </div>`;
+    });
+  }
+  document.getElementById('ganttFullW').innerHTML=gh;
+  // Charts
+  dc('cGanttMes');
+  const mesCounts=MS.map((_,i)=>lista.filter(m=>{if(!m.dataPlan)return false;return new Date(m.dataPlan+'T00:00').getMonth()===i;}).length);
+  chts.cGanttMes=new Chart(document.getElementById('cGanttMes'),{type:'bar',data:{labels:MS,datasets:[{data:mesCounts,backgroundColor:'rgba(29,107,44,.75)',borderColor:C1,borderWidth:1,borderRadius:4}]},options:{...CD,scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,stepSize:1}}}}});
+  dc('cGanttTp');
+  const tipos=[...new Set(lista.map(m=>m.tipo))].filter(Boolean);
+  chts.cGanttTp=new Chart(document.getElementById('cGanttTp'),{type:'bar',data:{labels:tipos.map(t=>t.length>20?t.slice(0,18)+'…':t),datasets:[{label:'Orçado',data:tipos.map(t=>lista.filter(m=>m.tipo===t).reduce((a,m)=>a+m.orcado,0)),backgroundColor:'rgba(29,107,44,.7)',borderRadius:3},{label:'Realizado',data:tipos.map(t=>lista.filter(m=>m.tipo===t).reduce((a,m)=>a+m.realizado,0)),backgroundColor:'rgba(72,191,96,.7)',borderRadius:3}]},options:{...CD,plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:9,padding:7}}},scales:{x:{...AS},y:{...AS,ticks:{...AS.ticks,callback:v=>fK(v)}}}}});
+}
+
+function exportGanttPdf(){
+  const stF=document.getElementById('gfSt')?.value||'';
+  const crF=document.getElementById('gfCr')?.value||'';
+  const tpF=document.getElementById('gfTp')?.value||'';
+  const lista=manuts.filter(m=>(!stF||m.status===stF)&&(!crF||m.critica===crF)&&(!tpF||m.tipo===tpF));
+  if(!lista.length){alert('Nenhuma manutenção para exportar.');return;}
+  const win=window.open('','_blank');
+  const sCor={'Concluído':'#1d6b2c','Em andamento':'#f59e0b','Planejado':'#3b82f6','Não iniciado':'#94a3b8','Atrasado':'#e53935','Cancelado':'#64748b','Aguardando compra':'#8b5cf6'};
+  const sorted=[...lista].sort((a,b)=>{if(a.dataPlan&&b.dataPlan)return new Date(a.dataPlan)-new Date(b.dataPlan);return 0;});
+  let rows=sorted.map(m=>{
+    if(!m.dataPlan)return '';
+    const mi=new Date(m.dataPlan+'T00:00').getMonth();
+    const mf=m.dataReal?new Date(m.dataReal+'T00:00').getMonth():mi;
+    const cor=sCor[m.status]||'#94a3b8';
+    const span=Math.max(1,mf-mi+1);
+    const cols=MS.map((_,ci)=>{
+      if(ci===mi){
+        const w=(span/12*100).toFixed(1)+'%';
+        return `<td colspan="${span}" style="position:relative;padding:2px;background:${cor}22;border:1px solid #ddd;"><div style="background:${cor};color:#fff;font-size:8px;font-weight:700;padding:2px 4px;border-radius:3px;white-space:nowrap;overflow:hidden;">${m.status}</div></td>`;
+      }
+      if(ci>mi&&ci<=mf)return '';
+      return `<td style="border:1px solid #ddd;"></td>`;
+    }).join('');
+    return `<tr><td style="border:1px solid #ddd;padding:4px 6px;font-size:10px;font-weight:500;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${m.equip}</td><td style="border:1px solid #ddd;padding:4px 6px;font-size:9px;color:${m.critica==='Alta'?'#e53935':m.critica==='Média'?'#f59e0b':'#1d6b2c'};">${m.critica}</td><td style="border:1px solid #ddd;padding:4px 6px;font-size:9px;">${fDt(m.dataPlan)}</td><td style="border:1px solid #ddd;padding:4px 6px;font-size:9px;text-align:right;">${fK(m.orcado)}</td>${cols}</tr>`;
+  }).join('');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Cronograma Manutenções 2026</title><style>body{font-family:Arial,sans-serif;font-size:11px;margin:15px;}h2{color:#0d2b12;font-size:14px;margin-bottom:4px;}p{color:#666;font-size:10px;margin-bottom:12px;}table{border-collapse:collapse;width:100%;font-size:9px;}th{background:#1d6b2c;color:#fff;padding:5px 6px;text-align:left;font-size:9px;}@media print{@page{size:A3 landscape;margin:10mm;}button{display:none!important;}}</style></head><body><button onclick="window.print()" style="margin-bottom:12px;padding:6px 14px;background:#1d6b2c;color:#fff;border:none;border-radius:5px;cursor:pointer;font-size:11px;">🖨 Imprimir / Salvar PDF</button><h2>Cronograma de Manutenções 2026 · Tupperware Brasil</h2><p>Gerado em ${new Date().toLocaleDateString('pt-BR')} · ${lista.length} manutenções</p><table><thead><tr><th style="min-width:140px">Equipamento</th><th>Criticidade</th><th>Data Plan.</th><th>Orçado</th>${MS.map(m=>`<th style="text-align:center;min-width:40px">${m}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></body></html>`);
+  win.document.close();
+}
+
+// ═══════════════════════════════════════════
+// MANUTENÇÕES - MELHORIAS DE FILTRO E ACUMULADO
+// ═══════════════════════════════════════════
+function getManutFiltrados(){
+  const tipo=window._mTipo||'';
+  const stF=document.getElementById('mfSt')?.value||'';
+  const crF=document.getElementById('mfCr')?.value||'';
+  const tpF=document.getElementById('mfTpF')?.value||'';
+  return manuts.filter(m=>(!tipo||m.categoria===tipo)&&(!stF||m.status===stF)&&(!crF||m.critica===crF)&&(!tpF||m.tipo===tpF));
+}
+
+function calcAcumuladoManut(){
+  // Acumulado mensal de orcado e realizado
+  const acum={};
+  MS.forEach((_,i)=>{
+    const mes=i+1;
+    const mList=manuts.filter(m=>{
+      if(!m.dataPlan)return false;
+      return new Date(m.dataPlan+'T00:00').getMonth()===i;
+    });
+    acum[mes]={orc:mList.reduce((a,m)=>a+m.orcado,0),real:mList.reduce((a,m)=>a+m.realizado,0),qtd:mList.length};
+  });
+  return acum;
+}
 // ═══════════════════════════════════════════
 // INIT
 // ═══════════════════════════════════════════
