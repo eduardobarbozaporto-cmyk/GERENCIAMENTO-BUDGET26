@@ -1214,19 +1214,22 @@ async function doLogin(){
   if(error){showAuthErr(error.message.includes('credentials')?'E-mail ou senha incorretos.':error.message);return;}
   _user=data.user;showApp();
 }
-async function doLogout(){await getSB().auth.signOut();dbOk=false;manuts=[];comps=[];rawData=[];showAuth();}
+async function doLogout(){await getSB().auth.signOut();dbOk=false;manuts=[];comps=[];rawData=[];_appShown=false;showAuth();}
 function showAuthErr(m){const e=document.getElementById('authErr');e.textContent=m;e.style.display='block';}
 function showAuth(){document.getElementById('auth').style.display='flex';document.getElementById('app').style.display='none';}
+let _appShown = false;
 function showApp(){
   document.getElementById('auth').style.display='none';
   document.getElementById('app').style.display='block';
   document.getElementById('hUser').textContent=_user?.email||'';
-  showPage('upload');
-  // Load DB after brief delay
-  setTimeout(async()=>{
-    toast('Conectando ao banco...','info');
-    await carregarDB();
-  },500);
+  if(!_appShown){
+    _appShown = true;
+    showPage('upload');
+    setTimeout(async()=>{
+      toast('Conectando ao banco...','info');
+      await carregarDB();
+    },500);
+  }
 }
 
 // ═══════════════════════════════════════════
