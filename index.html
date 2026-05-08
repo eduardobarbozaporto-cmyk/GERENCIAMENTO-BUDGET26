@@ -29,7 +29,7 @@ function getSB(){if(_sb)return _sb;const lib=window.supabase;if(!lib?.createClie
   --sh:0 1px 3px rgba(13,43,18,.08);--sm:0 4px 12px rgba(13,43,18,.1);--sl:0 10px 28px rgba(13,43,18,.14);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:var(--fb);background:#f5f7f5;color:var(--gray-800);min-height:100vh;font-size:13.5px;line-height:1.6;-webkit-font-smoothing:antialiased;}html,body{height:100%;overflow-x:hidden;}
+body{font-family:var(--fb);background:#f5f7f5;color:var(--gray-800);min-height:100vh;font-size:13.5px;line-height:1.6;-webkit-font-smoothing:antialiased;}html,body{height:100%;}
 
 /* ── Matriz period tabs ── */
 .mz-tab{font-family:var(--fb);font-size:11px;font-weight:600;padding:5px 13px;border-radius:7px;border:none;background:transparent;color:#64748b;cursor:pointer;transition:all .15s;}
@@ -65,7 +65,7 @@ body{font-family:var(--fb);background:#f5f7f5;color:var(--gray-800);min-height:1
 .nb:hover{background:rgba(255,255,255,.1);color:#fff;}
 .nb.on{background:rgba(45,160,66,.9);color:#fff;box-shadow:0 2px 8px rgba(45,160,66,.4);}
 .nb.sp{background:linear-gradient(135deg,var(--g6),var(--teal));color:#fff;box-shadow:0 2px 8px rgba(13,148,136,.3);font-weight:700;}
-.page{display:none;width:100%;}.page.on{display:block;width:100%;min-height:calc(100vh - 52px);background:#f5f7f5;}
+.page{display:none;}.page.on{display:block;min-height:calc(100vh - 52px);background:#f5f7f5;}
 .wrap{max-width:1580px;margin:0 auto;padding:18px;}@media(max-width:900px){.wrap{padding:12px;}.cgrid{grid-template-columns:1fr!important;}}
 .card{background:#fff;border:1px solid rgba(180,200,183,.5);border-radius:16px;padding:16px 20px;box-shadow:0 1px 4px rgba(13,43,18,.06),0 4px 16px rgba(13,43,18,.04);}
 .card-ttl{font-family:var(--fh);font-size:11px;font-weight:600;color:var(--gray-400);text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;}
@@ -470,6 +470,7 @@ footer span{font-size:9px;color:var(--g4);}
     </div>
     <div id="fPag" style="display:flex;justify-content:center;gap:4px;margin-top:9px;flex-wrap:wrap;"></div>
   </div>
+</div>
 </div>
 </div>
 <!-- MANUTENÇÕES -->
