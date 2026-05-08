@@ -1155,10 +1155,8 @@ async function carregarDB(){
     if(m)manuts=m.map(r=>({...r,desc:r.descricao||'',dataPlan:r.dataPlan||'',dataReal:r.dataReal||''}));
     if(c)comps=c.map(r=>({...r,desc:r.descricao||'',dataSol:r.dataSol||'',dataFech:r.dataFech||'',numReq:r.numReq||'',numOS:r.numOS||'',numOrc:r.numOrc||'',valOrc:r.valOrc||0,valAprov:r.valAprov||0,valReal:r.valReal||0}));
     dbOk=true;
-    console.log('[carregarDB] done, manuts=', manuts.length, 'comps=', comps.length);
     const msg='✓ '+manuts.length+' manutenções e '+comps.length+' compras carregadas!';
     toast(msg,'ok');
-    console.log('[DB OK]',msg);
     // Re-render whichever page is active
     const pn=document.querySelector('.page.on')?.id?.replace('page-','');
     if(pn==='manutencao')renderManut();
@@ -1235,15 +1233,14 @@ function showApp(){
 // NAV
 // ═══════════════════════════════════════════
 function showPage(n){
-  console.log('[showPage]', n);
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
   const pg=document.getElementById('page-'+n);
   if(!pg)return;
   pg.classList.add('on');
-  const tabs=['upload','dashboard','budget','fornecedores','manutencao','compras','planning-fin','planning-manut','matriz'];
-  const idx=tabs.indexOf(n);
-  if(idx>=0)document.querySelectorAll('.nb')[idx]?.classList.add('on');
+  const nb=document.getElementById('nb-'+n);
+  if(nb)nb.classList.add('on');
+  window.scrollTo(0,0);
   if(n==='dashboard'&&rawData.length)renderDash();
   if(n==='budget'&&rawData.length)renderBudget();
   if(n==='fornecedores'&&rawData.length)renderForn();
@@ -2017,7 +2014,6 @@ function salvarM(){
 function delM(id){if(!confirm('Excluir?'))return;manuts=manuts.filter(m=>m.id!==id);dbDel('manutencoes',id).catch(console.warn);renderManut();}
 function setMTipo(t){window._mTipo=t;['bAll','bObrig','bMelh'].forEach(id=>{const el=document.getElementById(id);if(el){el.className=el.className.replace('bp','bs');}});const ids={''  :'bAll','obrig':'bObrig','melhoria':'bMelh'};const ae=document.getElementById(ids[t]);if(ae)ae.className=ae.className.replace('bs','bp');renderManut();}
 function renderManut(){
-  console.log('[renderManut] called, manuts=', manuts.length, 'dbOk=', dbOk);
   const tot=manuts.length,conc=manuts.filter(m=>m.status==='Concluído').length,emA=manuts.filter(m=>m.status==='Em andamento').length,atrs=manuts.filter(m=>m.status==='Atrasado').length;
   const pAv=tot?Math.round(manuts.reduce((a,m)=>a+m.avanco,0)/tot):0;
   const tO=manuts.reduce((a,m)=>a+m.orcado,0),tR=manuts.reduce((a,m)=>a+m.realizado,0),devF=tR-tO;
