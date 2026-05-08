@@ -2019,9 +2019,10 @@ function salvarM(){
 function delM(id){if(!confirm('Excluir?'))return;manuts=manuts.filter(m=>m.id!==id);dbDel('manutencoes',id).catch(console.warn);renderManut();}
 function setMTipo(t){window._mTipo=t;['bAll','bObrig','bMelh'].forEach(id=>{const el=document.getElementById(id);if(el){el.className=el.className.replace('bp','bs');}});const ids={''  :'bAll','obrig':'bObrig','melhoria':'bMelh'};const ae=document.getElementById(ids[t]);if(ae)ae.className=ae.className.replace('bs','bp');renderManut();}
 function renderManut(){
-  console.log('[RM] manuts:',manuts.length);
+  console.log('[RM] manuts:',manuts.length, JSON.stringify(manuts[0]||{}));
+  try{
   const el=document.getElementById('mKpis');
-  if(el)el.innerHTML='<div class="kpi dk" style="grid-column:1/-1"><div class="kv">Carregando '+manuts.length+' manutenções...</div></div>';
+  if(el)el.innerHTML='<div class="kpi dk" style="grid-column:1/-1"><div class="kv">Carregando '+manuts.length+'...</div></div>';
   const tot=manuts.length,conc=manuts.filter(m=>m.status==='Concluído').length,emA=manuts.filter(m=>m.status==='Em andamento').length,atrs=manuts.filter(m=>m.status==='Atrasado').length;
   const pAv=tot?Math.round(manuts.reduce((a,m)=>a+m.avanco,0)/tot):0;
   const tO=manuts.reduce((a,m)=>a+m.orcado,0),tR=manuts.reduce((a,m)=>a+m.realizado,0),devF=tR-tO;
@@ -2060,7 +2061,11 @@ function renderManut(){
   if(lista.length){lista.forEach(m=>{if(!m.dataPlan)return;const dp=new Date(m.dataPlan+'T00:00');const dr=m.dataReal?new Date(m.dataReal+'T00:00'):null;const mi=dp.getMonth();const mf=dr?dr.getMonth():mi;const cor=sCor[m.status]||'#94a3b8';const span=Math.max(1,mf-mi+1);gh+=`<div class="gantt-row"><div class="gantt-lbl" title="${m.equip}">${m.equip}</div><div class="gantt-months">${MS.map((_,ci)=>{let bar='';if(ci===mi){const w=`calc(${span*100}% - 4px)`;bar=`<div class="gantt-bar" style="background:${cor};left:2px;width:${w};" title="${m.equip}·${m.status}·${fDt(m.dataPlan)}">${span>1?m.equip.slice(0,10)+(m.equip.length>10?'…':''):''}</div>`;}return`<div class="gantt-m">${bar}</div>`;}).join('')}</div></div>`;})}
   else{gh+='<div style="text-align:center;padding:18px;color:var(--gray-400);font-size:12px;">Nenhuma manutenção.</div>';}
   document.getElementById('ganttW').innerHTML=gh;
-}
+}catch(e){
+  console.error('[renderManut CRASH]', e.message, e.stack);
+  const pg = document.getElementById('page-manutencao');
+  if(pg) pg.innerHTML = '<div style="padding:30px;background:#fee2e2;border-radius:12px;margin:20px;font-family:monospace;font-size:13px;color:#dc2626;"><strong>ERRO em renderManut:</strong><br>' + e.message + '<br><br>' + (e.stack||'').replace(/\n/g,'<br>') + '</div>';
+}}
 
 // ═══════════════════════════════════════════
 // COMPRAS
