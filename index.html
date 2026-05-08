@@ -1236,6 +1236,7 @@ function showApp(){
 // NAV
 // ═══════════════════════════════════════════
 function showPage(n){
+  console.log('[SP]',n);
   document.querySelectorAll('.page').forEach(p=>{p.classList.remove('on');p.style.display='none';});
   document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
   const pg=document.getElementById('page-'+n);
@@ -2018,6 +2019,9 @@ function salvarM(){
 function delM(id){if(!confirm('Excluir?'))return;manuts=manuts.filter(m=>m.id!==id);dbDel('manutencoes',id).catch(console.warn);renderManut();}
 function setMTipo(t){window._mTipo=t;['bAll','bObrig','bMelh'].forEach(id=>{const el=document.getElementById(id);if(el){el.className=el.className.replace('bp','bs');}});const ids={''  :'bAll','obrig':'bObrig','melhoria':'bMelh'};const ae=document.getElementById(ids[t]);if(ae)ae.className=ae.className.replace('bs','bp');renderManut();}
 function renderManut(){
+  console.log('[RM] manuts:',manuts.length);
+  const el=document.getElementById('mKpis');
+  if(el)el.innerHTML='<div class="kpi dk" style="grid-column:1/-1"><div class="kv">Carregando '+manuts.length+' manutenções...</div></div>';
   const tot=manuts.length,conc=manuts.filter(m=>m.status==='Concluído').length,emA=manuts.filter(m=>m.status==='Em andamento').length,atrs=manuts.filter(m=>m.status==='Atrasado').length;
   const pAv=tot?Math.round(manuts.reduce((a,m)=>a+m.avanco,0)/tot):0;
   const tO=manuts.reduce((a,m)=>a+m.orcado,0),tR=manuts.reduce((a,m)=>a+m.realizado,0),devF=tR-tO;
@@ -2077,6 +2081,7 @@ function salvarC(){
 }
 function delC(id){if(!confirm('Excluir?'))return;comps=comps.filter(c=>c.id!==id);dbDel('compras',id).catch(console.warn);renderCompPage();}
 function renderCompPage(){
+  console.log('[RC] comps:',comps.length);
   if(!dbOk && !comps.length){
     if(getSB()) carregarDB().then(()=>renderCompPage());
     return;
@@ -2407,6 +2412,9 @@ let matrizFiltroSemana = '';
 let matrizFiltroMes = '';
 
 function renderMatriz(){
+  console.log('[RMZ] activeData:',_getActiveData()?.length);
+  const kp=document.getElementById('matrizKpis');
+  if(kp)kp.innerHTML='<div class="kpi dk" style="grid-column:1/-1"><div class="kv">Dados da Matriz: '+(_getActiveData()?.length||0)+' máquinas</div></div>';
   // Initialize period selector on first render
   if(!_mzPeriodo){_populatePeriodoSel();}
 
@@ -3175,6 +3183,7 @@ function exportPlanFinExcel(){
 // Puxado de: _manutsData (ordens cadastradas)
 // ═══════════════════════════════════════════
 function renderPlanManut(){
+  console.log('[RPM] manuts:',manuts.length);
   const manutsData=manuts||[];
   const MESES=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
   const fmt=v=>v?v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0}):'—';
