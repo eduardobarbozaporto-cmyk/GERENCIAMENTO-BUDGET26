@@ -2339,7 +2339,9 @@ function abrirFD(forn){
   document.getElementById('fdSub').textContent=`${data.length} lançamentos · Real: ${fK(sv(real))}`;
   const sb=s=>s==='Equipment Expenses'?'<span class="badge beq">Equip</span>':s==='Other Fixed Expenses'?'<span class="badge bfix">Fixed</span>':'<span class="badge bvar">Var</span>';
   document.getElementById('tFD').innerHTML=data.sort((a,b)=>(a.Ano*100+a.MesNum)-(b.Ano*100+b.MesNum)).map(r=>`<tr><td>${r.Mes}/${String(r.Ano).slice(2)}</td><td>${sb(r.Subcategory)}</td><td style="font-size:10px">${r.CC}</td><td style="font-size:10px">${r.Tipo||'—'}</td><td>${r.Origem==='Forecast'?'<span class="tag tpl">Forecast</span>':'<span class="tag tok">Real</span>'}</td><td style="text-align:right;font-weight:600">${fR(r.Valor)}</td></tr>`).join('');
-  document.getElementById('modalFD').classList.remove('hidden');
+  const _mfdEl = document.getElementById('modalFD');
+  _mfdEl.classList.remove('hidden');
+  _mfdEl.style.display = 'flex';
 }
 
 // ═══════════════════════════════════════════
@@ -2570,7 +2572,7 @@ function salvarM(){
   const it={id:eid||Date.now(),tipo:document.getElementById('mTp').value,categoria:document.getElementById('mTp').value==='Melhoria'?'melhoria':'obrig',equip:document.getElementById('mEq').value,norma:document.getElementById('mNo').value,critica:document.getElementById('mCr').value,resp:document.getElementById('mRe').value,forn:document.getElementById('mFo').value,orcado:parseFloat(document.getElementById('mOr').value)||0,realizado:parseFloat(document.getElementById('mRl').value)||0,dataPlan:document.getElementById('mDP').value,dataReal:document.getElementById('mDR').value,status:document.getElementById('mSt').value,avanco:0,metaFis:0,realFis:0,subcat:document.getElementById('mSc').value,prioridade:document.getElementById('mPr').value,desc:document.getElementById('mDe').value,obs:document.getElementById('mOb').value,
     os: (() => { const eid2=parseInt(document.getElementById('modalM').dataset.editId)||null; return eid2&&window._manutOS?window._manutOS[eid2]||[]:window._manutOSTemp||[]; })()
   };
-  const db={tipo:it.tipo,categoria:it.categoria,equip:it.equip,norma:it.norma,critica:it.critica,resp:it.resp,forn:it.forn,orcado:it.orcado,realizado:it.realizado,'dataPlan':it.dataPlan||null,'dataReal':it.dataReal||null,status:it.status,avanco:0,metaFis:0,realFis:0,subcat:it.subcat,prioridade:it.prioridade,descricao:it.desc,obs:it.obs,os:JSON.stringify(it.os||[])};
+  const db={tipo:it.tipo,categoria:it.categoria,equip:it.equip,norma:it.norma,critica:it.critica,resp:it.resp,forn:it.forn,orcado:it.orcado,realizado:it.realizado,'dataPlan':it.dataPlan||null,'dataReal':it.dataReal||null,status:it.status,avanco:0,metaFis:0,realFis:0,subcat:it.subcat,prioridade:it.prioridade,descricao:it.desc,obs:it.obs,os:JSON.stringify(it.os||[]),historico:JSON.stringify(it.historico||window._manutHistorico?.[it.id]||[])};
   if(eid){const idx=manuts.findIndex(m=>m.id===eid);if(idx>=0)manuts[idx]=it;
     if(!window._manutOS)window._manutOS={};
     window._manutOS[eid]=it.os;
@@ -2634,7 +2636,9 @@ function abrirC(id){
   const f=id?comps.find(c=>c.id===id):null;
   document.getElementById('cTtl').textContent=f?`Editar — ${f.desc||f.forn}`:'Nova Solicitação';
   document.getElementById('cDS').value=f?.dataSol||new Date().toISOString().slice(0,10);document.getElementById('cSo').value=f?.solic||'';document.getElementById('cAr').value=f?.area||'';document.getElementById('cTp2').value=f?.tipo||'Compra';document.getElementById('cFo').value=f?.forn||'';document.getElementById('cDe').value=f?.desc||'';document.getElementById('cCa').value=f?.cat||'';document.getElementById('cSc').value=f?.subcat||'';document.getElementById('cNR').value=f?.numReq||'';document.getElementById('cNO').value=f?.numOS||'';document.getElementById('cNOr').value=f?.numOrc||'';document.getElementById('cVO').value=f?.valOrc||'';document.getElementById('cVA').value=f?.valAprov||'';document.getElementById('cVR').value=f?.valReal||'';document.getElementById('cSt').value=f?.status||'Em cotação';document.getElementById('cPz').value=f?.prazo||'';document.getElementById('cDF').value=f?.dataFech||'';document.getElementById('cOb').value=f?.obs||'';
-  document.getElementById('modalC').dataset.editId=id||'';document.getElementById('modalC').classList.remove('hidden');
+  document.getElementById('modalC').dataset.editId=id||'';const _mcEl = document.getElementById('modalC');
+  _mcEl.classList.remove('hidden');
+  _mcEl.style.display = 'flex';
 }
 function salvarC(){
   const eid=parseInt(document.getElementById('modalC').dataset.editId)||null;
@@ -3186,6 +3190,48 @@ function renderMatriz(){
               <span style="color:#6b7280;">${t.semana}</span>
               <span><strong>${t.paradas}</strong> paradas · <strong>${t.horas}h</strong></span>
             </div>`).join(''):'<div style="font-size:10px;color:#9ca3af;">Sem dados semanais</div>'}
+          </div>
+          <!-- PLANO DE AÇÃO na análise detalhada -->
+          <div style="background:#fff;border-radius:10px;padding:11px;border-left:4px solid #1d4ed8;grid-column:1/-1;margin-top:4px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+              <div style="font-size:9px;font-weight:700;color:#1e3a5f;text-transform:uppercase;">📋 Plano de Ação</div>
+              <span id="mzPABadge_${r.maq}" style="font-size:9px;font-weight:700;color:${window._planosAcao?.[r.maq]?.saved?'#16a34a':'#94a3b8'};">
+                ${window._planosAcao?.[r.maq]?.saved?'✅ Salvo em '+(window._planosAcao[r.maq].savedAt||''):'⚠️ Não salvo'}
+              </span>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:6px;margin-bottom:6px;">
+              <div><label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:2px;">👤 Responsável</label>
+                <input type="text" id="mzpaResp_${r.maq}" placeholder="Responsável..." value="${window._planosAcao?.[r.maq]?.resp||''}"
+                  style="width:100%;padding:4px 7px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;box-sizing:border-box;"></div>
+              <div><label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:2px;">📅 Prazo</label>
+                <input type="date" id="mzpaPrazo_${r.maq}" value="${window._planosAcao?.[r.maq]?.prazo||''}"
+                  style="width:100%;padding:4px 7px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;box-sizing:border-box;"></div>
+              <div><label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:2px;">⏱ Horas Est.</label>
+                <input type="number" id="mzpaHoras_${r.maq}" placeholder="4h" min="0" step="0.5" value="${window._planosAcao?.[r.maq]?.horas||''}"
+                  style="width:100%;padding:4px 7px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;box-sizing:border-box;"></div>
+              <div><label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:2px;">🔩 Tipo</label>
+                <select id="mzpaTipo_${r.maq}" style="width:100%;padding:4px 7px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;box-sizing:border-box;">
+                  <option value="">Tipo...</option>
+                  <option value="Corretiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Corretiva'?'selected':''}>Corretiva</option>
+                  <option value="Preventiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Preventiva'?'selected':''}>Preventiva</option>
+                  <option value="Preditiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Preditiva'?'selected':''}>Preditiva</option>
+                  <option value="Melhoria" ${window._planosAcao?.[r.maq]?.tipoInterv==='Melhoria'?'selected':''}>Melhoria</option>
+                </select></div>
+            </div>
+            <textarea id="mzpaTexto_${r.maq}" rows="2" placeholder="Descreva o plano de ação..."
+              style="width:100%;padding:6px 8px;border:1px solid #e2e8f0;border-radius:5px;font-size:11px;resize:vertical;outline:none;font-family:inherit;box-sizing:border-box;margin-bottom:6px;"
+              onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'">${window._planosAcao?.[r.maq]?.texto||''}</textarea>
+            <div style="display:flex;gap:6px;justify-content:flex-end;align-items:center;">
+              <span id="mzpaSaveMsg_${r.maq}" style="font-size:9px;color:#16a34a;font-weight:700;"></span>
+              <button onclick="_salvarPlanoAcaoMZ('${r.maq}')"
+                style="padding:5px 14px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:pointer;">
+                💾 Salvar Plano
+              </button>
+              <button id="mzpaRelatBtn_${r.maq}" onclick="_gerarRelatorioMaquinaFromPA('${r.maq}')" ${window._planosAcao?.[r.maq]?.saved?'':'disabled'}
+                style="padding:5px 14px;background:${window._planosAcao?.[r.maq]?.saved?'linear-gradient(135deg,#1e3a5f,#1d4ed8)':'#94a3b8'};color:#fff;border:none;border-radius:6px;font-size:10px;font-weight:700;cursor:${window._planosAcao?.[r.maq]?.saved?'pointer':'not-allowed'};opacity:${window._planosAcao?.[r.maq]?.saved?'1':'0.6'};">
+                📄 Gerar Relatório
+              </button>
+            </div>
           </div>
         </div>
       </td>
@@ -5975,90 +6021,6 @@ function renderPFMaquinaAI() {
         <canvas id="cPFMaqHist" height="60" style="margin-top:6px;max-height:60px;"></canvas>` : '<div style="color:#94a3b8;font-size:10px;text-align:center;padding:10px;">Sem histórico.</div>'}
       </div>
     </div>
-
-    <!-- PLANO DE AÇÃO — Abaixo do grid, fora dele -->
-    <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;">
-      <!-- Header da aba -->
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#eff6ff;border-bottom:2px solid #1d4ed8;">
-        <span style="font-size:11px;font-weight:800;color:#1d4ed8;">📋 Plano de Ação</span>
-        <span id="paSavedBadge_${r.maq}" style="font-size:10px;font-weight:700;color:${window._planosAcao?.[r.maq]?.saved?'#16a34a':'#94a3b8'};">
-          ${window._planosAcao?.[r.maq]?.saved ? '✅ Salvo em ' + window._planosAcao[r.maq].savedAt : '⚠️ Não salvo — preencha para habilitar o relatório'}
-        </span>
-      </div>
-      <!-- Campos do plano -->
-      <div style="padding:14px;display:flex;flex-direction:column;gap:10px;">
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
-          <div>
-            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">👤 Responsável</label>
-            <input type="text" id="paResp_${r.maq}" placeholder="Responsável..."
-              value="${window._planosAcao?.[r.maq]?.resp||''}"
-              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;"
-              onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'">
-          </div>
-          <div>
-            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">📅 Prazo</label>
-            <input type="date" id="paPrazo_${r.maq}" value="${window._planosAcao?.[r.maq]?.prazo||''}"
-              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
-          </div>
-          <div>
-            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">⏱ Horas Est.</label>
-            <input type="number" id="paHoras_${r.maq}" placeholder="4" min="0" step="0.5"
-              value="${window._planosAcao?.[r.maq]?.horas||''}"
-              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
-          </div>
-          <div>
-            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">🔩 Tipo</label>
-            <select id="paTipo_${r.maq}" style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
-              <option value="">Selecione...</option>
-              <option value="Corretiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Corretiva'?'selected':''}>Corretiva</option>
-              <option value="Preventiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Preventiva'?'selected':''}>Preventiva</option>
-              <option value="Preditiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Preditiva'?'selected':''}>Preditiva</option>
-              <option value="Melhoria" ${window._planosAcao?.[r.maq]?.tipoInterv==='Melhoria'?'selected':''}>Melhoria</option>
-            </select>
-          </div>
-        </div>
-        <!-- Peças -->
-        <div>
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
-            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;">🔧 Peças Necessárias</label>
-            <button onclick="_addPecaPA('${r.maq}')" style="padding:2px 10px;background:#1d4ed8;color:#fff;border:none;border-radius:5px;font-size:9px;font-weight:700;cursor:pointer;">+ Peça</button>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 60px 80px auto;gap:4px;margin-bottom:4px;">
-            <input type="text" id="paNome_${r.maq}" placeholder="Nome da peça..." style="padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
-            <input type="number" id="paQtd_${r.maq}" placeholder="Qtd" min="1" value="1" style="padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
-            <input type="number" id="paVal_${r.maq}" placeholder="R$ valor" min="0" step="0.01" style="padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
-            <button onclick="_addPecaPA('${r.maq}')" style="padding:5px 10px;background:#16a34a;color:#fff;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;">✓</button>
-          </div>
-          <div id="paPecasList_${r.maq}" style="display:flex;flex-direction:column;gap:2px;max-height:80px;overflow-y:auto;"></div>
-          <div id="paPecasTotal_${r.maq}" style="font-size:10px;color:#1d4ed8;font-weight:700;text-align:right;margin-top:2px;"></div>
-        </div>
-        <!-- Descrição obrigatória -->
-        <div>
-          <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">
-            💬 Descrição do Plano de Ação <span style="color:#dc2626;font-size:9px;">* obrigatório para gerar relatório</span>
-          </label>
-          <textarea id="paTexto_${r.maq}" rows="3"
-            placeholder="Descreva o plano: o que será feito, como, quando e por quem..."
-            style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:11px;resize:vertical;outline:none;font-family:inherit;box-sizing:border-box;"
-            onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'"
-            oninput="_checkPAPreenchido('${r.maq}')">${window._planosAcao?.[r.maq]?.texto||''}</textarea>
-        </div>
-        <!-- Botões -->
-        <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;padding-top:4px;border-top:1px solid #f1f5f9;">
-          <span id="paSaveMsg_${r.maq}" style="font-size:10px;color:#16a34a;font-weight:700;"></span>
-          <button onclick="_salvarPlanoAcao('${r.maq}')"
-            style="padding:7px 18px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">
-            💾 Salvar Plano
-          </button>
-          <button id="paRelatBtn_${r.maq}" onclick="_gerarRelatorioMaquinaFromPA('${r.maq}')"
-            ${window._planosAcao?.[r.maq]?.saved ? '' : 'disabled'}
-            style="padding:7px 18px;background:${window._planosAcao?.[r.maq]?.saved?'linear-gradient(135deg,#1e3a5f,#1d4ed8)':'#94a3b8'};color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:${window._planosAcao?.[r.maq]?.saved?'pointer':'not-allowed'};opacity:${window._planosAcao?.[r.maq]?.saved?'1':'0.6'};"
-            title="${window._planosAcao?.[r.maq]?.saved?'':'Salve o plano de ação primeiro'}">
-            📄 Gerar Relatório
-          </button>
-        </div>
-      </div>
-    </div>
   </div>`;;
 
   // Mini sparkline chart
@@ -7683,6 +7645,137 @@ window.addEventListener('load', function() {
 });
 
 console.log('[MaintPro v3.2] Plano de Ação completo + FYXED exclusão carregados.');
+</script>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// PLANO DE AÇÃO — Matrix row save + gerarRelSelecionadas fix
+// ═══════════════════════════════════════════════════════════
+
+// Save from matrix detailed row (mzpa prefix)
+function _salvarPlanoAcaoMZ(maq) {
+  const texto = document.getElementById('mzpaTexto_'+maq)?.value?.trim()||'';
+  if (!texto) {
+    const el = document.getElementById('mzpaTexto_'+maq);
+    if(el){el.style.borderColor='#dc2626';el.placeholder='⚠️ Campo obrigatório!';}
+    return;
+  }
+  const resp  = document.getElementById('mzpaResp_'+maq)?.value?.trim()||'';
+  const prazo = document.getElementById('mzpaPrazo_'+maq)?.value||'';
+  const horas = document.getElementById('mzpaHoras_'+maq)?.value||'';
+  const tipo  = document.getElementById('mzpaTipo_'+maq)?.value||'';
+  const now   = new Date();
+  const savedAt = now.toLocaleDateString('pt-BR')+' '+now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  const activeData = typeof _getActiveData==='function'?_getActiveData():(window._MATRIZ_DATA_INLINE?.total||[]);
+  const maqData = activeData.find(r=>r.maq===maq)||{maq,prior:'PROGRAMADA'};
+
+  if (!window._planosAcao) window._planosAcao = {};
+  window._planosAcao[maq] = {
+    maq, resp, prazo, horas, tipoInterv:tipo,
+    pecas: window._paPecas?.[maq]||[],
+    total: (window._paPecas?.[maq]||[]).reduce((a,p)=>a+(p.val||0)*(p.qtd||1),0),
+    texto, prior: maqData.prior, saved:true, savedAt,
+    semana: typeof _getPeriodoLabel==='function'?_getPeriodoLabel():'',
+  };
+
+  try { localStorage.setItem('_mpa', JSON.stringify(window._planosAcao)); } catch(e){}
+
+  // Register costs if there are peças
+  const total = window._planosAcao[maq].total;
+  if (total > 0) {
+    if (!window._custoPecasReg) window._custoPecasReg = [];
+    const sem = (()=>{const s=new Date(now.getFullYear(),0,1);const w=Math.ceil(((now-s)/86400000+s.getDay()+1)/7);return now.getFullYear()+'-W'+String(w).padStart(2,'0');})();
+    window._custoPecasReg.push({ts:savedAt,sem,mes:now.getMonth()+1,ano:now.getFullYear(),maq,tipo:maqData.prior,pecas:window._planosAcao[maq].pecas,totalCusto:total});
+    try{localStorage.setItem('_mpcustos',JSON.stringify(window._custoPecasReg));}catch(e){}
+    setTimeout(()=>{if(typeof renderCustoPecas==='function')renderCustoPecas();},200);
+  }
+
+  // Update UI
+  const badge = document.getElementById('mzPABadge_'+maq);
+  if(badge){badge.textContent='✅ Salvo em '+savedAt;badge.style.color='#16a34a';}
+  const msg = document.getElementById('mzpaSaveMsg_'+maq);
+  if(msg){msg.textContent='✓ Salvo!';setTimeout(()=>msg.textContent='',3000);}
+
+  // Enable Gerar Relatório button
+  const btn = document.getElementById('mzpaRelatBtn_'+maq);
+  if(btn){btn.disabled=false;btn.style.background='linear-gradient(135deg,#1e3a5f,#1d4ed8)';btn.style.cursor='pointer';btn.style.opacity='1';}
+
+  if(typeof toast==='function') toast('✅ Plano salvo: '+maq,'ok');
+}
+
+// ── Fix gerarRelatorioSelecionadas — use the checked machines correctly ──
+window.gerarRelatorioSelecionadas = function() {
+  // Find selected checkboxes in the matrix table
+  const checked = [...document.querySelectorAll('.maqCheck:checked, input[type="checkbox"].maqCheck:checked')];
+  const selected = checked.map(cb => cb.dataset?.maq || cb.value).filter(Boolean);
+
+  if (!selected.length) {
+    // Try alternative: look for selected rows
+    const selRows = [...document.querySelectorAll('tr.selected, tr[data-selected="true"]')];
+    if (!selRows.length) {
+      alert('Selecione ao menos uma injetora na tabela da Matriz antes de gerar o relatório.');
+      return;
+    }
+  }
+
+  const activeData = typeof _getActiveData==='function'?_getActiveData():(window._MATRIZ_DATA_INLINE?.total||[]);
+  const maqList = selected.length
+    ? activeData.filter(r => selected.includes(r.maq))
+    : activeData.filter(r => r.prior === 'CRÍTICA' || r.prior === 'PROGRAMADA').slice(0,10);
+
+  if (!maqList.length) {
+    alert('Nenhuma injetora encontrada para as seleções. Verifique se o Base.xlsx foi carregado.');
+    return;
+  }
+
+  // Open plano de ação modal for all selected machines
+  if (typeof _abrirModalPlanoAcao === 'function') {
+    _abrirModalPlanoAcao(maqList, function() {
+      const ad = typeof _getActiveData==='function'?_getActiveData():(window._MATRIZ_DATA_INLINE?.total||[]);
+      if (typeof _executarRelatorioComPlanos === 'function') {
+        _executarRelatorioComPlanos(ad);
+      } else if (typeof gerarRelatorioMaquinas === 'function') {
+        gerarRelatorioMaquinas(maqList, 'Relatório — Injetoras Selecionadas');
+      }
+    });
+  } else if (typeof gerarRelatorioMaquinas === 'function') {
+    gerarRelatorioMaquinas(maqList, 'Relatório — Injetoras Selecionadas');
+  }
+};
+
+// ── Also expose _salvarPlanoAcaoMZ as alias to _salvarPlanoAcao ──
+// So both work from both contexts
+const _origSalvarPA = window._salvarPlanoAcao;
+window._salvarPlanoAcao = function(maq) {
+  // Detect if called from mzdet row or from PF curve panel
+  // mzdet uses mzpaTexto_, PF curve uses paTexto_
+  const fromMZ = document.getElementById('mzpaTexto_'+maq);
+  if (fromMZ) {
+    _salvarPlanoAcaoMZ(maq);
+  } else if (_origSalvarPA) {
+    _origSalvarPA(maq);
+  }
+};
+
+// ── Fix modalPlanoAcao close button ──
+window.fecharModalPlanoAcao = function() {
+  const el = document.getElementById('modalPlanoAcao');
+  if(el){el.style.display='none';el.classList.add('hidden');}
+};
+
+// Update close button in modal
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    const cancelBtn = document.querySelector('#modalPlanoAcao .btn.bs');
+    if(cancelBtn && cancelBtn.getAttribute('onclick')?.includes('modalPlanoAcao')) {
+      cancelBtn.setAttribute('onclick', 'fecharModalPlanoAcao()');
+    }
+  }, 800);
+});
+
+console.log('[MaintPro v3.2] abrirC/FD fix + mzdet Plano + gerarRelSel fix.');
 </script>
 
 </body>
