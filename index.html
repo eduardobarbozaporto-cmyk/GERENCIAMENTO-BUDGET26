@@ -1558,7 +1558,7 @@ footer span{font-size:9px;color:var(--g4);}
       <div><div class="m-ttl">📋 Histórico de Atualizações</div>
         <div style="font-size:11px;color:var(--gray-400)" id="mHistSubtitle">Manutenção</div>
       </div>
-      <button class="m-cl" onclick="cModal('modalHistM')">✕</button>
+      <button class="m-cl" onclick="fecharHistM()">✕</button>
     </div>
     <!-- Nova atualização -->
     <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:12px;margin-bottom:12px;">
@@ -1577,7 +1577,7 @@ footer span{font-size:9px;color:var(--g4);}
       <div style="text-align:center;color:#94a3b8;font-size:11px;padding:20px;">Nenhuma atualização registrada.</div>
     </div>
     <div style="margin-top:12px;display:flex;justify-content:flex-end;">
-      <button class="btn bs" onclick="cModal('modalHistM')">Fechar</button>
+      <button class="btn bs" onclick="fecharHistM()">Fechar</button>
     </div>
   </div>
 </div>
@@ -2394,7 +2394,9 @@ function fSort(f){
 function renderForn(){
   try{
     // Use Database rows if available, else rawData Realizado
-    const db=window._dbRows&&window._dbRows.length?window._dbRows:rawData.filter(r=>r.Origem==='Realizado');
+    const _EXCL_FORN = ['FYXED PAYROLL','FYXED PAYROOL','FIXED PAYROLL','FYXED PAYROOL'];
+    const db=(window._dbRows&&window._dbRows.length?window._dbRows:rawData.filter(r=>r.Origem==='Realizado'))
+      .filter(r=>!_EXCL_FORN.some(ex=>(r.Fornecedor||'').toUpperCase().includes(ex.toUpperCase())));
     
     if(!db.length){
       document.getElementById('fEmp').style.display='flex';
@@ -2552,13 +2554,16 @@ function abrirM(id){
   const f=id?manuts.find(m=>m.id===id):null;
   document.getElementById('mTtl').textContent=f?`Editar — ${f.equip}`:'Nova Manutenção';
   document.getElementById('mEq').value=f?.equip||'';document.getElementById('mTp').value=f?.tipo||'Obrigatória por norma';document.getElementById('mCr').value=f?.critica||'Alta';document.getElementById('mNo').value=f?.norma||'';document.getElementById('mRe').value=f?.resp||'';document.getElementById('mFo').value=f?.forn||'';document.getElementById('mOr').value=f?.orcado||'';document.getElementById('mRl').value=f?.realizado||'';document.getElementById('mDP').value=f?.dataPlan||'';document.getElementById('mDR').value=f?.dataReal||'';document.getElementById('mSt').value=f?.status||'Não iniciado';/* campos avanço/meta removidos */document.getElementById('mSc').value=f?.subcat||'';document.getElementById('mPr').value=f?.prioridade||'3 - Normal';document.getElementById('mDe').value=f?.desc||'';document.getElementById('mOb').value=f?.obs||'';
-  document.getElementById('modalM').dataset.editId=id||'';
+  const _mEl = document.getElementById('modalM');
+  _mEl.dataset.editId = id || '';
+  _mEl.classList.remove('hidden');
+  _mEl.style.display = 'flex';
   // Campo OS - carregar se existir
   const osInput = document.getElementById('mOS');
   if (osInput) osInput.value = f?.os || '';
   const osHistEl = document.getElementById('mOSHistMini');
   if (osHistEl) _renderOSHistMini(id);
-  document.getElementById('modalM').classList.remove('hidden');
+  // modal opening handled above
 }
 function salvarM(){
   const eid=parseInt(document.getElementById('modalM').dataset.editId)||null;
@@ -5253,7 +5258,8 @@ const _origPopulateF=window.populateF;
 window.populateF=function(){
   if(typeof _origPopulateF==='function') _origPopulateF();
   const MSF2=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
-  const src2026=(window._dbRows||[]).filter(r=>r.Ano===2026);
+  const _EXCL2=['FYXED PAYROLL','FYXED PAYROOL','FIXED PAYROLL'];
+  const src2026=(window._dbRows||[]).filter(r=>r.Ano===2026&&!_EXCL2.some(ex=>(r.Fornecedor||'').toUpperCase().includes(ex.toUpperCase())));
   const months2026=src2026.length
     ?[...new Set(src2026.map(r=>`${r.Ano}-${String(r.MesNum).padStart(2,'0')}`))]
       .sort().map(k=>{const[yr,mn]=k.split('-');return{num:parseInt(mn),ano:parseInt(yr),label:MSF2[parseInt(mn)-1].slice(0,3)+'/'+yr.slice(2)};})
@@ -5362,10 +5368,11 @@ function _abrirModalComentarios(maquinas, titulo, callback) {
         <span style="background:${priorBg(r.prior)};color:${priorCor(r.prior)};padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;">${r.prior}</span>
         <span style="font-size:10px;color:#6b7280;">Top falha: <strong>${r.top_falha||'N/A'}</strong> · ${r.paradas} paradas · ${r.horas}h</span>
       </div>
-      <textarea id="coment_${r.maq}" placeholder="Plano de ação para ${r.maq}: descreva o que será feito esta semana..."
-        style="width:100%;padding:8px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:12px;font-family:inherit;resize:vertical;min-height:60px;box-sizing:border-box;line-height:1.5;"
-        onkeydown="if(event.key==='Tab'){event.preventDefault();this.value+='	';}"
-      ></textarea>
+      <textarea id="coment_${r.maq}" placeholder="⚠️ Obrigatório — descreva o plano de ação, responsável, próximos passos..." rows="3"
+                  style="width:100%;padding:6px 10px;border:1.5px solid #f59e0b;border-radius:7px;font-size:11px;resize:vertical;outline:none;font-family:inherit;background:#fffbeb;"
+                  onfocus="this.style.borderColor='#1d4ed8';this.style.background='#fff'" 
+                  onblur="this.style.borderColor=this.value.trim()?'#16a34a':'#f59e0b';this.style.background=this.value.trim()?'#f0fdf4':'#fffbeb'"
+                  oninput="_checkPlanoAcaoPreenchido()">${saved.comentario||''}</textarea>
     </div>`).join('');
 
   const modal = document.createElement('div');
@@ -5541,8 +5548,9 @@ console.log('[MaintPro v3.2] Patches aplicados: PlanFin, Forn(2026), Relatorio+C
     <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:18px;padding-top:14px;border-top:1px solid #e5e7eb;">
       <button onclick="document.getElementById('modalPlanoAcao').style.display='none'" 
               style="padding:8px 18px;background:#f1f5f9;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;color:#475569;">Cancelar</button>
-      <button id="btnGerarRelatorio" onclick="_confirmarEGerarRelatorio()"
-              style="padding:8px 22px;background:linear-gradient(135deg,#1e3a5f,#1d4ed8);color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;">
+      <button id="btnGerarRelatorio" onclick="_confirmarEGerarRelatorio()" disabled
+              style="padding:8px 22px;background:#94a3b8;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:not-allowed;opacity:.6;transition:all .2s;"
+              title="Preencha o plano de ação para habilitar">
         📄 Gerar Relatório
       </button>
     </div>
@@ -5917,8 +5925,10 @@ function renderPFMaquinaAI() {
     : '✅ MONITORAR: Manter na rota de inspeção. Verificar parâmetros de processo. Análise de vibração recomendada.';
 
   body.innerHTML = `
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <!-- Card esquerdo: dados -->
+  <div>
+    <!-- 2-col grid: Dados + Histórico -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+      <!-- Card esquerdo: dados da injetora -->
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;border-left:4px solid ${prCor};">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
           <span style="font-family:var(--fh);font-size:16px;font-weight:900;color:#1e3a5f;">${maq}</span>
@@ -5939,17 +5949,18 @@ function renderPFMaquinaAI() {
             <div style="font-size:18px;font-weight:800;color:#16a34a;">${disp}%</div>
           </div>
         </div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
-          <span style="background:#e0f2fe;color:#0284c7;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">MTBF: ${r.mtbf||0}h</span>
-          <span style="background:#fef3c7;color:#92400e;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">MTTR: ${r.mttr}h</span>
-          <span style="background:#fdf4ff;color:#7c3aed;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">Score: ${r.risco}</span>
-          <span style="background:#f9fafb;color:#374151;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:600;">Top falha: ${nomeFalha(r.top_falha)}</span>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;">
+          <span style="background:#e0f2fe;color:#0284c7;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:600;">MTBF: ${r.mtbf||0}h</span>
+          <span style="background:#fef3c7;color:#92400e;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:600;">MTTR: ${r.mttr}h</span>
+          <span style="background:#fdf4ff;color:#7c3aed;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:600;">Score: ${r.risco}</span>
+          <span style="background:#f9fafb;color:#374151;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:600;">Falha: ${nomeFalha(r.top_falha)}</span>
         </div>
+        <!-- Recomendação -->
         <div style="background:${prBg};border-left:3px solid ${prCor};border-radius:6px;padding:8px 10px;font-size:10px;font-weight:600;color:${prCor};">
           ${recomendacao}
         </div>
       </div>
-      <!-- Card direito: histórico -->
+      <!-- Card direito: histórico semanal -->
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:14px;">
         <div style="font-size:10px;font-weight:700;color:#1e3a5f;margin-bottom:8px;">📅 Evolução Semanal (últimas ${hist.length} semanas)</div>
         ${hist.length > 0 ? `
@@ -5957,13 +5968,98 @@ function renderPFMaquinaAI() {
           ${hist.slice(0,6).map((h,i) => {
             const cor2 = h.prior==='CRÍTICA'?'#dc2626':h.prior==='PROGRAMADA'?'#d97706':'#16a34a';
             const bg2  = h.prior==='CRÍTICA'?'#fee2e2':h.prior==='PROGRAMADA'?'#fef3c7':'#dcfce7';
-            const sLabel = semanas[i] ? semanas[i].replace(/(\d{4})-W(\d+)/,'Sem $2') : '';
-            return '<div style="display:flex;align-items:center;gap:5px;padding:3px 6px;background:'+bg2+';border-radius:4px;border-left:3px solid '+cor2+';font-size:9px;"><span style="min-width:50px;color:#6b7280;">'+sLabel+'</span><span style="font-weight:700;color:'+cor2+';">'+h.prior.slice(0,4)+'</span><span style="margin-left:auto;color:#6b7280;">'+h.paradas+'p·'+h.horas+'h</span></div>';
+            const sLabel = semanas[i] ? semanas[i].split('-W')[1]||'' : '';
+            return '<div style="display:flex;align-items:center;gap:5px;padding:3px 6px;background:'+bg2+';border-radius:4px;border-left:3px solid '+cor2+';font-size:9px;"><span style="min-width:50px;color:#6b7280;">Sem '+sLabel+'</span><span style="font-weight:700;color:'+cor2+';">'+h.prior.slice(0,4)+'</span><span style="margin-left:auto;color:#6b7280;">'+h.paradas+'p·'+h.horas+'h</span></div>';
           }).join('')}
         </div>
         <canvas id="cPFMaqHist" height="60" style="margin-top:6px;max-height:60px;"></canvas>` : '<div style="color:#94a3b8;font-size:10px;text-align:center;padding:10px;">Sem histórico.</div>'}
       </div>
-    </div>`;
+    </div>
+
+    <!-- PLANO DE AÇÃO — Abaixo do grid, fora dele -->
+    <div style="background:#fff;border:1.5px solid #e2e8f0;border-radius:12px;overflow:hidden;">
+      <!-- Header da aba -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#eff6ff;border-bottom:2px solid #1d4ed8;">
+        <span style="font-size:11px;font-weight:800;color:#1d4ed8;">📋 Plano de Ação</span>
+        <span id="paSavedBadge_${r.maq}" style="font-size:10px;font-weight:700;color:${window._planosAcao?.[r.maq]?.saved?'#16a34a':'#94a3b8'};">
+          ${window._planosAcao?.[r.maq]?.saved ? '✅ Salvo em ' + window._planosAcao[r.maq].savedAt : '⚠️ Não salvo — preencha para habilitar o relatório'}
+        </span>
+      </div>
+      <!-- Campos do plano -->
+      <div style="padding:14px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;">
+          <div>
+            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">👤 Responsável</label>
+            <input type="text" id="paResp_${r.maq}" placeholder="Responsável..."
+              value="${window._planosAcao?.[r.maq]?.resp||''}"
+              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;"
+              onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'">
+          </div>
+          <div>
+            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">📅 Prazo</label>
+            <input type="date" id="paPrazo_${r.maq}" value="${window._planosAcao?.[r.maq]?.prazo||''}"
+              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">⏱ Horas Est.</label>
+            <input type="number" id="paHoras_${r.maq}" placeholder="4" min="0" step="0.5"
+              value="${window._planosAcao?.[r.maq]?.horas||''}"
+              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">🔩 Tipo</label>
+            <select id="paTipo_${r.maq}" style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
+              <option value="">Selecione...</option>
+              <option value="Corretiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Corretiva'?'selected':''}>Corretiva</option>
+              <option value="Preventiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Preventiva'?'selected':''}>Preventiva</option>
+              <option value="Preditiva" ${window._planosAcao?.[r.maq]?.tipoInterv==='Preditiva'?'selected':''}>Preditiva</option>
+              <option value="Melhoria" ${window._planosAcao?.[r.maq]?.tipoInterv==='Melhoria'?'selected':''}>Melhoria</option>
+            </select>
+          </div>
+        </div>
+        <!-- Peças -->
+        <div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+            <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;">🔧 Peças Necessárias</label>
+            <button onclick="_addPecaPA('${r.maq}')" style="padding:2px 10px;background:#1d4ed8;color:#fff;border:none;border-radius:5px;font-size:9px;font-weight:700;cursor:pointer;">+ Peça</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 60px 80px auto;gap:4px;margin-bottom:4px;">
+            <input type="text" id="paNome_${r.maq}" placeholder="Nome da peça..." style="padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
+            <input type="number" id="paQtd_${r.maq}" placeholder="Qtd" min="1" value="1" style="padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
+            <input type="number" id="paVal_${r.maq}" placeholder="R$ valor" min="0" step="0.01" style="padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
+            <button onclick="_addPecaPA('${r.maq}')" style="padding:5px 10px;background:#16a34a;color:#fff;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;">✓</button>
+          </div>
+          <div id="paPecasList_${r.maq}" style="display:flex;flex-direction:column;gap:2px;max-height:80px;overflow-y:auto;"></div>
+          <div id="paPecasTotal_${r.maq}" style="font-size:10px;color:#1d4ed8;font-weight:700;text-align:right;margin-top:2px;"></div>
+        </div>
+        <!-- Descrição obrigatória -->
+        <div>
+          <label style="font-size:8px;font-weight:700;color:#64748b;text-transform:uppercase;display:block;margin-bottom:3px;">
+            💬 Descrição do Plano de Ação <span style="color:#dc2626;font-size:9px;">* obrigatório para gerar relatório</span>
+          </label>
+          <textarea id="paTexto_${r.maq}" rows="3"
+            placeholder="Descreva o plano: o que será feito, como, quando e por quem..."
+            style="width:100%;padding:7px 10px;border:1.5px solid #e2e8f0;border-radius:7px;font-size:11px;resize:vertical;outline:none;font-family:inherit;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'"
+            oninput="_checkPAPreenchido('${r.maq}')">${window._planosAcao?.[r.maq]?.texto||''}</textarea>
+        </div>
+        <!-- Botões -->
+        <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;padding-top:4px;border-top:1px solid #f1f5f9;">
+          <span id="paSaveMsg_${r.maq}" style="font-size:10px;color:#16a34a;font-weight:700;"></span>
+          <button onclick="_salvarPlanoAcao('${r.maq}')"
+            style="padding:7px 18px;background:linear-gradient(135deg,#16a34a,#22c55e);color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:pointer;">
+            💾 Salvar Plano
+          </button>
+          <button id="paRelatBtn_${r.maq}" onclick="_gerarRelatorioMaquinaFromPA('${r.maq}')"
+            ${window._planosAcao?.[r.maq]?.saved ? '' : 'disabled'}
+            style="padding:7px 18px;background:${window._planosAcao?.[r.maq]?.saved?'linear-gradient(135deg,#1e3a5f,#1d4ed8)':'#94a3b8'};color:#fff;border:none;border-radius:8px;font-size:11px;font-weight:700;cursor:${window._planosAcao?.[r.maq]?.saved?'pointer':'not-allowed'};opacity:${window._planosAcao?.[r.maq]?.saved?'1':'0.6'};"
+            title="${window._planosAcao?.[r.maq]?.saved?'':'Salve o plano de ação primeiro'}">
+            📄 Gerar Relatório
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;;
 
   // Mini sparkline chart
   if (hist.length > 1) {
@@ -6210,8 +6306,8 @@ console.log('[MaintPro v3.2] AI Análise + Turnos carregados.');
 if (!window._manutHistorico) window._manutHistorico = {}; // { id: [{ts, txt}] }
 
 function abrirHistoricoM() {
-  const eid = parseInt(document.getElementById('modalHistM')?.dataset?.editId ||
-              document.getElementById('modalM')?.dataset?.editId) || null;
+  // Always read from modalM (which is currently open)
+  const eid = parseInt(document.getElementById('modalM')?.dataset?.editId || '0') || null;
   if (!eid) { alert('Salve a manutenção primeiro para registrar o histórico.'); return; }
 
   const manut = manuts.find(m => m.id === eid);
@@ -6222,10 +6318,11 @@ function abrirHistoricoM() {
   document.getElementById('mHistNovaTxt').value = '';
   _renderHistoricoLista(eid);
 
-  // Close modalM first, then open hist
-  cModal('modalM');
-  document.getElementById('modalHistM').classList.remove('hidden');
-  document.getElementById('modalHistM').style.display = 'flex';
+  // Open modalHistM (keep modalM open in background)
+  const mhEl = document.getElementById('modalHistM');
+  mhEl.dataset.editId = String(eid);
+  mhEl.classList.remove('hidden');
+  mhEl.style.display = 'flex';
 }
 
 function _renderHistoricoLista(eid) {
@@ -6280,8 +6377,7 @@ function salvarEntradaHistorico() {
   // Toast feedback
   if (typeof toast === 'function') toast('✓ Atualização registrada!', 'ok');
   
-  // Auto-close after 1.5s
-  setTimeout(() => cModal('modalHistM'), 1500);
+  // Stay open so user can add more updates
 }
 
 // Load historico from manuts data on init
@@ -6304,10 +6400,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const mh = document.getElementById('modalHistM');
   if (mh) {
     mh.addEventListener('click', e => {
-      if (e.target === mh) {
-        mh.classList.add('hidden');
-        mh.style.display = 'none';
-      }
+      if (e.target === mh) fecharHistM();
     });
   }
 });
@@ -6443,7 +6536,9 @@ window.abrirM = function(id) {
   _renderOSHistMini(id || null);
 
   document.getElementById('modalM').dataset.editId = id || '';
-  document.getElementById('modalM').classList.remove('hidden');
+  const mEl = document.getElementById('modalM');
+  mEl.classList.remove('hidden');
+  mEl.style.display = 'flex'; // ensure visible even after cModal() cleared inline style
 };
 
 // OS loads on abrirM now
@@ -6455,9 +6550,15 @@ window.cModal = function(id) {
   const el = document.getElementById(id);
   if (el) {
     el.classList.add('hidden');
-    el.style.display = 'none'; // clear inline style that overrides .hidden
+    el.style.display = 'none';
   }
   if (_origCModalOS) _origCModalOS(id);
+};
+
+// Also expose direct close for modalHistM Fechar button
+window.fecharHistM = function() {
+  const el = document.getElementById('modalHistM');
+  if (el) { el.classList.add('hidden'); el.style.display = 'none'; }
 };
 
 console.log('[MaintPro v3.2] OS modal fix + gestão de OS carregados.');
@@ -7196,6 +7297,392 @@ window.showPage = function(n) {
 setTimeout(renderCustoPecas, 1500);
 
 console.log('[MaintPro v3.2] Modal fix + custos peças + relatório melhorado.');
+</script>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// FIX DEFINITIVO: Modal bugs + Plano de Ação + Custos Integrados
+// ═══════════════════════════════════════════════════════════
+
+// ── Check if plano de ação is filled → enable/disable button ──
+function _checkPlanoAcaoPreenchido() {
+  const body = document.getElementById('modalPlanoAcaoBody');
+  if (!body) return;
+  // Check all coment textareas
+  const textareas = body.querySelectorAll('textarea[id^="coment_"]');
+  const anyFilled = Array.from(textareas).some(ta => ta.value.trim().length > 0);
+  const btn = document.getElementById('btnGerarRelatorio');
+  if (btn) {
+    btn.disabled = !anyFilled;
+    btn.style.background = anyFilled
+      ? 'linear-gradient(135deg,#1e3a5f,#1d4ed8)'
+      : '#94a3b8';
+    btn.style.cursor = anyFilled ? 'pointer' : 'not-allowed';
+    btn.style.opacity = anyFilled ? '1' : '0.6';
+    btn.title = anyFilled ? '' : 'Preencha o plano de ação para habilitar';
+  }
+}
+
+// ── Override _abrirModalPlanoAcao to also set up validation ──
+const _origAbrirPAFix = window._abrirModalPlanoAcao;
+window._abrirModalPlanoAcao = function(maquinas, callback) {
+  if (_origAbrirPAFix) _origAbrirPAFix(maquinas, callback);
+  // Disable button on open, wait for DOM render
+  setTimeout(() => {
+    _checkPlanoAcaoPreenchido();
+    // Also render peças
+    if (typeof _renderPecasModal === 'function') {
+      maquinas.forEach(r => _renderPecasModal(r.maq));
+    }
+  }, 150);
+};
+
+// ── Override _confirmarEGerarRelatorio to collect ALL data and register costs ──
+const _origConfirmarFix = window._confirmarEGerarRelatorio;
+window._confirmarEGerarRelatorio = function() {
+  const body = document.getElementById('modalPlanoAcaoBody');
+  if (!body) return;
+
+  // Collect all data from modal inputs
+  const inputs = body.querySelectorAll('input[id^="horas_"], input[id^="prazo_"], textarea[id^="coment_"]');
+  if (!window._planoAcaoData) window._planoAcaoData = {};
+
+  inputs.forEach(el => {
+    const parts = el.id.split('_');
+    const tipo  = parts[0];
+    const maq   = parts.slice(1).join('_');
+    if (!window._planoAcaoData[maq]) window._planoAcaoData[maq] = {};
+    window._planoAcaoData[maq][tipo] = el.value;
+  });
+
+  // Build _comentariosPlanoAcao with peças + horas + prazo + comentário
+  if (!window._comentariosPlanoAcao) window._comentariosPlanoAcao = {};
+  const fRp = v => v > 0 ? 'R$ ' + Math.round(v).toLocaleString('pt-BR') : '';
+
+  const custosPorMaq = {}; // for cost registry
+
+  Object.entries(window._planoAcaoData).forEach(([maq, d]) => {
+    const parts = [];
+    const pecas = window._planoAcaoPecas?.[maq] || d.pecas || [];
+
+    if (pecas.length) {
+      const list  = pecas.map(p =>
+        `${p.nome} ×${p.qtd}${p.val > 0 ? ' (' + fRp(p.val * p.qtd) + ')' : ''}`
+      ).join(', ');
+      const tot = pecas.reduce((a,p) => a + (p.val||0)*(p.qtd||1), 0);
+      parts.push('🔧 Peças: ' + list + (tot > 0 ? ' | Total: ' + fRp(tot) : ''));
+      custosPorMaq[maq] = { pecas, totalCusto: tot };
+    }
+    if (d.horas && d.horas !== '')  parts.push('⏱ ' + d.horas + 'h estimadas');
+    if (d.prazo && d.prazo !== '')  {
+      const dt = new Date(d.prazo + 'T00:00');
+      parts.push('📅 Prazo: ' + dt.toLocaleDateString('pt-BR'));
+    }
+    if (d.coment && d.coment.trim()) parts.push('💬 ' + d.coment.trim());
+    if (parts.length) window._comentariosPlanoAcao[maq] = parts.join(' | ');
+  });
+
+  // Register costs in the cost indicator
+  const activeData = typeof _getActiveData === 'function'
+    ? _getActiveData()
+    : (window._MATRIZ_DATA_INLINE?.total || []);
+
+  Object.entries(custosPorMaq).forEach(([maq, costData]) => {
+    const r = activeData.find(x => x.maq === maq) || { maq, prior: 'PROGRAMADA' };
+    const now = new Date();
+    const sem = (() => {
+      const start = new Date(now.getFullYear(), 0, 1);
+      const wk = Math.ceil(((now - start) / 86400000 + start.getDay() + 1) / 7);
+      return now.getFullYear() + '-W' + String(wk).padStart(2,'0');
+    })();
+    if (!window._custoPecasReg) window._custoPecasReg = [];
+    window._custoPecasReg.push({
+      ts:        now.toLocaleDateString('pt-BR'),
+      sem, mes:  now.getMonth() + 1, ano: now.getFullYear(),
+      maq:       r.maq, tipo: r.prior,
+      pecas:     costData.pecas,
+      totalCusto: costData.totalCusto
+    });
+  });
+
+  // Persist costs
+  try {
+    localStorage.setItem('_mpcustos', JSON.stringify(window._custoPecasReg || []));
+  } catch(e) {}
+
+  // Close modal
+  const mEl = document.getElementById('modalPlanoAcao');
+  if (mEl) { mEl.style.display = 'none'; mEl.classList.add('hidden'); }
+
+  // Reset peças temp
+  window._planoAcaoPecas = {};
+
+  // Call the callback (generates the report)
+  if (typeof window._relatorioCallback === 'function') {
+    window._relatorioCallback();
+  }
+
+  // Update cost chart
+  setTimeout(() => {
+    if (typeof renderCustoPecas === 'function') renderCustoPecas();
+  }, 300);
+};
+
+// ── Fix salvarEntradaHistorico - proper save without auto-close ──
+window.salvarEntradaHistorico = function() {
+  const eid = parseInt(document.getElementById('modalHistM')?.dataset?.editId || '0') || null;
+  const txt = document.getElementById('mHistNovaTxt')?.value?.trim();
+  if (!eid || !txt) {
+    if (!txt) {
+      const el = document.getElementById('mHistNovaTxt');
+      if (el) {
+        el.style.borderColor = '#dc2626';
+        el.placeholder = 'Digite a atualização antes de salvar...';
+        setTimeout(() => { el.style.borderColor = ''; }, 2000);
+      }
+    }
+    return;
+  }
+  const now = new Date();
+  const ts  = now.toLocaleDateString('pt-BR') + ' ' + now.toLocaleTimeString('pt-BR', {hour:'2-digit', minute:'2-digit'});
+  if (!window._manutHistorico) window._manutHistorico = {};
+  if (!window._manutHistorico[eid]) window._manutHistorico[eid] = [];
+  window._manutHistorico[eid].push({ ts, txt });
+  // Persist
+  if (typeof dbUpd === 'function') {
+    const manut = manuts.find(m => m.id === eid);
+    if (manut) {
+      manut.historico = JSON.stringify(window._manutHistorico[eid]);
+      dbUpd('manutencoes', eid, { historico: manut.historico }).catch(console.warn);
+    }
+  }
+  document.getElementById('mHistNovaTxt').value = '';
+  if (typeof _renderHistoricoLista === 'function') _renderHistoricoLista(eid);
+  if (typeof toast === 'function') toast('✓ Atualização registrada!', 'ok');
+};
+
+// ── fecharHistM (already defined but redeclare safely) ──
+window.fecharHistM = window.fecharHistM || function() {
+  const el = document.getElementById('modalHistM');
+  if (el) { el.classList.add('hidden'); el.style.display = 'none'; }
+};
+
+console.log('[MaintPro v3.2] Fix definitivo modal + plano ação + custos integrados.');
+</script>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// PLANO DE AÇÃO — Gestão completa com persistência
+// ═══════════════════════════════════════════════════════════
+
+if (!window._planosAcao) {
+  try {
+    const saved = localStorage.getItem('_mpa');
+    window._planosAcao = saved ? JSON.parse(saved) : {};
+  } catch(e) { window._planosAcao = {}; }
+}
+
+// Peças por máquina no plano de ação
+if (!window._paPecas) window._paPecas = {};
+
+function _addPecaPA(maq) {
+  const nome = (document.getElementById('paNome_'+maq)?.value||'').trim();
+  const qtd  = parseInt(document.getElementById('paQtd_'+maq)?.value||1)||1;
+  const val  = parseFloat(document.getElementById('paVal_'+maq)?.value||0)||0;
+  if (!nome) {
+    const el = document.getElementById('paNome_'+maq);
+    if(el){el.style.borderColor='#dc2626';setTimeout(()=>el.style.borderColor='',1500);}
+    return;
+  }
+  if (!window._paPecas[maq]) window._paPecas[maq] = [];
+  window._paPecas[maq].push({nome, qtd, val});
+  ['paNome_','paQtd_','paVal_'].forEach(p=>{const e=document.getElementById(p+maq);if(e)e.value=p==='paQtd_'?'1':'';});
+  _renderPAPecas(maq);
+  _checkPAPreenchido(maq);
+}
+
+function _renderPAPecas(maq) {
+  const el  = document.getElementById('paPecasList_'+maq);
+  const tot = document.getElementById('paPecasTotal_'+maq);
+  if (!el) return;
+  const ps = window._paPecas[maq] || [];
+  if (!ps.length) { el.innerHTML=''; if(tot)tot.textContent=''; return; }
+  const fR = v => v>0?'R$ '+Math.round(v).toLocaleString('pt-BR'):'—';
+  el.innerHTML = ps.map((p,i)=>`
+    <div style="display:flex;align-items:center;gap:6px;padding:4px 8px;background:#f0f9ff;border-radius:5px;border-left:3px solid #3b82f6;font-size:10px;">
+      <span style="flex:1;font-weight:600;color:#1e3a5f;">${p.nome}</span>
+      <span style="color:#64748b;">×${p.qtd}</span>
+      <span style="font-weight:700;color:#1d4ed8;">${fR(p.val*p.qtd)}</span>
+      <button onclick="_remPecaPA('${maq}',${i})" style="background:none;border:none;cursor:pointer;color:#94a3b8;font-size:10px;padding:0;">✕</button>
+    </div>`).join('');
+  const total = ps.reduce((a,p)=>a+(p.val*p.qtd),0);
+  if(tot) tot.textContent = total>0?'💰 Total: R$ '+Math.round(total).toLocaleString('pt-BR'):'';
+}
+
+function _remPecaPA(maq, idx) {
+  if (window._paPecas[maq]) { window._paPecas[maq].splice(idx,1); _renderPAPecas(maq); _checkPAPreenchido(maq); }
+}
+
+function _checkPAPreenchido(maq) {
+  const txt   = document.getElementById('paTexto_'+maq)?.value?.trim()||'';
+  const btn   = document.getElementById('paRelatBtn_'+maq);
+  const saved = window._planosAcao[maq]?.saved;
+
+  // Enable "Gerar Relatório" only if plano is SAVED
+  if (btn) {
+    const canGen = saved && txt.length > 0;
+    btn.disabled = !canGen;
+    btn.style.background    = canGen ? 'linear-gradient(135deg,#1e3a5f,#1d4ed8)' : '#94a3b8';
+    btn.style.cursor        = canGen ? 'pointer' : 'not-allowed';
+    btn.style.opacity       = canGen ? '1' : '0.6';
+    btn.title               = canGen ? '' : 'Salve o plano de ação primeiro';
+  }
+}
+
+function _salvarPlanoAcao(maq) {
+  const texto = document.getElementById('paTexto_'+maq)?.value?.trim()||'';
+  if (!texto) {
+    const el = document.getElementById('paTexto_'+maq);
+    if(el){el.style.borderColor='#dc2626';el.placeholder='⚠️ Campo obrigatório!';}
+    return;
+  }
+  const resp   = document.getElementById('paResp_'+maq)?.value?.trim()||'';
+  const prazo  = document.getElementById('paPrazo_'+maq)?.value||'';
+  const horas  = document.getElementById('paHoras_'+maq)?.value||'';
+  const tipo   = document.getElementById('paTipo_'+maq)?.value||'';
+  const pecas  = window._paPecas[maq] || [];
+  const total  = pecas.reduce((a,p)=>a+(p.val||0)*(p.qtd||1),0);
+  const now    = new Date();
+  const savedAt= now.toLocaleDateString('pt-BR')+' '+now.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+
+  // Get machine priority from active data
+  const activeData = typeof _getActiveData==='function'?_getActiveData():(window._MATRIZ_DATA_INLINE?.total||[]);
+  const maqData = activeData.find(r=>r.maq===maq)||{maq,prior:'PROGRAMADA'};
+
+  window._planosAcao[maq] = {
+    maq, resp, prazo, horas, tipo, pecas, total, texto,
+    prior: maqData.prior, saved: true, savedAt,
+    semana: typeof _getPeriodoLabel==='function'?_getPeriodoLabel():'',
+  };
+
+  // Persist localStorage
+  try { localStorage.setItem('_mpa', JSON.stringify(window._planosAcao)); } catch(e){}
+
+  // Register costs in indicator
+  if (total > 0) {
+    if (!window._custoPecasReg) window._custoPecasReg = [];
+    const sem = (()=>{const s=new Date(now.getFullYear(),0,1);const w=Math.ceil(((now-s)/86400000+s.getDay()+1)/7);return now.getFullYear()+'-W'+String(w).padStart(2,'0');})();
+    window._custoPecasReg.push({ts:savedAt,sem,mes:now.getMonth()+1,ano:now.getFullYear(),maq,tipo:maqData.prior,pecas,totalCusto:total});
+    try{localStorage.setItem('_mpcustos',JSON.stringify(window._custoPecasReg));}catch(e){}
+    if(typeof renderCustoPecas==='function') setTimeout(renderCustoPecas,200);
+  }
+
+  // Update status label
+  const stat = document.getElementById('pfPAStatus_'+maq);
+  if(stat) stat.innerHTML = '✅ Salvo em: '+savedAt;
+  const msg = document.getElementById('paSaveMsg_'+maq);
+  if(msg){msg.textContent='✓ Salvo!';msg.style.color='#16a34a';setTimeout(()=>msg.textContent='',3000);}
+
+  // Enable generate button
+  _checkPAPreenchido(maq);
+
+  if(typeof toast==='function') toast('✅ Plano salvo: '+maq,'ok');
+}
+
+function _gerarRelatorioMaquinaFromPA(maq) {
+  const pa = window._planosAcao[maq];
+  if (!pa?.saved) { alert('Salve o plano de ação primeiro.'); return; }
+
+  // Build _comentariosPlanoAcao from saved plan
+  if (!window._comentariosPlanoAcao) window._comentariosPlanoAcao = {};
+  const fRp = v => v>0?'R$ '+Math.round(v).toLocaleString('pt-BR'):'';
+  const parts = [];
+  if (pa.pecas?.length) {
+    const list = pa.pecas.map(p=>`${p.nome} ×${p.qtd}${p.val>0?' ('+fRp(p.val*p.qtd)+')':''}`).join(', ');
+    parts.push('🔧 Peças: '+list+(pa.total>0?' — Total: '+fRp(pa.total):''));
+  }
+  if (pa.resp)   parts.push('👤 Resp: '+pa.resp);
+  if (pa.horas)  parts.push('⏱ '+pa.horas+'h estimadas');
+  if (pa.prazo)  parts.push('📅 Prazo: '+new Date(pa.prazo+'T00:00').toLocaleDateString('pt-BR'));
+  if (pa.tipo)   parts.push('🔩 '+pa.tipo);
+  if (pa.texto)  parts.push('💬 '+pa.texto);
+  window._comentariosPlanoAcao[maq] = parts.join(' | ');
+
+  // Generate report
+  const activeData = typeof _getActiveData==='function'?_getActiveData():(window._MATRIZ_DATA_INLINE?.total||[]);
+  const r = activeData.find(x=>x.maq===maq);
+  if (!r) return;
+  if (typeof gerarRelatorioMaquinas==='function') {
+    gerarRelatorioMaquinas([r], 'Relatório Individual — Injetora '+maq);
+  }
+}
+
+// gerarRelatorioSemanal: sem bloqueio por plano de ação (usa fluxo original)
+
+function _abrirModalPlanoAcaoSemanal(maqList, salvos, faltam) {
+  // Build the plano de ação modal for missing machines
+  if (!window._planoAcaoPecas) window._planoAcaoPecas = {};
+
+  // Pre-fill with saved data
+  maqList.forEach(r => {
+    if (window._planosAcao[r.maq]?.saved) {
+      const pa = window._planosAcao[r.maq];
+      if (!window._comentariosPlanoAcao) window._comentariosPlanoAcao = {};
+      const fRp = v=>v>0?'R$ '+Math.round(v).toLocaleString('pt-BR'):'';
+      const pts = [];
+      if(pa.pecas?.length) pts.push('🔧 '+pa.pecas.map(p=>p.nome+' ×'+p.qtd).join(', '));
+      if(pa.resp)  pts.push('👤 '+pa.resp);
+      if(pa.horas) pts.push('⏱ '+pa.horas+'h');
+      if(pa.prazo) pts.push('📅 Prazo: '+new Date(pa.prazo+'T00:00').toLocaleDateString('pt-BR'));
+      if(pa.texto) pts.push('💬 '+pa.texto);
+      window._comentariosPlanoAcao[r.maq] = pts.join(' | ');
+    }
+  });
+
+  if (typeof _abrirModalPlanoAcao === 'function') {
+    _abrirModalPlanoAcao(faltam, () => _executarRelatorioComPlanos(
+      typeof _getActiveData==='function'?_getActiveData():(window._MATRIZ_DATA_INLINE?.total||[])
+    ));
+  }
+}
+
+function _executarRelatorioComPlanos(activeData) {
+  // Build comentarios from saved planos
+  if (!window._comentariosPlanoAcao) window._comentariosPlanoAcao = {};
+  const fRp = v=>v>0?'R$ '+Math.round(v).toLocaleString('pt-BR'):'';
+  Object.entries(window._planosAcao).forEach(([maq,pa])=>{
+    if(!pa.saved) return;
+    const pts=[];
+    if(pa.pecas?.length) pts.push('🔧 Peças: '+pa.pecas.map(p=>p.nome+' ×'+p.qtd+(p.val>0?' ('+fRp(p.val*p.qtd)+')':'')).join(', ')+(pa.total>0?' — Total: '+fRp(pa.total):''));
+    if(pa.resp)  pts.push('👤 Resp: '+pa.resp);
+    if(pa.horas) pts.push('⏱ '+pa.horas+'h');
+    if(pa.prazo) pts.push('📅 '+new Date(pa.prazo+'T00:00').toLocaleDateString('pt-BR'));
+    if(pa.tipo)  pts.push('🔩 '+pa.tipo);
+    if(pa.texto) pts.push('💬 '+pa.texto);
+    if(pts.length) window._comentariosPlanoAcao[maq]=pts.join(' | ');
+  });
+  if(typeof _executarRelatorioSemanal==='function') _executarRelatorioSemanal(activeData);
+}
+
+// gerarRelatorioSelecionadas: sem bloqueio por plano
+
+// Render saved peças on page load (for already-filled machines)
+window.addEventListener('load', function() {
+  setTimeout(() => {
+    Object.keys(window._planosAcao).forEach(maq => {
+      const pa = window._planosAcao[maq];
+      if (pa?.pecas) {
+        window._paPecas[maq] = pa.pecas;
+        _renderPAPecas(maq);
+        _checkPAPreenchido(maq);
+      }
+    });
+  }, 1500);
+});
+
+console.log('[MaintPro v3.2] Plano de Ação completo + FYXED exclusão carregados.');
 </script>
 
 </body>
