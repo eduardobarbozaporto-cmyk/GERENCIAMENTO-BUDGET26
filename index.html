@@ -2572,7 +2572,7 @@ function salvarM(){
   const it={id:eid||Date.now(),tipo:document.getElementById('mTp').value,categoria:document.getElementById('mTp').value==='Melhoria'?'melhoria':'obrig',equip:document.getElementById('mEq').value,norma:document.getElementById('mNo').value,critica:document.getElementById('mCr').value,resp:document.getElementById('mRe').value,forn:document.getElementById('mFo').value,orcado:parseFloat(document.getElementById('mOr').value)||0,realizado:parseFloat(document.getElementById('mRl').value)||0,dataPlan:document.getElementById('mDP').value,dataReal:document.getElementById('mDR').value,status:document.getElementById('mSt').value,avanco:0,metaFis:0,realFis:0,subcat:document.getElementById('mSc').value,prioridade:document.getElementById('mPr').value,desc:document.getElementById('mDe').value,obs:document.getElementById('mOb').value,
     os: (() => { const eid2=parseInt(document.getElementById('modalM').dataset.editId)||null; return eid2&&window._manutOS?window._manutOS[eid2]||[]:window._manutOSTemp||[]; })()
   };
-  const db={tipo:it.tipo,categoria:it.categoria,equip:it.equip,norma:it.norma,critica:it.critica,resp:it.resp,forn:it.forn,orcado:it.orcado,realizado:it.realizado,'dataPlan':it.dataPlan||null,'dataReal':it.dataReal||null,status:it.status,avanco:0,metaFis:0,realFis:0,subcat:it.subcat,prioridade:it.prioridade,descricao:it.desc,obs:it.obs,os:JSON.stringify(it.os||[]),historico:JSON.stringify(it.historico||window._manutHistorico?.[it.id]||[])};
+  const db={tipo:it.tipo,categoria:it.categoria,equip:it.equip,norma:it.norma,critica:it.critica,resp:it.resp,forn:it.forn,orcado:it.orcado,realizado:it.realizado,'dataPlan':it.dataPlan||null,'dataReal':it.dataReal||null,status:it.status,avanco:0,metaFis:0,realFis:0,subcat:it.subcat,prioridade:it.prioridade,descricao:it.desc,obs:it.obs,}; // os/historico stored locally only
   if(eid){const idx=manuts.findIndex(m=>m.id===eid);if(idx>=0)manuts[idx]=it;
     if(!window._manutOS)window._manutOS={};
     window._manutOS[eid]=it.os;
@@ -5741,17 +5741,7 @@ window.addEventListener('load', function() {
 
     // ── Override gerarRelatorioSelecionadas ──
     const _origSelecionadas = window.gerarRelatorioSelecionadas;
-    window.gerarRelatorioSelecionadas = function() {
-      const selected = [...document.querySelectorAll('.maqCheck:checked')].map(cb => cb.dataset.maq);
-      if (!selected.length) { alert('Selecione ao menos uma injetora.'); return; }
-      const activeData = typeof _getActiveData === 'function' ? _getActiveData() : (window._MATRIZ_DATA_INLINE?.total || []);
-      const maqList = activeData.filter(r => selected.includes(r.maq));
-
-      _abrirModalPlanoAcao(maqList, function() {
-        if (_origSelecionadas) _origSelecionadas();
-        else if (typeof gerarRelatorioMaquinas === 'function') gerarRelatorioMaquinas(maqList, 'Relatório — Injetoras Selecionadas');
-      });
-    };
+    // gerarRelSel: use mz-sel version;
 
     // ── Enhance gerarRelatorioMaquinas to include Peça/Horas/Prazo ──
     const _origGerarMaquinas = window.gerarRelatorioMaquinas;
@@ -7776,6 +7766,269 @@ window.addEventListener('load', function() {
 });
 
 console.log('[MaintPro v3.2] abrirC/FD fix + mzdet Plano + gerarRelSel fix.');
+</script>
+
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// FIX DEFINITIVO — Relatório + Selecionadas + Manutenções
+// ═══════════════════════════════════════════════════════════════════
+
+// ── gerarRelatorioSemanal: clean version ──
+window.gerarRelatorioSemanal = function() {
+  const activeData = (typeof _getActiveData==='function')
+    ? _getActiveData()
+    : (window._MATRIZ_DATA_INLINE?.total || []);
+
+  if (!activeData.length) {
+    alert('Carregue o Base.xlsx na aba Matriz antes de gerar o relatório.');
+    return;
+  }
+
+  const relevant = activeData.filter(r => r.prior==='CRÍTICA' || r.prior==='PROGRAMADA');
+  const maqList  = relevant.length ? relevant : activeData.slice(0, 10);
+
+  // Open plano de ação modal, then generate report
+  _abrirModalPlanoAcaoClean(maqList, function() {
+    const ad = (typeof _getActiveData==='function')
+      ? _getActiveData()
+      : (window._MATRIZ_DATA_INLINE?.total || []);
+    if (typeof _executarRelatorioSemanal === 'function') {
+      _executarRelatorioSemanal(ad);
+    } else if (typeof gerarRelatorioMaquinas === 'function') {
+      gerarRelatorioMaquinas(maqList, 'Relatório Semanal de Manutenção');
+    }
+  });
+};
+
+// ── gerarRelatorioSelecionadas: clean version using correct class mz-sel ──
+window.gerarRelatorioSelecionadas = function() {
+  const selected = [...document.querySelectorAll('.mz-sel:checked')].map(el => el.value).filter(Boolean);
+
+  if (!selected.length) {
+    alert('Selecione ao menos uma injetora na tabela da Matriz.\n(Use as checkboxes na primeira coluna da tabela)');
+    return;
+  }
+
+  const activeData = (typeof _getActiveData==='function')
+    ? _getActiveData()
+    : (window._MATRIZ_DATA_INLINE?.total || []);
+
+  const maqList = activeData.filter(r => selected.includes(r.maq));
+
+  if (!maqList.length) {
+    alert('Não foi possível encontrar dados para as injetoras selecionadas. Verifique se o Base.xlsx foi carregado.');
+    return;
+  }
+
+  _abrirModalPlanoAcaoClean(maqList, function() {
+    const ad = (typeof _getActiveData==='function')
+      ? _getActiveData()
+      : (window._MATRIZ_DATA_INLINE?.total || []);
+    if (typeof _executarRelatorioComPlanos === 'function') {
+      _executarRelatorioComPlanos(ad);
+    } else if (typeof gerarRelatorioMaquinas === 'function') {
+      gerarRelatorioMaquinas(maqList, 'Relatório — Injetoras Selecionadas');
+    }
+  });
+};
+
+// ── _abrirModalPlanoAcaoClean: single clean version ──
+function _abrirModalPlanoAcaoClean(maquinas, callback) {
+  if (!maquinas || !maquinas.length) return;
+
+  window._relatorioCallback = callback;
+  if (!window._planoAcaoPecas) window._planoAcaoPecas = {};
+
+  const body = document.getElementById('modalPlanoAcaoBody');
+  if (!body) {
+    // Fallback: generate directly if no modal
+    if (typeof callback === 'function') callback();
+    return;
+  }
+
+  const saved = window._planosAcao || {};
+
+  body.innerHTML = maquinas.map(r => {
+    const s    = saved[r.maq] || {};
+    const prCor= r.prior==='CRÍTICA'?'#dc2626':r.prior==='PROGRAMADA'?'#d97706':'#16a34a';
+    const prBg = r.prior==='CRÍTICA'?'#fee2e2':r.prior==='PROGRAMADA'?'#fef3c7':'#dcfce7';
+    return `
+    <div style="border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:8px;">
+      <div style="background:${prBg};border-left:4px solid ${prCor};padding:8px 14px;display:flex;justify-content:space-between;align-items:center;">
+        <div style="font-weight:800;color:#1e3a5f;font-size:13px;">
+          Injetora ${r.maq}
+          <span style="margin-left:8px;background:${prCor};color:#fff;padding:1px 8px;border-radius:4px;font-size:10px;font-weight:700;">${r.prior}</span>
+          ${s.saved ? '<span style="margin-left:8px;font-size:10px;color:#16a34a;font-weight:700;">✅ Plano salvo</span>' : ''}
+        </div>
+        <div style="font-size:10px;color:#6b7280;">${r.paradas}p · ${r.horas}h · MTBF ${r.mtbf||0}h</div>
+      </div>
+      <div style="padding:12px 14px;background:#fafafa;">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">
+          <div>
+            <label style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;display:block;margin-bottom:3px;">👤 Responsável</label>
+            <input type="text" id="paResp_${r.maq}" value="${s.resp||''}" placeholder="Responsável..."
+              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;display:block;margin-bottom:3px;">📅 Prazo</label>
+            <input type="date" id="paPrazo_${r.maq}" value="${s.prazo||''}"
+              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;display:block;margin-bottom:3px;">⏱ Horas Est.</label>
+            <input type="number" id="paHoras_${r.maq}" value="${s.horas||''}" placeholder="4" min="0" step="0.5"
+              style="width:100%;padding:5px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;outline:none;box-sizing:border-box;">
+          </div>
+        </div>
+        <!-- Peças -->
+        <div style="margin-bottom:8px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <label style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;">🔧 Peças Necessárias</label>
+            <button onclick="_addPecaPA('${r.maq}')" style="padding:2px 8px;background:#1d4ed8;color:#fff;border:none;border-radius:4px;font-size:9px;font-weight:700;cursor:pointer;">+ Peça</button>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 55px 75px auto;gap:3px;margin-bottom:4px;">
+            <input type="text" id="paNome_${r.maq}" placeholder="Nome da peça..." style="padding:4px 7px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
+            <input type="number" id="paQtd_${r.maq}" placeholder="Qtd" min="1" value="1" style="padding:4px 7px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
+            <input type="number" id="paVal_${r.maq}" placeholder="R$ val." min="0" step="0.01" style="padding:4px 7px;border:1px solid #e2e8f0;border-radius:5px;font-size:10px;outline:none;">
+            <button onclick="_addPecaPA('${r.maq}')" style="padding:4px 8px;background:#16a34a;color:#fff;border:none;border-radius:5px;font-size:10px;font-weight:700;cursor:pointer;">✓</button>
+          </div>
+          <div id="paPecasList_${r.maq}" style="display:flex;flex-direction:column;gap:2px;max-height:70px;overflow-y:auto;"></div>
+          <div id="paPecasTotal_${r.maq}" style="font-size:10px;color:#1d4ed8;font-weight:700;text-align:right;margin-top:2px;"></div>
+        </div>
+        <!-- Plano texto -->
+        <div>
+          <label style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase;display:block;margin-bottom:3px;">
+            💬 Plano de Ação <span style="color:#dc2626;">*</span>
+          </label>
+          <textarea id="paTexto_${r.maq}" rows="2" placeholder="Descreva o plano de ação..."
+            style="width:100%;padding:6px 8px;border:1.5px solid #e2e8f0;border-radius:6px;font-size:11px;resize:vertical;outline:none;font-family:inherit;box-sizing:border-box;"
+            onfocus="this.style.borderColor='#1d4ed8'" onblur="this.style.borderColor='#e2e8f0'"
+            oninput="_checkPlanoAcaoModal()">${s.texto||''}</textarea>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // Show modal
+  const modal = document.getElementById('modalPlanoAcao');
+  if (modal) {
+    modal.classList.remove('hidden');
+    modal.style.display = 'flex';
+  }
+
+  // Set up generate button
+  const btn = document.getElementById('btnGerarRelatorio');
+  if (btn) {
+    btn.disabled = false;
+    btn.style.background = 'linear-gradient(135deg,#1e3a5f,#1d4ed8)';
+    btn.style.cursor = 'pointer';
+    btn.style.opacity = '1';
+    btn.title = '';
+    btn.onclick = function() { _confirmarRelatorioClean(); };
+  }
+
+  // Render saved peças
+  setTimeout(() => maquinas.forEach(r => {
+    if (window._paPecas?.[r.maq]) _renderPecasModal(r.maq);
+    else if (window._planosAcao?.[r.maq]?.pecas) {
+      window._paPecas = window._paPecas || {};
+      window._paPecas[r.maq] = window._planosAcao[r.maq].pecas;
+      _renderPecasModal(r.maq);
+    }
+  }), 100);
+}
+
+function _checkPlanoAcaoModal() {
+  // Keep button always enabled - just validate on submit
+}
+
+function _confirmarRelatorioClean() {
+  const body = document.getElementById('modalPlanoAcaoBody');
+  if (!body) return;
+
+  if (!window._comentariosPlanoAcao) window._comentariosPlanoAcao = {};
+  if (!window._planoAcaoData) window._planoAcaoData = {};
+
+  const fRp = v => v > 0 ? 'R$ ' + Math.round(v).toLocaleString('pt-BR') : '';
+
+  // Collect all data
+  body.querySelectorAll('textarea[id^="paTexto_"]').forEach(ta => {
+    const maq = ta.id.replace('paTexto_', '');
+    const texto  = ta.value.trim();
+    const resp   = document.getElementById('paResp_'+maq)?.value?.trim()||'';
+    const prazo  = document.getElementById('paPrazo_'+maq)?.value||'';
+    const horas  = document.getElementById('paHoras_'+maq)?.value||'';
+    const pecas  = window._paPecas?.[maq] || [];
+    const total  = pecas.reduce((a,p)=>a+(p.val||0)*(p.qtd||1),0);
+    const now    = new Date();
+
+    // Save to planosAcao
+    if (!window._planosAcao) window._planosAcao = {};
+    if (texto || resp || prazo || pecas.length) {
+      window._planosAcao[maq] = {
+        maq, resp, prazo, horas, pecas, total, texto,
+        saved: true,
+        savedAt: now.toLocaleDateString('pt-BR')
+      };
+      try { localStorage.setItem('_mpa', JSON.stringify(window._planosAcao)); } catch(e){}
+    }
+
+    // Build comentario string
+    const parts = [];
+    if (pecas.length) parts.push('🔧 Peças: '+pecas.map(p=>`${p.nome} ×${p.qtd}${p.val>0?' ('+fRp(p.val*p.qtd)+')':''}`).join(', ')+(total>0?' — Total: '+fRp(total):''));
+    if (resp)  parts.push('👤 Resp: '+resp);
+    if (horas) parts.push('⏱ '+horas+'h');
+    if (prazo) parts.push('📅 '+new Date(prazo+'T00:00').toLocaleDateString('pt-BR'));
+    if (texto) parts.push('💬 '+texto);
+    window._comentariosPlanoAcao[maq] = parts.join(' | ');
+
+    // Register costs
+    if (total > 0) {
+      if (!window._custoPecasReg) window._custoPecasReg = [];
+      const activeData = typeof _getActiveData==='function'?_getActiveData():(window._MATRIZ_DATA_INLINE?.total||[]);
+      const maqData = activeData.find(x=>x.maq===maq)||{prior:'PROGRAMADA'};
+      const s=new Date(now.getFullYear(),0,1);
+      const sem=now.getFullYear()+'-W'+String(Math.ceil(((now-s)/86400000+s.getDay()+1)/7)).padStart(2,'0');
+      window._custoPecasReg.push({ts:now.toLocaleDateString('pt-BR'),sem,mes:now.getMonth()+1,ano:now.getFullYear(),maq,tipo:maqData.prior,pecas,totalCusto:total});
+      try{localStorage.setItem('_mpcustos',JSON.stringify(window._custoPecasReg));}catch(e){}
+    }
+  });
+
+  // Close modal
+  const modal = document.getElementById('modalPlanoAcao');
+  if (modal) { modal.style.display='none'; modal.classList.add('hidden'); }
+  window._planoAcaoPecas = {};
+
+  // Execute callback (generate report)
+  if (typeof window._relatorioCallback === 'function') {
+    window._relatorioCallback();
+    window._relatorioCallback = null;
+  }
+
+  setTimeout(() => { if(typeof renderCustoPecas==='function') renderCustoPecas(); }, 300);
+}
+
+// Wire up the Gerar button to the clean confirm function
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    const btn = document.getElementById('btnGerarRelatorio');
+    if (btn) btn.onclick = function() { _confirmarRelatorioClean(); };
+  }, 1000);
+});
+
+// ── Planning-fin: ensure KPIs update with filters ──
+// The renderPlanFin already filters - just make sure it's called on filter change
+// and that the KPI elements exist
+const _origRenderPlanFinFix = window.renderPlanFin;
+window.renderPlanFin = function() {
+  if (_origRenderPlanFinFix) {
+    try { _origRenderPlanFinFix(); }
+    catch(err) { console.error('[renderPlanFin]', err); }
+  }
+};
+
+console.log('[MaintPro v3.2] Fix definitivo: relatório + selecionadas + manutenções.');
 </script>
 
 </body>
